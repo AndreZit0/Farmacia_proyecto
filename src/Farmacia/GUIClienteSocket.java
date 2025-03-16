@@ -65,8 +65,8 @@ public class GUIClienteSocket {
     public void enviarMensaje() {
         String sendMessage = textField1.getText();
         if (!sendMessage.isEmpty() && out != null) {
-            out.println(sendMessage);
-            textArea1.append(sendMessage + "\n" );
+            out.println("Cliente: "+sendMessage);
+            textArea1.append("Yo: "+sendMessage + "\n" );
             textField1.setText("");
         }
 
