@@ -20,6 +20,7 @@ public class GUIClientes {
     private JButton eliminarButton;
     private JPanel main;
     private JTextField textField6;
+    private JButton buscarClienteButton;
     ClientesDAO clientesDAO = new ClientesDAO();
     int filas;
 
@@ -84,9 +85,12 @@ public class GUIClientes {
         });
 
 
-
-
-
+        buscarClienteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscar_cliente_cedula();
+            }
+        });
     }
     public void clear(){
         textField1.setText("");
@@ -182,6 +186,54 @@ public class GUIClientes {
 
         clientesDAO.eliminarClientes(id);
 
+    }
+
+    public void buscar_cliente_cedula() {
+        String cedula = textField2.getText().trim(); // encapsulo la cedula
+
+        if (cedula.isEmpty()) {
+            JOptionPane.showMessageDialog(null," el campo de cédula esta vacío.");
+            return;
+        }
+
+        String query = "SELECT * FROM clientes WHERE cedula = ?";
+        Connection con = ConexionBD.getConnection();
+
+
+
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setString(1, cedula);
+            try (ResultSet rs = ps.executeQuery()) {
+                // crear el modelo de la tabla para que se vea todo
+                DefaultTableModel modelo = new DefaultTableModel();
+                modelo.addColumn("id_Clientes");
+                modelo.addColumn("Cedula");
+                modelo.addColumn("Nombre");
+                modelo.addColumn("Telefono");
+                modelo.addColumn("Email");
+                modelo.addColumn("Dirección");
+
+                // Si encontramos la cedula correcta entonces que nos arroje los datos correspondientes de ese cliente
+                if (rs.next()) {
+                    Object[] fila = {
+                            rs.getInt("idclientes"),
+                            rs.getString("cedula"),
+                            rs.getString("nombre"),
+                            rs.getString("telefono"),
+                            rs.getString("email"),
+                            rs.getString("direccion")
+                    };
+                    modelo.addRow(fila);
+                    table1.setModel(modelo); // mostramos resultado en la tabla
+                    System.out.println("Cliente encontrado y mostrado en la tabla.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Cliente con cedula " + cedula + " no encontrado.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Imprime el error exacto en la consola
+            JOptionPane.showMessageDialog(null,"Error al buscar cliente: " + e.getMessage());
+        }
     }
 
 
