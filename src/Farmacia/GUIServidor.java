@@ -61,8 +61,8 @@ public class GUIServidor {
     public void enviarMensaje() {
         String sendMessage = textField1.getText();
         if (!sendMessage.isEmpty() && out != null) {
-            out.println(sendMessage);
-            textArea1.append(  sendMessage  + "\n");
+            out.println("Farmacia: "+sendMessage);
+            textArea1.append( "Yo: " +sendMessage  + "\n");
             textField1.setText("");
         }
 

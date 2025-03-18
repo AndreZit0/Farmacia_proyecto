@@ -65,11 +65,14 @@ public class GUIClienteSocket {
     public void enviarMensaje() {
         String sendMessage = textField1.getText();
         if (!sendMessage.isEmpty() && out != null) {
+
             out.println(sendMessage);
             textArea1.append("cliente " + sendMessage + "\n" );
-            textField1.setText("");
-        }
 
+            out.println("Cliente: "+sendMessage);
+            textArea1.append("Yo: "+sendMessage + "\n" );
+
+            textField1.setText("");
         if(sendMessage.equalsIgnoreCase("salir")){
             out.println("cliente ha salido del chat");
             System.exit(0);
