@@ -9,6 +9,8 @@ public class GUIMenu {
     private JButton cajaButton;
     private JButton socketsButton;
     private JPanel main;
+    private JButton pedidoButton;
+    private JButton productosButton;
 
     ClientesDAO clientesDAO = new ClientesDAO();
     CajaDAO cajaDAO = new CajaDAO();
@@ -39,7 +41,6 @@ public class GUIMenu {
             }
         });
 
-
         cajaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,14 +48,26 @@ public class GUIMenu {
                 guiCaja.ejecutar();
             }
         });
-    }
+        pedidoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PedidoGUIDAO pedidoGUIDAO = new PedidoGUIDAO();
+                pedidoGUIDAO.main();
+            }
+        });
+        productosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+            }
+        });
+    }
 
     public static void main(String[]args) {
 
         JFrame frame = new JFrame("Inicio");
         frame.setContentPane(new GUIMenu().main);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(800, 800);
         frame.setResizable(false);
