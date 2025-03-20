@@ -171,9 +171,13 @@
         </constraints>
         <properties>
           <model>
-            <item value="Unidad"/>
-            <item value="Blister"/>
-            <item value="Caja"/>
+            <item value="Pastilla"/>
+            <item value="Capsula"/>
+            <item value="Soluciones"/>
+            <item value="Jarabes"/>
+            <item value="Crema"/>
+            <item value="pomada"/>
+            <item value="Ampollas"/>
           </model>
         </properties>
       </component>

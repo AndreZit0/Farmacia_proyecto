@@ -260,49 +260,49 @@ public class PedidoGUIDAO {
         }
     }
 
-    public void inhabilitarPed(){
-        comboBox2.setEnabled(false);
-        comboBox3.setEnabled(false);
-        textField1.setEnabled(false);
-        textField4.setEnabled(false);
-        agregarButton.setEnabled(false);
-        actualizarButton.setEnabled(false);
-        eliminarButton.setEnabled(false);
-        verFacButton.setEnabled(false);
-    }
-    public void habilitarPed(){
-        comboBox2.setEnabled(true);
-        comboBox3.setEnabled(true);
-        textField1.setEnabled(true);
-        textField4.setEnabled(true);
-        agregarButton.setEnabled(true);
-        actualizarButton.setEnabled(true);
-        eliminarButton.setEnabled(true);
-        verFacButton.setEnabled(true);
-    }
-
-    public void inhabilitarDetPed(){
-        comboBox5.setEnabled(false);
-        comboBox4.setEnabled(false);
-        comboBox1.setEnabled(false);
-        textField7.setEnabled(false);
-        comboBox5.setEnabled(false);
-        agregarButtonP.setEnabled(false);
-        actualizarButtonP.setEnabled(false);
-        eliminarButtonP.setEnabled(false);
-        finalizarButton.setEnabled(false);
-    }
-    public void habilitarDetPed(){
-        comboBox5.setEnabled(true);
-        comboBox4.setEnabled(true);
-        comboBox1.setEnabled(true);
-        textField7.setEnabled(true);
-        comboBox5.setEnabled(true);
-        agregarButton.setEnabled(true);
-        actualizarButton.setEnabled(true);
-        eliminarButton.setEnabled(true);
-        finalizarButton.setEnabled(true);
-    }
+//    public void inhabilitarPed(){
+//        comboBox2.setEnabled(false);
+//        comboBox3.setEnabled(false);
+//        textField1.setEnabled(false);
+//        textField4.setEnabled(false);
+//        agregarButton.setEnabled(false);
+//        actualizarButton.setEnabled(false);
+//        eliminarButton.setEnabled(false);
+//        verFacButton.setEnabled(false);
+//    }
+//    public void habilitarPed(){
+//        comboBox2.setEnabled(true);
+//        comboBox3.setEnabled(true);
+//        textField1.setEnabled(true);
+//        textField4.setEnabled(true);
+//        agregarButton.setEnabled(true);
+//        actualizarButton.setEnabled(true);
+//        eliminarButton.setEnabled(true);
+//        verFacButton.setEnabled(true);
+//    }
+//
+//    public void inhabilitarDetPed(){
+//        comboBox5.setEnabled(false);
+//        comboBox4.setEnabled(false);
+//        comboBox1.setEnabled(false);
+//        textField7.setEnabled(false);
+//        comboBox5.setEnabled(false);
+//        agregarButtonP.setEnabled(false);
+//        actualizarButtonP.setEnabled(false);
+//        eliminarButtonP.setEnabled(false);
+//        finalizarButton.setEnabled(false);
+//    }
+//    public void habilitarDetPed(){
+//        comboBox5.setEnabled(true);
+//        comboBox4.setEnabled(true);
+//        comboBox1.setEnabled(true);
+//        textField7.setEnabled(true);
+//        comboBox5.setEnabled(true);
+//        agregarButton.setEnabled(true);
+//        actualizarButton.setEnabled(true);
+//        eliminarButton.setEnabled(true);
+//        finalizarButton.setEnabled(true);
+//    }
 
     public PedidoGUIDAO() {
         agregarButton.addActionListener(new ActionListener() {
@@ -320,8 +320,8 @@ public class PedidoGUIDAO {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Error al agregar el pedido.");
                 }
-                inhabilitarPed();
-                habilitarDetPed();
+//                inhabilitarPed();
+//                habilitarDetPed();
                 tablePr.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -448,8 +448,8 @@ public class PedidoGUIDAO {
         finalizarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                habilitarPed();
-                inhabilitarDetPed();
+//                habilitarPed();
+//                inhabilitarDetPed();
                 Table1.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -542,7 +542,7 @@ public class PedidoGUIDAO {
         pedidoDAO.obtener_ordenes();
         obtenerDatosDetPed();
         pedidoDAO.obtener_clientes();
-        inhabilitarDetPed();
+//        inhabilitarDetPed();
         //inhabilitarDetPed();
     }
 }
