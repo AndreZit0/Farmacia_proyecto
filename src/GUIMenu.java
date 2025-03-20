@@ -61,6 +61,8 @@ public class GUIMenu {
         productosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
+                productoGUIDAO.main();
 
             }
         });
