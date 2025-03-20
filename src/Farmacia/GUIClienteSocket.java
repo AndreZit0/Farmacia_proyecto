@@ -67,29 +67,30 @@ public class GUIClienteSocket {
         if (!sendMessage.isEmpty() && out != null) {
 
             out.println(sendMessage);
-            textArea1.append("cliente " + sendMessage + "\n" );
+            textArea1.append("cliente " + sendMessage + "\n");
 
-            out.println("Cliente: "+sendMessage);
-            textArea1.append("Yo: "+sendMessage + "\n" );
+            out.println("Cliente: " + sendMessage);
+            textArea1.append("Yo: " + sendMessage + "\n");
 
             textField1.setText("");
-        if(sendMessage.equalsIgnoreCase("salir")){
-            out.println("cliente ha salido del chat");
-            System.exit(0);
+            if (sendMessage.equalsIgnoreCase("salir")) {
+                out.println("cliente ha salido del chat");
+                System.exit(0);
 
+            }
         }
-    }
 
+/*
+        public void ejecutar () {
+            JFrame frame = new JFrame("Clientes");
+            frame.setContentPane(this.main);
+            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setSize(600, 400);
+            frame.setResizable(false);
+            frame.setVisible(true);
+        }
 
-
-
-    public void ejecutar() {
-        JFrame frame = new JFrame("Clientes");
-        frame.setContentPane(this.main);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setSize(600, 400);
-        frame.setResizable(false);
-        frame.setVisible(true);
+ */
     }
 }

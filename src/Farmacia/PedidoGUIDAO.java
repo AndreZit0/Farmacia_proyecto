@@ -7,13 +7,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 public class PedidoGUIDAO {
 
-    private PedidoDAO pedidoDAO = new PedidoDAO();
-    private ConexionBD conexionBD = new ConexionBD();
     private JPanel main;
     private JTable Table1;
     private JTextField textField1;
@@ -25,9 +22,29 @@ public class PedidoGUIDAO {
     private JComboBox comboBox2;
     private JButton registarClientesButton;
     private JComboBox comboBox3;
+    private JTable tablePr;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JTextField textField5;
+    private JTextField textField6;
+    private JTextField textField7;
+    private JButton agregarButtonP;
+    private JButton actualizarButtonP;
+    private JButton eliminarButtonP;
+    private JComboBox comboBox4;
+    private JComboBox comboBox5;
+    private JComboBox comboBox1;
+    private JButton finalizarButton;
+    private JPanel Detalle_ped;
+
+    private PedidoDAO pedidoDAO = new PedidoDAO();
+    private ConexionBD conexionBD = new ConexionBD();
+    private Detalle_pedidoDAO detalle_pedidoDAO = new Detalle_pedidoDAO();
 
     private HashMap<String, Integer> clienteMap = new HashMap<>();
+    private HashMap<String, Integer> productoMap = new HashMap<>();
     int filas = 0;
+    int valID = 0;
 
     public class Pedido{
 
@@ -191,6 +208,100 @@ public class PedidoGUIDAO {
                 throw new RuntimeException(e);
             }
         }
+
+        public void obtener_productos(){
+
+            String query= "Select idproductos,nombre, precio from productos";
+
+            Statement st;
+            ConexionBD con = new ConexionBD();
+
+            try {
+                st = con.getConnection().createStatement();
+                ResultSet rs = st.executeQuery(query);
+                comboBox4.removeAllItems(); // Limpiar antes de agregar nuevos elementos
+                productoMap.clear(); // También limpiar el mapa
+
+                while(
+                        rs.next()) {
+                    int id = rs.getInt("idproductos");
+                    String nombre = rs.getString("nombre");
+                    int precio = rs.getInt("precio");
+
+                    String producto = nombre+" / "+precio;
+
+                    productoMap.put(producto, id);
+                    comboBox4.addItem(producto);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public void obtener_ordenes(){
+
+            String query= "Select MAX(idPedidos) from pedidos";
+
+            Statement st;
+            ConexionBD con = new ConexionBD();
+
+            try {
+                st = con.getConnection().createStatement();
+                ResultSet rs = st.executeQuery(query);
+                while(
+                        rs.next()) {
+                    comboBox5.addItem(rs.getString(1));
+                    valID = rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
+
+    public void inhabilitarPed(){
+        comboBox2.setEnabled(false);
+        comboBox3.setEnabled(false);
+        textField1.setEnabled(false);
+        textField4.setEnabled(false);
+        agregarButton.setEnabled(false);
+        actualizarButton.setEnabled(false);
+        eliminarButton.setEnabled(false);
+        verFacButton.setEnabled(false);
+    }
+    public void habilitarPed(){
+        comboBox2.setEnabled(true);
+        comboBox3.setEnabled(true);
+        textField1.setEnabled(true);
+        textField4.setEnabled(true);
+        agregarButton.setEnabled(true);
+        actualizarButton.setEnabled(true);
+        eliminarButton.setEnabled(true);
+        verFacButton.setEnabled(true);
+    }
+
+    public void inhabilitarDetPed(){
+        comboBox5.setEnabled(false);
+        comboBox4.setEnabled(false);
+        comboBox1.setEnabled(false);
+        textField7.setEnabled(false);
+        comboBox5.setEnabled(false);
+        agregarButtonP.setEnabled(false);
+        actualizarButtonP.setEnabled(false);
+        eliminarButtonP.setEnabled(false);
+        finalizarButton.setEnabled(false);
+    }
+    public void habilitarDetPed(){
+        comboBox5.setEnabled(true);
+        comboBox4.setEnabled(true);
+        comboBox1.setEnabled(true);
+        textField7.setEnabled(true);
+        comboBox5.setEnabled(true);
+        agregarButton.setEnabled(true);
+        actualizarButton.setEnabled(true);
+        eliminarButton.setEnabled(true);
+        finalizarButton.setEnabled(true);
     }
 
     public PedidoGUIDAO() {
@@ -209,6 +320,32 @@ public class PedidoGUIDAO {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Error al agregar el pedido.");
                 }
+                inhabilitarPed();
+                habilitarDetPed();
+                tablePr.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+                        int selectFilas = tablePr.getSelectedRow();
+
+                        if (selectFilas >= 0) {
+                            textField2.setText((String) Table1.getValueAt(selectFilas,0));
+                            comboBox5.setSelectedItem( Table1.getValueAt(selectFilas,1));
+                            comboBox4.setSelectedItem( Table1.getValueAt(selectFilas,2));
+                            comboBox1.setSelectedItem( Table1.getValueAt(selectFilas,3));
+                            textField7.setText((String) Table1.getValueAt(selectFilas,4));
+
+                            filas = selectFilas;
+                        }
+                    }
+                });
+                Table1.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        evt.consume();
+                    }
+                });
+                pedidoDAO.obtener_ordenes();
                 obtenerDatosPed();
             }
         });
@@ -235,12 +372,55 @@ public class PedidoGUIDAO {
                 obtenerDatosPed();
             }
         });
+
         verFacButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
+
+        //Botones para agregar el detalle de pedido
+        agregarButtonP.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int idpedidos = Integer.parseInt(comboBox5.getSelectedItem().toString());
+                int idproductos = pedidoDAO.obtenerIdSeleccionado(comboBox4, productoMap);
+                int cantidad = Integer.parseInt(textField7.getText());
+                String medidad = comboBox1.getSelectedItem().toString();
+
+                Detalle_pedidoDAO.Detalle_pedido detped = new Detalle_pedidoDAO.Detalle_pedido(0, idpedidos,idproductos,cantidad,0,medidad);
+                detalle_pedidoDAO.agregar(detped);
+                obtenerDatosDetPed();
+            }
+        });
+        actualizarButtonP.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textField2.getText());
+                int idpedidos = Integer.parseInt(comboBox5.getSelectedItem().toString());
+                int idproductos = pedidoDAO.obtenerIdSeleccionado(comboBox4, productoMap);
+                int cantidad = Integer.parseInt(textField7.getText());
+                String medidad = comboBox2.getSelectedItem().toString();
+
+                Detalle_pedidoDAO.Detalle_pedido detped = new Detalle_pedidoDAO.Detalle_pedido(id, idpedidos,idproductos,cantidad,0,medidad);
+                detalle_pedidoDAO.actualizar(detped);
+
+                obtenerDatosDetPed();
+            }
+        });
+        eliminarButtonP.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textField2.getText());
+                detalle_pedidoDAO.eliminar(id);
+
+                obtenerDatosDetPed();
+
+            }
+        });
+
         Table1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -254,6 +434,37 @@ public class PedidoGUIDAO {
 
                     filas = selectFilas;
                 }
+            }
+        });
+
+        tablePr.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                evt.consume();
+            }
+        });
+
+
+        finalizarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                habilitarPed();
+                inhabilitarDetPed();
+                Table1.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+                        int selectFilas = Table1.getSelectedRow();
+
+                        if (selectFilas >= 0) {
+                            textField1.setText((String) Table1.getValueAt(selectFilas,0));
+                            comboBox3.setSelectedItem( Table1.getValueAt(selectFilas,3));
+                            comboBox2.setSelectedItem( Table1.getValueAt(selectFilas,1));
+
+                            filas = selectFilas;
+                        }
+                    }
+                });
             }
         });
     }
@@ -287,16 +498,51 @@ public class PedidoGUIDAO {
             e.printStackTrace();
         }
     }
+    public void obtenerDatosDetPed() {
 
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Numero de pedido");
+        model.addColumn("Producto");
+        model.addColumn("Tipo");
+        model.addColumn("Cantidad");
+
+        tablePr.setModel(model);
+        String[] dato = new String[5];
+        Connection con;
+        try {
+            con = conexionBD.getConnection();
+            String query = "SELECT iddetalle_pedido, idpedidos ,idproductos,medida,cantidad FROM detalle_pedido WHERE idpedidos =" + valID;
+            PreparedStatement pst = con.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                dato[0] = rs.getString(1);
+                dato[1] = rs.getString(2);
+                dato[2] = rs.getString(3);
+                dato[3] = rs.getString(4);
+                dato[4] = rs.getString(5);
+
+                model.addRow(dato);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public void main() {
         JFrame frame = new JFrame("Pedidos");
         frame.setContentPane(this.main);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(600, 400);
+        frame.setSize(700, 700);
         frame.setResizable(false);
         frame.setVisible(true);
+        pedidoDAO.obtener_productos();
         obtenerDatosPed();
+        pedidoDAO.obtener_ordenes();
+        obtenerDatosDetPed();
         pedidoDAO.obtener_clientes();
+        inhabilitarDetPed();
+        //inhabilitarDetPed();
     }
 }
