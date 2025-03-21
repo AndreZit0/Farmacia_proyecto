@@ -66,9 +66,6 @@ public class GUIClienteSocket {
         String sendMessage = textField1.getText();
         if (!sendMessage.isEmpty() && out != null) {
 
-            out.println(sendMessage);
-            textArea1.append("cliente " + sendMessage + "\n");
-
             out.println("Cliente: " + sendMessage);
             textArea1.append("Yo: " + sendMessage + "\n");
 
@@ -79,18 +76,14 @@ public class GUIClienteSocket {
 
             }
         }
-
-/*
-        public void ejecutar () {
-            JFrame frame = new JFrame("Clientes");
-            frame.setContentPane(this.main);
-            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setSize(600, 400);
-            frame.setResizable(false);
-            frame.setVisible(true);
-        }
-
- */
+    }
+    public void ejecutar () {
+        JFrame frame = new JFrame("Clientes");
+        frame.setContentPane(this.main);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setSize(600, 400);
+        frame.setResizable(false);
+        frame.setVisible(true);
     }
 }

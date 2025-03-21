@@ -180,6 +180,65 @@ public class PedidoGUIDAO {
             return map.getOrDefault(seleccionado, -1); // Si no encuentra el nombre, devuelve -1
         }
 
+        public void descontarStock(int idPedido) {
+            Connection con = conexionBD.getConnection();
+
+            String estadoQuery = "SELECT estado FROM pedidos WHERE idpedidos = ?";
+            String detalleQuery = "SELECT idproductos, cantidad, medida FROM detalle_pedido WHERE idpedidos = ?";
+            String updateStockQuery = "UPDATE productos SET stock = stock - ? WHERE idproductos = ?";
+
+            try {
+                PreparedStatement estadoStmt = con.prepareStatement(estadoQuery);
+                estadoStmt.setInt(1, idPedido);
+                ResultSet rsEstado = estadoStmt.executeQuery();
+
+                if (rsEstado.next() && "Enviado".equalsIgnoreCase(rsEstado.getString("estado"))) {
+                    PreparedStatement detalleStmt = con.prepareStatement(detalleQuery);
+                    detalleStmt.setInt(1, idPedido);
+                    ResultSet rsDetalle = detalleStmt.executeQuery();
+
+                    while (rsDetalle.next()) {
+                        int idProducto = rsDetalle.getInt("idproductos");
+                        int cantidad = rsDetalle.getInt("cantidad");
+                        String medida = rsDetalle.getString("medida");
+
+                        int cantidadReal = 0;
+                        switch (medida.toLowerCase()) {
+                            case "unidad":
+                                cantidadReal = cantidad;
+                                break;
+                            case "blister":
+                                cantidadReal = cantidad * 10;
+                                break;
+                            case "caja":
+                                cantidadReal = cantidad * 100;
+                                break;
+                        }
+
+                        PreparedStatement updateStockStmt = con.prepareStatement(updateStockQuery);
+                        updateStockStmt.setInt(1, cantidadReal);
+                        updateStockStmt.setInt(2, idProducto);
+                        updateStockStmt.executeUpdate();
+                        updateStockStmt.close();
+                    }
+
+                    rsDetalle.close();
+                    detalleStmt.close();
+
+                    JOptionPane.showMessageDialog(null, "Stock descontado");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
+
+                rsEstado.close();
+                estadoStmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error en la base de datos.");
+            }
+        }
+
+
         public void obtener_clientes(){
 
             String query= "Select idClientes,cedula, nombre from clientes";
@@ -359,6 +418,7 @@ public class PedidoGUIDAO {
 
                 Pedido pedido = new Pedido(id,idCliente,0,estado,fecha);
                 pedidoDAO.actualizar(pedido);
+                pedidoDAO.descontarStock(id);
 
                 obtenerDatosPed();
             }
