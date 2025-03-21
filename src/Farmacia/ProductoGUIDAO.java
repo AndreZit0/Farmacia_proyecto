@@ -442,7 +442,6 @@ public class ProductoGUIDAO {
     public void main() {
         JFrame frame = new JFrame("Producto");
         frame.setContentPane(this.main);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(1000, 500);
         frame.setResizable(false);
