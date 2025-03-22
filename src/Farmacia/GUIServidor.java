@@ -1,12 +1,8 @@
 package Farmacia;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.awt.event.*;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -20,71 +16,107 @@ public class GUIServidor {
     private Socket clienteSocket;
 
     public GUIServidor() {
-        new Thread(this::servidor).start(); // para que se conecten mutuamente
-        enviarMensajeAlClienteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                enviarMensaje();
+        new Thread(this::servidor).start(); // Iniciar el servidor en un hilo separado
 
+        // Enviar mensaje con el botón
+        enviarMensajeAlClienteButton.addActionListener(e -> enviarMensaje());
+
+        // Enviar mensaje con ENTER
+        textField1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    enviarMensaje();
+                }
             }
         });
     }
+
+    /**
+     * Método para iniciar el servidor y aceptar conexiones de clientes.
+     */
     public void servidor() {
-        try (ServerSocket serverSocket = new ServerSocket(123)) {
+        try (ServerSocket serverSocket = new ServerSocket(123)) { // Asegurar que el puerto coincida con el cliente
+            textArea1.append("Servidor iniciado. Esperando conexión...\n");
 
-            clienteSocket = serverSocket.accept();
+            clienteSocket = serverSocket.accept(); // Esperar conexión de un cliente
+            textArea1.append("Cliente conectado.\n");
 
-            in = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream())); // el in
-            // es lo que voy a recibir de la parte del cliente por eso se pone in.etc
-
+            // Configurar flujo de entrada y salida
+            in = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
             out = new PrintWriter(clienteSocket.getOutputStream(), true);
-            // el out es lo que yo mando en este caso la salida, o sea la respuesta a enviar al cliente
 
-            String receivedMessage;
-            while ((receivedMessage = in.readLine()) != null) { // recibi el mensaje del cliente con el in
-                if (receivedMessage.contains("ha salido del chat")) {
-                    System.exit(0);
-
-
+            // Escuchar mensajes del cliente en un hilo separado
+            new Thread(() -> {
+                try {
+                    String receivedMessage;
+                    while ((receivedMessage = in.readLine()) != null) {
+                        if (receivedMessage.equalsIgnoreCase("CLIENTE: EXIT")) {
+                            textArea1.append("El cliente ha salido del chat.\n");
+                            cerrarConexion();
+                            return;
+                        }
+                        String finalReceivedMessage = receivedMessage;
+                        SwingUtilities.invokeLater(() -> textArea1.append(finalReceivedMessage + "\n"));
+                    }
+                } catch (IOException e) {
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Error en el servidor: " + e.getMessage()));
                 }
+            }).start();
 
-                String finalReceivedMessage = receivedMessage;
-                SwingUtilities.invokeLater(() -> textArea1.append( finalReceivedMessage + "\n" ));
-            }
-
-            clienteSocket.close();
         } catch (IOException e) {
-            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Error en el servidor: " + e.getMessage()));
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Error al iniciar el servidor: " + e.getMessage()));
         }
     }
 
+    /**
+     * Envía un mensaje al cliente si el campo de texto no está vacío.
+     */
     public void enviarMensaje() {
-        String sendMessage = textField1.getText();
-        if (!sendMessage.isEmpty() && out != null) {
-            out.println("Farmacia: "+sendMessage);
-            textArea1.append( "Yo: " +sendMessage  + "\n");
-            textField1.setText("");
+        String sendMessage = textField1.getText().trim();
+        if (sendMessage.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No puedes enviar un mensaje vacío.");
+            return;
         }
 
-        if(sendMessage.equalsIgnoreCase("salir")){
-            out.println("Servidor ha salido del chat");
-            System.exit(0);
+        if (out != null) {
+            out.println("Farmacia: " + sendMessage);
+            textArea1.append("Yo: " + sendMessage + "\n");
+            textField1.setText("");
 
+            if (sendMessage.equalsIgnoreCase("salir")) {
+                out.println("SERVER: EXIT");
+                cerrarConexion();
+            }
+        }
+
+        // Volver a enfocar el campo de texto para seguir escribiendo
+        textField1.requestFocus();
+    }
+
+    /**
+     * Cierra la conexión con el cliente y libera los recursos.
+     */
+    public void cerrarConexion() {
+        try {
+            if (out != null) out.close();
+            if (in != null) in.close();
+            if (clienteSocket != null) clienteSocket.close();
+            textArea1.append("Conexión cerrada.\n");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-
-
-
-
+    /**
+     * Ejecuta la interfaz gráfica del servidor.
+     */
     public void ejecutar() {
-        JFrame frame = new JFrame("Servidor");
+        JFrame frame = new JFrame("Servidor de Chat");
         frame.setContentPane(this.main);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(600, 400);
         frame.setResizable(false);
         frame.setVisible(true);
     }
-
 }
