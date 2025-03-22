@@ -35,11 +35,11 @@ public class GUIMenu {
 
                 GUIServidor guiServidor = new GUIServidor();
                 guiServidor.ejecutar();
-                /*
+
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
 
-                 */
+
 
             }
         });

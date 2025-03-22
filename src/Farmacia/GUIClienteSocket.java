@@ -80,17 +80,18 @@ public class GUIClienteSocket {
             }
         }
 
-/*
-        public void ejecutar () {
-            JFrame frame = new JFrame("Clientes");
-            frame.setContentPane(this.main);
-            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setSize(600, 400);
-            frame.setResizable(false);
-            frame.setVisible(true);
-        }
 
- */
+
+
+
+    }
+    public void ejecutar () {
+        JFrame frame = new JFrame("Clientes");
+        frame.setContentPane(this.main);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setSize(600, 400);
+        frame.setResizable(false);
+        frame.setVisible(true);
     }
 }

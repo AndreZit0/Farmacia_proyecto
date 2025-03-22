@@ -20,7 +20,6 @@ public class PedidoGUIDAO {
     private JButton eliminarButton;
     private JButton verFacButton;
     private JComboBox comboBox2;
-    private JButton registarClientesButton;
     private JComboBox comboBox3;
     private JTable tablePr;
     private JTextField textField2;
@@ -211,7 +210,7 @@ public class PedidoGUIDAO {
 
         public void obtener_productos(){
 
-            String query= "Select idproductos,nombre, precio from productos";
+            String query= "Select idproductos,nombre, precio FROM productos";
 
             Statement st;
             ConexionBD con = new ConexionBD();
@@ -339,9 +338,9 @@ public class PedidoGUIDAO {
                         }
                     }
                 });
-                Table1.addMouseListener(new java.awt.event.MouseAdapter() {
+                Table1.addMouseListener(new MouseAdapter() {
                     @Override
-                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    public void mouseClicked(MouseEvent evt) {
                         evt.consume();
                     }
                 });
@@ -352,13 +351,30 @@ public class PedidoGUIDAO {
         actualizarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
                 int id = Integer.parseInt(textField1.getText());
                 int idCliente = pedidoDAO.obtenerIdSeleccionado(comboBox2,clienteMap);
                 Timestamp fecha = new Timestamp(System.currentTimeMillis());
                 String estado = comboBox3.getSelectedItem().toString();
 
+
                 Pedido pedido = new Pedido(id,idCliente,0,estado,fecha);
                 pedidoDAO.actualizar(pedido);
+
+
+
+
+//                if(comboBox3.getSelectedItem().equals("Enviado")){
+//                    for (int i = 0; i < tablePr.getRowCount(); i++) {
+//                        int idProducto = productoMap.get(tablePr.getValueAt(i, 2).toString());
+//                        String tipo = tablePr.getValueAt(i, 3).toString();
+//                        int cantidad = Integer.parseInt(tablePr.getValueAt(i, 4).toString());
+//
+//                        detalle_pedidoDAO.actualizarStock(idProducto, tipo, cantidad);
+//                    }
+//                }
+
 
                 obtenerDatosPed();
             }
@@ -370,13 +386,6 @@ public class PedidoGUIDAO {
                 pedidoDAO.eliminar(id);
 
                 obtenerDatosPed();
-            }
-        });
-
-        verFacButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
             }
         });
 
@@ -393,6 +402,8 @@ public class PedidoGUIDAO {
                 Detalle_pedidoDAO.Detalle_pedido detped = new Detalle_pedidoDAO.Detalle_pedido(0, idpedidos,idproductos,cantidad,0,medidad);
                 detalle_pedidoDAO.agregar(detped);
                 obtenerDatosDetPed();
+
+
             }
         });
         actualizarButtonP.addActionListener(new ActionListener() {
@@ -402,7 +413,7 @@ public class PedidoGUIDAO {
                 int idpedidos = Integer.parseInt(comboBox5.getSelectedItem().toString());
                 int idproductos = pedidoDAO.obtenerIdSeleccionado(comboBox4, productoMap);
                 int cantidad = Integer.parseInt(textField7.getText());
-                String medidad = comboBox2.getSelectedItem().toString();
+                String medidad = comboBox1.getSelectedItem().toString();
 
                 Detalle_pedidoDAO.Detalle_pedido detped = new Detalle_pedidoDAO.Detalle_pedido(id, idpedidos,idproductos,cantidad,0,medidad);
                 detalle_pedidoDAO.actualizar(detped);
@@ -425,46 +436,50 @@ public class PedidoGUIDAO {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                super.mouseClicked(e);
                 int selectFilas = Table1.getSelectedRow();
 
                 if (selectFilas >= 0) {
                     textField1.setText((String) Table1.getValueAt(selectFilas,0));
-                    comboBox3.setSelectedItem( Table1.getValueAt(selectFilas,3));
                     comboBox2.setSelectedItem( Table1.getValueAt(selectFilas,1));
+                    textField4.setText((String) Table1.getValueAt(selectFilas,2));
+                    comboBox3.setSelectedItem( Table1.getValueAt(selectFilas,3));
+
+
+
 
                     filas = selectFilas;
                 }
             }
+
+
+
         });
 
-        tablePr.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablePr.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                evt.consume();
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                int selectFilas = tablePr.getSelectedRow();
+
+                if (selectFilas >= 0) {
+                    textField2.setText((String) tablePr.getValueAt(selectFilas,0));
+                    comboBox5.setSelectedItem( tablePr.getValueAt(selectFilas,1));
+                    comboBox4.setSelectedItem( tablePr.getValueAt(selectFilas,2));
+                    comboBox1.setSelectedItem( tablePr.getValueAt(selectFilas,3));
+                    textField7.setText((String) tablePr.getValueAt(selectFilas,4));
+
+                    filas = selectFilas;
+                }
+
             }
         });
-
-
         finalizarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                habilitarPed();
 //                inhabilitarDetPed();
-                Table1.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        super.mouseClicked(e);
-                        int selectFilas = Table1.getSelectedRow();
 
-                        if (selectFilas >= 0) {
-                            textField1.setText((String) Table1.getValueAt(selectFilas,0));
-                            comboBox3.setSelectedItem( Table1.getValueAt(selectFilas,3));
-                            comboBox2.setSelectedItem( Table1.getValueAt(selectFilas,1));
-
-                            filas = selectFilas;
-                        }
-                    }
-                });
             }
         });
     }
@@ -474,28 +489,50 @@ public class PedidoGUIDAO {
     }
     public void obtenerDatosPed() {
         DefaultTableModel model = new DefaultTableModel();
+
         model.addColumn("ID");
         model.addColumn("Nombre de Cliente");
         model.addColumn("Fecha");
         model.addColumn("Estado");
 
         Table1.setModel(model);
-        String[] dato = new String[4];
-        Connection con = conexionBD.getConnection();
+        model.setRowCount(0);
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT p.idPedidos, c.nombre, p.fecha, p.estado FROM pedidos AS p JOIN clientes AS c ON p.idclientes = c.idClientes;");
+            con = conexionBD.getConnection();
+            String sql = "SELECT p.idPedidos, c.nombre, p.fecha, p.estado " +
+                    "FROM pedidos AS p " +
+                    "JOIN clientes AS c ON p.idclientes = c.idClientes " +
+                    "ORDER BY p.idPedidos DESC LIMIT 1"; // Obtener solo el último pedido
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
 
-            while (rs.next()) {
-                dato[0] = rs.getString(1);
-                dato[1] = rs.getString(2);
-                dato[2] = rs.getString(3);
-                dato[3] = rs.getString(4);
-
-                model.addRow(dato);
+            if (rs.next()) {
+                model.addRow(new Object[]{
+                        rs.getString("idPedidos"),
+                        rs.getString("nombre"),
+                        rs.getString("fecha"),
+                        rs.getString("estado")
+                });
+            } else {
+                JOptionPane.showMessageDialog(null, "No hay pedidos registrados.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al obtener el último pedido.");
+        } finally {
+
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     public void obtenerDatosDetPed() {
@@ -512,7 +549,7 @@ public class PedidoGUIDAO {
         Connection con;
         try {
             con = conexionBD.getConnection();
-            String query = "SELECT iddetalle_pedido, idpedidos ,idproductos,medida,cantidad FROM detalle_pedido WHERE idpedidos =" + valID;
+            String query = "SELECT iddetalle_pedido, idpedidos ,p.nombre,medida,cantidad FROM detalle_pedido d JOIN productos p ON d.idproductos = p.idproductos WHERE idpedidos =" + valID;
             PreparedStatement pst = con.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
 
@@ -529,6 +566,13 @@ public class PedidoGUIDAO {
             e.printStackTrace();
         }
     }
+
+
+
+
+
+
+
     public void main() {
         JFrame frame = new JFrame("Pedidos");
         frame.setContentPane(this.main);

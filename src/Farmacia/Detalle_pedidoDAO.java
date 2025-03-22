@@ -103,10 +103,16 @@ public class Detalle_pedidoDAO {
         }
     }
 
+
+
+
+
+
+
     //actualizar
     public void actualizar(Detalle_pedido detallePedido) {
         Connection con = conexionBD.getConnection();
-        String query = "UPDATE detalle_pedido SET idpedidos = ?,idproductos = ?,medidad = ?,cantidad = ? WHERE iddetalle_pedido = ?";
+        String query = "UPDATE detalle_pedido SET idpedidos = ?,idproductos = ?,medida = ?,cantidad = ? WHERE iddetalle_pedido = ?";
 
         try {
             PreparedStatement pst = con.prepareStatement(query);
@@ -150,6 +156,58 @@ public class Detalle_pedidoDAO {
             JOptionPane.showMessageDialog(null, "No Eliminado con Exito");
         }
     }
+
+
+
+
+
+//    public void actualizarStock(int idProducto, String tipo, int cantidad) {
+//        int unidad = 1; // Por defecto para Unit
+//
+//        if (tipo.equals("Blister")) {
+//            unidad = 10;
+//        } else if (tipo.equals("Caja")) {
+//            unidad = 20;
+//        }
+//
+//        int cantidadTotal = cantidad * unidad;
+//
+//        Connection connection = conexionBD.getConnection();
+//
+//        try {
+//
+//            String checkQuery = "SELECT stock FROM productos WHERE idproductos = ?";
+//            PreparedStatement checkStmt = connection.prepareStatement(checkQuery);
+//            checkStmt.setInt(1, idProducto);
+//            ResultSet rs = checkStmt.executeQuery();
+//
+//            if (rs.next()) {
+//                int stock_actual = rs.getInt("stock");
+//
+//                if (stock_actual >= cantidadTotal) {
+//
+//                    String updateQuery = "UPDATE productos SET stock = stock - ? WHERE idproductos = ?";
+//                    PreparedStatement updateStmt = connection.prepareStatement(updateQuery);
+//                    updateStmt.setInt(1, cantidadTotal);
+//                    updateStmt.setInt(2, idProducto);
+//                    updateStmt.executeUpdate();
+//
+//                    JOptionPane.showMessageDialog(null, "Stock updated correctly. " + cantidadTotal+ " units were discounted ");
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "Not enough stock. Current Stock: " + stock_actual + ", Required: " + cantidadTotal);
+//                }
+//
+//            }
+//
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "Error al actualizar stock: " + ex.getMessage());
+//            ex.printStackTrace();
+//        }
+//    }
+
+
+
+
 }
 
 
