@@ -11,9 +11,7 @@ public class Detalle_pedidoDAO {
     private HashMap<String, Integer> ProductoMap = new HashMap<>();
 
 
-    int filas = 0;
-
-    public static class Detalle_pedido{
+    public  static class Detalle_pedido{
 
         int iddetalle_pedido, idpedidos,idproductos,cantidad,subtotal;
         String medida;
@@ -74,40 +72,63 @@ public class Detalle_pedidoDAO {
         public void setMedida(String medida) {
             this.medida = medida;
         }
+
+
     }
 
     public void agregar(Detalle_pedido detallePedido) {
         Connection con = conexionBD.getConnection();
 
-        String query = "INSERT INTO detalle_pedido (idpedidos,idproductos,medida,cantidad,subtotal) VALUES (?,?,?,?,0)";
+        String stock = "SELECT stock FROM productos WHERE idproductos = ?";
+        String insertQuery = "INSERT INTO detalle_pedido (idpedidos, idproductos, medida, cantidad, subtotal) VALUES (?, ?, ?, ?, 0)";
 
         try {
+            PreparedStatement stockStmt = con.prepareStatement(stock);
+            stockStmt.setInt(1, detallePedido.getIdproductos());
+            ResultSet rs = stockStmt.executeQuery();
 
-            PreparedStatement pst = con.prepareStatement(query);
+            if (rs.next()) {
+                int stockActual = rs.getInt("stock");
 
-            pst.setInt(1, detallePedido.getIdpedidos());
-            pst.setInt(2, detallePedido.getIdproductos());
-            pst.setString(3, detallePedido.getMedida());
-            pst.setInt(4, detallePedido.getCantidad());
+                int cantidadReal = 0;
+                switch (detallePedido.getMedida().toLowerCase()) {
+                    case "unidad":
+                        cantidadReal = detallePedido.getCantidad();
+                        break;
+                    case "blister":
+                        cantidadReal = detallePedido.getCantidad() * 10;
+                        break;
+                    case "caja":
+                        cantidadReal = detallePedido.getCantidad() * 100;
+                        break;
+                }
 
-            int resultado = pst.executeUpdate();
-            if (resultado > 0)
-                JOptionPane.showMessageDialog(null, "Agregado con Exito");
+                if (stockActual >= cantidadReal) {
+                    PreparedStatement insertStmt = con.prepareStatement(insertQuery);
+                    insertStmt.setInt(1, detallePedido.getIdpedidos());
+                    insertStmt.setInt(2, detallePedido.getIdproductos());
+                    insertStmt.setString(3, detallePedido.getMedida());
+                    insertStmt.setInt(4, detallePedido.getCantidad());
 
-            else
-                JOptionPane.showMessageDialog(null, "No Agregado con Exito");
+                    int resultado = insertStmt.executeUpdate();
 
+                    if (resultado > 0) {
+                        JOptionPane.showMessageDialog(null, "Pedido agregado.");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al agregar el pedido.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Stock insuficiente para este producto.");
+                }
+            }
+
+            rs.close();
+            stockStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "No Agregado con Exito");
+            JOptionPane.showMessageDialog(null, "Error en la base de datos.");
         }
     }
-
-
-
-
-
-
 
     //actualizar
     public void actualizar(Detalle_pedido detallePedido) {

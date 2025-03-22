@@ -86,4 +86,5 @@ public class GUIServidor {
         frame.setResizable(false);
         frame.setVisible(true);
     }
+
 }

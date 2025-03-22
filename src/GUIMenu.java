@@ -1,8 +1,10 @@
 import Farmacia.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 public class GUIMenu {
     private JButton clientesButton;
@@ -24,7 +26,6 @@ public class GUIMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIClientes guiClientes = new GUIClientes();
-
                 guiClientes.ejecutar();
 
             }
@@ -70,7 +71,7 @@ public class GUIMenu {
 
     public static void main(String[]args) {
 
-        JFrame frame = new JFrame("Inicio");
+        JFrame frame = new JFrame("FARMACIA");
         frame.setContentPane(new GUIMenu().main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
