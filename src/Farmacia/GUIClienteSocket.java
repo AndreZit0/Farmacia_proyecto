@@ -76,6 +76,7 @@ public class GUIClienteSocket {
 
             }
         }
+
     }
     public void ejecutar () {
         JFrame frame = new JFrame("Clientes");
