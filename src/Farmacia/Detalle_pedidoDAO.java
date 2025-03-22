@@ -79,7 +79,7 @@ public class Detalle_pedidoDAO {
     public void agregar(Detalle_pedido detallePedido) {
         Connection con = conexionBD.getConnection();
 
-        String stock = "SELECT stock FROM productos WHERE idproductos = ?";
+        String stock = "SELECT nombre,stock, stock_minimo FROM productos WHERE idproductos = ?";
         String insertQuery = "INSERT INTO detalle_pedido (idpedidos, idproductos, medida, cantidad, subtotal) VALUES (?, ?, ?, ?, 0)";
 
         try {
@@ -89,6 +89,8 @@ public class Detalle_pedidoDAO {
 
             if (rs.next()) {
                 int stockActual = rs.getInt("stock");
+                int stockMinimo = rs.getInt("stock_minimo");
+                String np = rs.getString("nombre");
 
                 int cantidadReal = 0;
                 switch (detallePedido.getMedida().toLowerCase()) {
@@ -120,7 +122,12 @@ public class Detalle_pedidoDAO {
                 } else {
                     JOptionPane.showMessageDialog(null, "Stock insuficiente para este producto.");
                 }
+
+                if (stockActual<=stockMinimo){
+                    JOptionPane.showMessageDialog(null, "Ya casi se te agota este producto: "+np);
+                }
             }
+
 
             rs.close();
             stockStmt.close();
