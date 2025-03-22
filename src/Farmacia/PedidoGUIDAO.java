@@ -269,7 +269,7 @@ public class PedidoGUIDAO {
 
         public void obtener_productos(){
 
-            String query= "Select idproductos,nombre, precio FROM productos";
+            String query= "SELECT idproductos,nombre, precio FROM productos";
 
             Statement st;
             ConexionBD con = new ConexionBD();
@@ -298,7 +298,7 @@ public class PedidoGUIDAO {
 
         public void obtener_ordenes(){
 
-            String query= "Select MAX(idPedidos) from pedidos";
+            String query= "SELECT MAX(idPedidos) FROM pedidos";
 
             Statement st;
             ConexionBD con = new ConexionBD();
