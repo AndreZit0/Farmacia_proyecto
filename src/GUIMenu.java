@@ -1,7 +1,6 @@
 import Farmacia.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,11 +22,12 @@ public class GUIMenu {
         cajaDAO.obtener_caja();
 
         clientesButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIClientes guiClientes = new GUIClientes();
                 guiClientes.ejecutar();
-
+               
             }
         });
         socketsButton.addActionListener(new ActionListener() {
@@ -69,15 +69,17 @@ public class GUIMenu {
         });
     }
 
+
     public static void main(String[]args) {
 
         JFrame frame = new JFrame("FARMACIA");
         frame.setContentPane(new GUIMenu().main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(800, 800);
+        frame.setSize(600, 600);
         frame.setResizable(false);
         frame.setVisible(true);
     }
+
 
 }
