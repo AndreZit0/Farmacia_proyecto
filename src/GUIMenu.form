@@ -14,7 +14,7 @@
     <children>
       <component id="941c4" class="javax.swing.JButton" binding="clientesButton">
         <constraints>
-          <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <autoscrolls value="false"/>
@@ -28,7 +28,7 @@
       </component>
       <component id="1b7f6" class="javax.swing.JButton" binding="productosButton" default-binding="true">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-16744448"/>
@@ -54,7 +54,7 @@
       </component>
       <component id="5e0be" class="javax.swing.JButton" binding="pedidoButton" default-binding="true">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-16744448"/>
@@ -66,7 +66,7 @@
       </component>
       <component id="48830" class="javax.swing.JButton" binding="cajaButton" default-binding="true">
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-16744448"/>
@@ -89,6 +89,19 @@
           <text value="FARMAC TECH"/>
           <verticalAlignment value="1"/>
           <verticalTextPosition value="1"/>
+        </properties>
+      </component>
+      <component id="d827c" class="javax.swing.JButton" binding="REPORTESButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16744448"/>
+          <font style="1"/>
+          <foreground color="-1"/>
+          <hideActionText value="false"/>
+          <icon value="imagenes/ico-reporte.png"/>
+          <text value="REPORTES"/>
         </properties>
       </component>
     </children>
