@@ -80,7 +80,7 @@ public class GUIMenu {
 
     public static void main(String[]args) {
 
-        JFrame frame = new JFrame("FARMACIA");
+        JFrame frame = new JFrame("FARMAC TECH");
         frame.setContentPane(new GUIMenu().main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
