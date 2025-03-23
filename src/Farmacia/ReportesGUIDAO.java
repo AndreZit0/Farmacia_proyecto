@@ -17,6 +17,12 @@ public class ReportesGUIDAO {
     private JButton diariasButton;
     private JButton semanalesButton;
     private JButton mensualesButton;
+    private JButton clientesButton;
+    private JButton productosButton;
+    private JButton pedidoButton;
+    private JButton cajaButton;
+    private JButton socketsButton;
+    private JButton REPORTESButton;
     private JLabel labelTitulo;
 
     private ReportesDAO reportesDAO = new ReportesDAO();

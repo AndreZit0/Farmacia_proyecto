@@ -12,6 +12,12 @@ import java.sql.Statement;
 public class GUICaja {
     private JTable table1;
     private JPanel main;
+    private JButton clientesButton;
+    private JButton productosButton;
+    private JButton pedidoButton;
+    private JButton cajaButton;
+    private JButton socketsButton;
+    private JButton REPORTESButton;
 
 
     public GUICaja() {
