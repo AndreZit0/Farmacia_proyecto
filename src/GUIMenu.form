@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="GUIMenu">
   <grid id="27dc6" binding="main" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -14,31 +15,47 @@
     <children>
       <component id="941c4" class="javax.swing.JButton" binding="clientesButton">
         <constraints>
-          <grid row="0" column="0" anchor="0" fill="1"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <autoscrolls value="false"/>
           <background color="-16744448"/>
+          <borderPainted value="true"/>
           <font style="1"/>
           <foreground color="-1"/>
           <icon value="imagenes/persona-sencilla (1).png"/>
           <text value="CLIENTES"/>
         </properties>
       </component>
-      <component id="1b7f6" class="javax.swing.JButton" binding="productosButton">
+      <component id="1b7f6" class="javax.swing.JButton" binding="productosButton" default-binding="true">
         <constraints>
-          <grid row="1" column="0" anchor="0" fill="1"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-16744448"/>
+          <borderPainted value="true"/>
           <font style="1"/>
           <foreground color="-1"/>
           <icon value="imagenes/jeringuilla.png"/>
           <text value="PRODUCTOS"/>
         </properties>
       </component>
-      <component id="5e0be" class="javax.swing.JButton" binding="pedidoButton">
+      <component id="e92e9" class="javax.swing.JButton" binding="socketsButton" default-binding="true">
         <constraints>
-          <grid row="2" column="0" anchor="0" fill="1"/>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16744448"/>
+          <enabled value="true"/>
+          <font style="1"/>
+          <foreground color="-1"/>
+          <icon value="imagenes/comentar-alt-puntos.png"/>
+          <text value="CHAT"/>
+        </properties>
+      </component>
+      <component id="5e0be" class="javax.swing.JButton" binding="pedidoButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-16744448"/>
@@ -48,9 +65,9 @@
           <text value="PEDIDOS"/>
         </properties>
       </component>
-      <component id="48830" class="javax.swing.JButton" binding="cajaButton">
+      <component id="48830" class="javax.swing.JButton" binding="cajaButton" default-binding="true">
         <constraints>
-          <grid row="3" column="0" anchor="0" fill="1"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-16744448"/>
@@ -60,40 +77,32 @@
           <text value="CAJA"/>
         </properties>
       </component>
-      <component id="d827c" class="javax.swing.JButton" binding="REPORTESButton">
-        <constraints>
-          <grid row="4" column="0" anchor="0" fill="1"/>
-        </constraints>
-        <properties>
-          <background color="-16744448"/>
-          <font style="1"/>
-          <foreground color="-1"/>
-          <icon value="imagenes/ico-reporte.png"/>
-          <text value="REPORTES"/>
-        </properties>
-      </component>
-      <component id="e92e9" class="javax.swing.JButton" binding="socketsButton">
-        <constraints>
-          <grid row="5" column="0" anchor="0" fill="1"/>
-        </constraints>
-        <properties>
-          <background color="-16744448"/>
-          <font style="1"/>
-          <foreground color="-1"/>
-          <icon value="imagenes/comentar-alt-puntos.png"/>
-          <text value="CHAT"/>
-        </properties>
-      </component>
       <component id="1e461" class="javax.swing.JLabel">
         <constraints>
-          <grid row="0" column="1" anchor="0" fill="0"/>
+          <grid row="0" column="1" row-span="6" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font name="Bauhaus 93" size="24"/>
           <foreground color="-14780644"/>
           <horizontalAlignment value="10"/>
+          <horizontalTextPosition value="0"/>
           <icon value="imagenes/verde logo.png"/>
           <text value="FARMAC TECH"/>
+          <verticalAlignment value="1"/>
+          <verticalTextPosition value="1"/>
+        </properties>
+      </component>
+      <component id="d827c" class="javax.swing.JButton" binding="REPORTESButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16744448"/>
+          <font style="1"/>
+          <foreground color="-1"/>
+          <hideActionText value="false"/>
+          <icon value="imagenes/ico-reporte.png"/>
+          <text value="REPORTES"/>
         </properties>
       </component>
     </children>
