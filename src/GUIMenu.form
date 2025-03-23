@@ -12,6 +12,71 @@
     </properties>
     <border type="none"/>
     <children>
+      <component id="941c4" class="javax.swing.JButton" binding="clientesButton">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <autoscrolls value="false"/>
+          <background color="-16744448"/>
+          <borderPainted value="true"/>
+          <font style="1"/>
+          <foreground color="-1"/>
+          <icon value="imagenes/persona-sencilla (1).png"/>
+          <text value="CLIENTES"/>
+        </properties>
+      </component>
+      <component id="1b7f6" class="javax.swing.JButton" binding="productosButton" default-binding="true">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16744448"/>
+          <borderPainted value="true"/>
+          <font style="1"/>
+          <foreground color="-1"/>
+          <icon value="imagenes/jeringuilla.png"/>
+          <text value="PRODUCTOS"/>
+        </properties>
+      </component>
+      <component id="e92e9" class="javax.swing.JButton" binding="socketsButton" default-binding="true">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16744448"/>
+          <enabled value="true"/>
+          <font style="1"/>
+          <foreground color="-1"/>
+          <icon value="imagenes/comentar-alt-puntos.png"/>
+          <text value="CHAT"/>
+        </properties>
+      </component>
+      <component id="5e0be" class="javax.swing.JButton" binding="pedidoButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16744448"/>
+          <font style="1"/>
+          <foreground color="-1"/>
+          <icon value="imagenes/historial-de-pedidos.png"/>
+          <text value="PEDIDOS"/>
+        </properties>
+      </component>
+      <component id="48830" class="javax.swing.JButton" binding="cajaButton" default-binding="true">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16744448"/>
+          <font style="1"/>
+          <foreground color="-1"/>
+          <icon value="imagenes/caja-registradora.png"/>
+          <text value="CAJA"/>
+        </properties>
+      </component>
+
       <component id="1e461" class="javax.swing.JLabel">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
@@ -27,6 +92,7 @@
           <verticalTextPosition value="1"/>
         </properties>
       </component>
+
       <grid id="1f3c5" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
@@ -103,6 +169,21 @@
           </component>
         </children>
       </grid>
+
+      <component id="d827c" class="javax.swing.JButton" binding="REPORTESButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16744448"/>
+          <font style="1"/>
+          <foreground color="-1"/>
+          <hideActionText value="false"/>
+          <icon value="imagenes/ico-reporte.png"/>
+          <text value="REPORTES"/>
+        </properties>
+      </component>
+
     </children>
   </grid>
 </form>

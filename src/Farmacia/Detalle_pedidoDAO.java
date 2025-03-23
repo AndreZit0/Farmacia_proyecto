@@ -80,7 +80,7 @@ public class Detalle_pedidoDAO {
         Connection con = conexionBD.getConnection();
 
         String stock = "SELECT nombre,stock, stock_minimo FROM productos WHERE idproductos = ?";
-        String insertQuery = "INSERT INTO detalle_pedido (idpedidos, idproductos, medida, cantidad, subtotal) VALUES (?, ?, ?, ?, 0)";
+        String insertQuery = "INSERT INTO detalle_pedido (idpedidos, idproductos, medida, cantidad, subtotal) VALUES (?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement stockStmt = con.prepareStatement(stock);
@@ -111,6 +111,7 @@ public class Detalle_pedidoDAO {
                     insertStmt.setInt(2, detallePedido.getIdproductos());
                     insertStmt.setString(3, detallePedido.getMedida());
                     insertStmt.setInt(4, detallePedido.getCantidad());
+                    insertStmt.setInt(5, detallePedido.getSubtotal());
 
                     int resultado = insertStmt.executeUpdate();
 

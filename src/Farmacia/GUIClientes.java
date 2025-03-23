@@ -225,7 +225,9 @@ public class GUIClientes {
                     };
                     modelo.addRow(fila);
                     table1.setModel(modelo); // mostramos resultado en la tabla
-                    System.out.println("Cliente encontrado y mostrado en la tabla.");
+
+
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Cliente con cedula " + cedula + " no encontrado.");
                 }
