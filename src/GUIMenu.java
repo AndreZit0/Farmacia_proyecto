@@ -19,8 +19,6 @@ public class GUIMenu {
 
 
     public GUIMenu() {
-        clientesDAO.obtener_clientes();
-        cajaDAO.obtener_caja();
 
         clientesButton.addActionListener(new ActionListener() {
 

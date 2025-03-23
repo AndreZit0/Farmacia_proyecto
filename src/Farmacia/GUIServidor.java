@@ -11,6 +11,12 @@ public class GUIServidor {
     private JTextArea textArea1;
     private JButton enviarMensajeAlClienteButton;
     private JPanel main;
+    private JButton clientesButton;
+    private JButton productosButton;
+    private JButton pedidoButton;
+    private JButton cajaButton;
+    private JButton socketsButton;
+    private JButton REPORTESButton;
     private PrintWriter out;
     private BufferedReader in;
     private Socket clienteSocket;

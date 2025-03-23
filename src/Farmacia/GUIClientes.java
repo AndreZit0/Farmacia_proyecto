@@ -21,6 +21,12 @@ public class GUIClientes {
     private JPanel main;
     private JTextField textField6;
     private JButton buscarClienteButton;
+    private JButton clientesButton;
+    private JButton productosButton;
+    private JButton pedidoButton;
+    private JButton cajaButton;
+    private JButton socketsButton;
+    private JButton REPORTESButton;
     ClientesDAO clientesDAO = new ClientesDAO();
     int filas;
 
@@ -237,21 +243,12 @@ public class GUIClientes {
             JOptionPane.showMessageDialog(null,"Error al buscar cliente: " + e.getMessage());
         }
     }
-
-
-
-
-
-
-
-
-
     public void ejecutar() {
         JFrame frame = new JFrame("Clientes");
         frame.setContentPane(this.main);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(600, 400);
+        frame.setSize(900, 400);
         frame.setResizable(false);
         frame.setVisible(true);
     }

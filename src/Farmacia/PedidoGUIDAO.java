@@ -34,6 +34,12 @@ public class PedidoGUIDAO {
     private JComboBox comboBox5;
     private JComboBox comboBox1;
     private JButton finalizarButton;
+    private JButton clientesButton;
+    private JButton productosButton;
+    private JButton pedidoButton;
+    private JButton cajaButton;
+    private JButton socketsButton;
+    private JButton REPORTESButton;
     private JPanel Detalle_ped;
 
     private PedidoDAO pedidoDAO = new PedidoDAO();
@@ -99,7 +105,6 @@ public class PedidoGUIDAO {
             this.fecha = fecha;
         }
     }
-
     class PedidoDAO {
         public void agregar(Pedido pedido) {
             Connection con = conexionBD.getConnection();
@@ -127,7 +132,6 @@ public class PedidoGUIDAO {
                 JOptionPane.showMessageDialog(null, "No Agregado con Exito");
             }
         }
-
         //actualizar
         public void actualizar(Pedido pedido) {
             Connection con = conexionBD.getConnection();
@@ -152,7 +156,6 @@ public class PedidoGUIDAO {
                 JOptionPane.showMessageDialog(null, "No Actualizado con Exito");
             }
         }
-
         //Eliminar
         public void eliminar(int id) {
             Connection con = conexionBD.getConnection();
@@ -174,12 +177,10 @@ public class PedidoGUIDAO {
                 JOptionPane.showMessageDialog(null, "No Eliminado con Exito");
             }
         }
-
         public int obtenerIdSeleccionado(JComboBox<String> comboBox, HashMap<String, Integer> map) {
             String seleccionado = (String) comboBox.getSelectedItem();
             return map.getOrDefault(seleccionado, -1); // Si no encuentra el nombre, devuelve -1
         }
-
         public void descontarStock(int idPedido) {
             Connection con = conexionBD.getConnection();
 
@@ -237,8 +238,6 @@ public class PedidoGUIDAO {
                 JOptionPane.showMessageDialog(null, "Error en la base de datos.");
             }
         }
-
-
         public void obtener_clientes(){
 
             String query= "Select idClientes,cedula, nombre from clientes";
@@ -267,14 +266,12 @@ public class PedidoGUIDAO {
                 throw new RuntimeException(e);
             }
         }
-
         public void obtener_productos(){
 
             String query= "SELECT idproductos,nombre, precio FROM productos";
 
             Statement st;
             ConexionBD con = new ConexionBD();
-
             try {
                 st = con.getConnection().createStatement();
                 ResultSet rs = st.executeQuery(query);
@@ -296,7 +293,6 @@ public class PedidoGUIDAO {
                 throw new RuntimeException(e);
             }
         }
-
         public void obtener_ordenes(){
 
             String query= "SELECT MAX(idPedidos) FROM pedidos";
@@ -318,8 +314,6 @@ public class PedidoGUIDAO {
 
         }
     }
-
-
     public PedidoGUIDAO() {
         agregarButton.addActionListener(new ActionListener() {
             @Override
@@ -379,13 +373,6 @@ public class PedidoGUIDAO {
                 Pedido pedido = new Pedido(id,idCliente,0,estado,fecha);
                 pedidoDAO.actualizar(pedido);
                 pedidoDAO.descontarStock(id);
-
-
-
-
-
-
-
                 obtenerDatosPed();
             }
         });
@@ -398,7 +385,6 @@ public class PedidoGUIDAO {
                 obtenerDatosPed();
             }
         });
-
         //Botones para agregar el detalle de pedido
         agregarButtonP.addActionListener(new ActionListener() {
             @Override
@@ -440,10 +426,8 @@ public class PedidoGUIDAO {
                 detalle_pedidoDAO.eliminar(id);
 
                 obtenerDatosDetPed();
-
             }
         });
-
         Table1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -457,9 +441,6 @@ public class PedidoGUIDAO {
                     textField4.setText((String) Table1.getValueAt(selectFilas,2));
                     comboBox3.setSelectedItem( Table1.getValueAt(selectFilas,3));
 
-
-
-
                     filas = selectFilas;
                 }
             }
@@ -467,7 +448,6 @@ public class PedidoGUIDAO {
 
 
         });
-
         tablePr.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -491,7 +471,6 @@ public class PedidoGUIDAO {
             public void actionPerformed(ActionEvent e) {
 //                habilitarPed();
 //                inhabilitarDetPed();
-
             }
         });
     }
@@ -513,7 +492,6 @@ public class PedidoGUIDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
         try {
             con = conexionBD.getConnection();
             String sql = "SELECT p.idPedidos, c.nombre, p.fecha, p.estado, p.total " +
@@ -522,7 +500,6 @@ public class PedidoGUIDAO {
                     "ORDER BY p.idPedidos DESC LIMIT 1"; // Obtener solo el último pedido
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
-
             if (rs.next()) {
                 model.addRow(new Object[]{
                         rs.getString("idPedidos"),
@@ -555,7 +532,6 @@ public class PedidoGUIDAO {
         model.addColumn("Tipo");
         model.addColumn("Cantidad");
         model.addColumn("Precio Total");
-
         tablePr.setModel(model);
         String[] dato = new String[6];
         Connection con;
@@ -567,7 +543,6 @@ public class PedidoGUIDAO {
                     "WHERE idpedidos = " + valID;
             PreparedStatement pst = con.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
-
             while (rs.next()) {
                 dato[0] = rs.getString(1);
                 dato[1] = rs.getString(2);
@@ -582,8 +557,6 @@ public class PedidoGUIDAO {
             e.printStackTrace();
         }
     }
-
-
     public int obtenerPrecioUnitario(int idProducto) {
         int precioUnitario = 0;
         Connection con = conexionBD.getConnection();
@@ -600,7 +573,6 @@ public class PedidoGUIDAO {
         }
         return precioUnitario;
     }
-
     public void actualizarTotalOrden(int id_pedido) {
         int total = calcularTotalOrden(id_pedido); // Calcula el total de la orden
         Connection con = conexionBD.getConnection();
@@ -613,8 +585,6 @@ public class PedidoGUIDAO {
             e.printStackTrace();
         }
     }
-
-
     public int calcularTotalOrden(int idOrden) {
         int total = 0;
         Connection con = conexionBD.getConnection();
@@ -631,16 +601,12 @@ public class PedidoGUIDAO {
         }
         return total;
     }
-
-
-
-
     public void main() {
         JFrame frame = new JFrame("Pedidos");
         frame.setContentPane(this.main);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(700, 700);
+        frame.setSize(900, 700);
         frame.setResizable(false);
         frame.setVisible(true);
         pedidoDAO.obtener_productos();
