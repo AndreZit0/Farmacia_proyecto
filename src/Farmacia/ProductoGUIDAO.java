@@ -34,6 +34,11 @@ public class ProductoGUIDAO {
     private JTextField textField8;
     private JTable table1;
     private JComboBox comboBox1;
+    private JButton clientesButton;
+    private JButton productosButton;
+    private JButton pedidoButton;
+    private JButton cajaButton;
+    private JButton socketsButton;
 
     private ConexionBD conexionBD = new ConexionBD();
     private ProductoDAO productoDAO = new ProductoDAO();
