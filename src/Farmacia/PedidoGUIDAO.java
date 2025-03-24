@@ -403,12 +403,13 @@ public class PedidoGUIDAO {
         agregarButtonP.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Double iva = 0.21;
                 int idpedidos = Integer.parseInt(comboBox5.getSelectedItem().toString());
                 int idproductos = pedidoDAO.obtenerIdSeleccionado(comboBox4, productoMap);
                 int cantidad = Integer.parseInt(textField7.getText());
                 String medidad = comboBox1.getSelectedItem().toString();
                 int precioUnitario = obtenerPrecioUnitario(idproductos); // Asegúrate de que esto devuelve el precio correcto
-                int subtotal = precioUnitario * cantidad; // Calcula el subtotal
+                int subtotal = (int) (precioUnitario * cantidad ); // Calcula el subtotal
 
                 Detalle_pedidoDAO.Detalle_pedido detped = new Detalle_pedidoDAO.Detalle_pedido(0, idpedidos, idproductos, cantidad, subtotal, medidad);
                 detalle_pedidoDAO.agregar(detped);
