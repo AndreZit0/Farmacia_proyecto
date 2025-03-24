@@ -79,11 +79,17 @@ public class Detalle_pedidoDAO {
     public void agregar(Detalle_pedido detallePedido) {
         Connection con = conexionBD.getConnection();
 
-        String stock = "SELECT nombre,stock, stock_minimo FROM productos WHERE idproductos = ?";
+        String stockQuery = "SELECT nombre, stock, stock_minimo FROM productos WHERE idproductos = ?";
+        String totalPedidoQuery = "SELECT COALESCE(SUM(CASE " +
+                "WHEN medida = 'unidad' THEN cantidad " +
+                "WHEN medida = 'blister' THEN cantidad * 10 " +
+                "WHEN medida = 'caja' THEN cantidad * 100 " +
+                "ELSE 0 END), 0) AS total_pedido " +
+                "FROM detalle_pedido WHERE idproductos = ? AND idpedidos = ?";
         String insertQuery = "INSERT INTO detalle_pedido (idpedidos, idproductos, medida, cantidad, subtotal) VALUES (?, ?, ?, ?, ?)";
 
         try {
-            PreparedStatement stockStmt = con.prepareStatement(stock);
+            PreparedStatement stockStmt = con.prepareStatement(stockQuery);
             stockStmt.setInt(1, detallePedido.getIdproductos());
             ResultSet rs = stockStmt.executeQuery();
 
@@ -105,30 +111,48 @@ public class Detalle_pedidoDAO {
                         break;
                 }
 
-                if (stockActual >= cantidadReal) {
-                    PreparedStatement insertStmt = con.prepareStatement(insertQuery);
-                    insertStmt.setInt(1, detallePedido.getIdpedidos());
-                    insertStmt.setInt(2, detallePedido.getIdproductos());
-                    insertStmt.setString(3, detallePedido.getMedida());
-                    insertStmt.setInt(4, detallePedido.getCantidad());
-                    insertStmt.setInt(5, detallePedido.getSubtotal());
+                // Consultar la cantidad total del producto en el mismo pedido
+                PreparedStatement totalPedidoStmt = con.prepareStatement(totalPedidoQuery);
+                totalPedidoStmt.setInt(1, detallePedido.getIdproductos());
+                totalPedidoStmt.setInt(2, detallePedido.getIdpedidos());
+                ResultSet rsTotal = totalPedidoStmt.executeQuery();
 
-                    int resultado = insertStmt.executeUpdate();
+                int totalPedido = 0;
+                if (rsTotal.next()) {
+                    totalPedido = rsTotal.getInt("total_pedido");
+                }
 
-                    if (resultado > 0) {
-                        JOptionPane.showMessageDialog(null, "Pedido agregado.");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Error al agregar el pedido.");
-                    }
+                // Verifica si la nueva cantidad supera el stock disponible
+                if ((totalPedido + cantidadReal) > stockActual) {
+                    JOptionPane.showMessageDialog(null, "Stock insuficiente. Ya hay " + totalPedido +
+                            " unidades registradas en este pedido y el stock total es de " + stockActual + ".");
+                    return;
+                }
+
+                PreparedStatement insertStmt = con.prepareStatement(insertQuery);
+                insertStmt.setInt(1, detallePedido.getIdpedidos());
+                insertStmt.setInt(2, detallePedido.getIdproductos());
+                insertStmt.setString(3, detallePedido.getMedida());
+                insertStmt.setInt(4, detallePedido.getCantidad());
+                insertStmt.setInt(5, detallePedido.getSubtotal());
+
+                int resultado = insertStmt.executeUpdate();
+
+                if (resultado > 0) {
+                    JOptionPane.showMessageDialog(null, "Pedido agregado.");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Stock insuficiente para este producto.");
+                    JOptionPane.showMessageDialog(null, "Error al agregar el pedido.");
                 }
 
-                if (stockActual<=stockMinimo){
-                    JOptionPane.showMessageDialog(null, "Ya casi se te agota este producto: "+np);
+                if (stockActual <= stockMinimo) {
+                    JOptionPane.showMessageDialog(null, "Ya casi se te agota este producto: " + np);
                 }
+
+                // Cerrar recursos
+                rsTotal.close();
+                totalPedidoStmt.close();
+                insertStmt.close();
             }
-
 
             rs.close();
             stockStmt.close();
@@ -137,6 +161,9 @@ public class Detalle_pedidoDAO {
             JOptionPane.showMessageDialog(null, "Error en la base de datos.");
         }
     }
+
+
+
 
     //actualizar
     public void actualizar(Detalle_pedido detallePedido) {

@@ -12,14 +12,13 @@ public class GUIMenu {
     private JPanel main;
     private JButton pedidoButton;
     private JButton productosButton;
+    private JButton REPORTESButton;
 
     ClientesDAO clientesDAO = new ClientesDAO();
     CajaDAO cajaDAO = new CajaDAO();
 
 
     public GUIMenu() {
-        clientesDAO.obtener_clientes();
-        cajaDAO.obtener_caja();
 
         clientesButton.addActionListener(new ActionListener() {
 
@@ -67,12 +66,19 @@ public class GUIMenu {
 
             }
         });
+        REPORTESButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ReportesGUIDAO reportesGUIDAO = new ReportesGUIDAO();
+                reportesGUIDAO.main();
+            }
+        });
     }
 
 
     public static void main(String[]args) {
 
-        JFrame frame = new JFrame("FARMACIA");
+        JFrame frame = new JFrame("FARMAC TECH");
         frame.setContentPane(new GUIMenu().main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
