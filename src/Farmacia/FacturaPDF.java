@@ -3,8 +3,14 @@ package Farmacia;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import javax.swing.*;
+import com.itextpdf.text.Document;
+
 import java.io.FileOutputStream;
 import java.sql.*;
+
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
+
 
 public class FacturaPDF {
     public void main() {
