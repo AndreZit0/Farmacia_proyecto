@@ -40,6 +40,7 @@ public class PedidoGUIDAO {
     private JButton cajaButton;
     private JButton socketsButton;
     private JButton REPORTESButton;
+    private JButton generarFacturaButton;
     private JPanel Detalle_ped;
 
     private PedidoDAO pedidoDAO = new PedidoDAO();
@@ -314,6 +315,9 @@ public class PedidoGUIDAO {
 
         }
     }
+
+    public static int obtenerIdpedido = 0;
+
     public PedidoGUIDAO() {
         agregarButton.addActionListener(new ActionListener() {
             @Override
@@ -435,11 +439,17 @@ public class PedidoGUIDAO {
                 super.mouseClicked(e);
                 int selectFilas = Table1.getSelectedRow();
 
+                JOptionPane.showMessageDialog(null,"Fila seleccionada");
+
                 if (selectFilas >= 0) {
                     textField1.setText((String) Table1.getValueAt(selectFilas,0));
                     comboBox2.setSelectedItem( Table1.getValueAt(selectFilas,1));
                     textField4.setText((String) Table1.getValueAt(selectFilas,2));
                     comboBox3.setSelectedItem( Table1.getValueAt(selectFilas,3));
+
+                    obtenerIdpedido = Integer.parseInt(Table1.getValueAt(selectFilas,0).toString());
+
+
 
                     filas = selectFilas;
                 }
@@ -471,6 +481,13 @@ public class PedidoGUIDAO {
             public void actionPerformed(ActionEvent e) {
 //                habilitarPed();
 //                inhabilitarDetPed();
+            }
+        });
+        generarFacturaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FacturaPDF facturaPDF = new FacturaPDF();
+                facturaPDF.main();
             }
         });
     }
