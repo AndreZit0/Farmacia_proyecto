@@ -389,7 +389,7 @@ public class PedidoGUIDAO {
                 obtenerDatosPed();
             }
         });
-        //Botones para agregar el detalle de pedido
+
         agregarButtonP.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -398,9 +398,9 @@ public class PedidoGUIDAO {
                 int idproductos = pedidoDAO.obtenerIdSeleccionado(comboBox4, productoMap);
                 int cantidad = Integer.parseInt(textField7.getText());
                 String medida = comboBox1.getSelectedItem().toString();
-                int precioUnitario = obtenerPrecioUnitario(idproductos); // Obtiene el precio unitario
+                int precioUnitario = obtenerPrecioUnitario(idproductos);
 
-                // Determinar el multiplicador según la medida seleccionada
+
                 int multiplicador = 1;
                 if (medida.equals("Blister")) {
                     multiplicador = 10;
@@ -408,17 +408,17 @@ public class PedidoGUIDAO {
                     multiplicador = 100;
                 }
 
-                // Aplicar el multiplicador a la cantidad
+
                 int cantidadTotal = cantidad * multiplicador;
 
-                // Calcular el subtotal
+
                 int subtotal = precioUnitario * cantidadTotal;
 
-                // Crear y agregar el detalle del pedido
+
                 Detalle_pedidoDAO.Detalle_pedido detped = new Detalle_pedidoDAO.Detalle_pedido(0, idpedidos, idproductos, cantidadTotal, subtotal, medida);
                 detalle_pedidoDAO.agregar(detped);
 
-                // Actualizar la orden
+
                 actualizarTotalOrden(idpedidos);
                 obtenerDatosDetPed();
                 obtenerDatosPed();
