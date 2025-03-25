@@ -498,13 +498,7 @@ public class PedidoGUIDAO {
 
             }
         });
-        finalizarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                habilitarPed();
-//                inhabilitarDetPed();
-            }
-        });
+
         generarFacturaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
