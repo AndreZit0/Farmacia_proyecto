@@ -160,6 +160,32 @@ public class PedidoGUIDAO {
                 JOptionPane.showMessageDialog(null, "No Actualizado con Exito");
             }
         }
+
+
+
+        //Obtener el id del pedido
+        public int obtenerIdPedido(int idPedido) {
+            int id = -1; // Valor por defecto si no encuentra el pedido
+            String sql = "SELECT idPedidos FROM pedidos WHERE idPedidos = ?";
+
+            try (Connection conn = conexionBD.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                stmt.setInt(1, idPedido);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    id = rs.getInt("idPedidos");
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return id;
+        }
+
+
+
         //Eliminar
         public void eliminar(int id) {
             Connection con = conexionBD.getConnection();
@@ -246,8 +272,6 @@ public class PedidoGUIDAO {
                     detalleStmt.close();
 
                     JOptionPane.showMessageDialog(null, "Stock descontado correctamente.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error: El pedido no está en estado 'Enviado'.");
                 }
 
                 rsEstado.close();
@@ -338,6 +362,26 @@ public class PedidoGUIDAO {
         }
     }
 
+    public double obtenerTotalPedido(int idPedido) {
+        double total = 0.0;
+        String sql = "SELECT SUM(subtotal) AS total FROM detalle_pedido WHERE idPedidos = ?";
+
+        try (Connection conn = conexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idPedido);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getDouble("total"); // acá está la suma de todos los subtotales del pedido
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+
     public static int obtenerIdpedido = 0;
 
     public PedidoGUIDAO() {
@@ -389,17 +433,38 @@ public class PedidoGUIDAO {
         actualizarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
                 int id = Integer.parseInt(textField1.getText());
-                int idCliente = pedidoDAO.obtenerIdSeleccionado(comboBox2,clienteMap);
+                int idCliente = pedidoDAO.obtenerIdSeleccionado(comboBox2, clienteMap);
                 Timestamp fecha = new Timestamp(System.currentTimeMillis());
                 String estado = comboBox3.getSelectedItem().toString();
 
-
-                Pedido pedido = new Pedido(id,idCliente,0,estado,fecha);
+                Pedido pedido = new Pedido(id, idCliente, 0, estado, fecha);
                 pedidoDAO.actualizar(pedido);
                 pedidoDAO.descontarStock(id);
+
+                if (estado.equalsIgnoreCase("entregado")) {
+                    int idPedido = pedidoDAO.obtenerIdPedido(id);
+
+                    if (idPedido != -1) { // Esto es Si el pedido existe, insertamos en movimientos financieros
+                        String query = "INSERT INTO movimientos_financieros (idPedidos, tipo, categoria, monto, fecha, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
+
+                        try (Connection conn = conexionBD.getConnection();
+                             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+                            stmt.setInt(1, idPedido);
+                            stmt.setString(2, "efectivo");
+                            stmt.setString(3, "ingreso");
+                            stmt.setDouble(4, obtenerTotalPedido(idPedido));
+                            stmt.setTimestamp(5, fecha);
+                            stmt.setString(6, "Se acaba de realizar una venta en FarmaciaTech");
+
+                            stmt.executeUpdate();
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+
                 obtenerDatosPed();
             }
         });
