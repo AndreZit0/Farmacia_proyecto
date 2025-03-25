@@ -143,11 +143,6 @@ public class Detalle_pedidoDAO {
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al agregar el pedido.");
                 }
-
-                if (stockActual <= stockMinimo) {
-                    JOptionPane.showMessageDialog(null, "Ya casi se te agota este producto: " + np);
-                }
-
                 // Cerrar recursos
                 rsTotal.close();
                 totalPedidoStmt.close();

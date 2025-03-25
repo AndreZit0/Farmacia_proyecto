@@ -18,6 +18,7 @@ public class GUICaja {
     private JButton cajaButton;
     private JButton socketsButton;
     private JButton REPORTESButton;
+    private JButton MOVIMIENTOSFINANCIEROSButton;
 
 
     public GUICaja() {

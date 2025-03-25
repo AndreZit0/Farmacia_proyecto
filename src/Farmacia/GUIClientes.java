@@ -27,6 +27,7 @@ public class GUIClientes {
     private JButton cajaButton;
     private JButton socketsButton;
     private JButton REPORTESButton;
+    private JButton MOVIMIENTOSFINANCIEROSButton;
     ClientesDAO clientesDAO = new ClientesDAO();
     int filas;
 
