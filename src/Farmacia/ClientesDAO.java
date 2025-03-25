@@ -36,7 +36,11 @@ public class ClientesDAO {
     }
 
     public boolean agregar_cliente(Clientes clientes) {
-
+        if (clientes.getCedula().isEmpty() || clientes.getNombre().isEmpty() || clientes.getTelefoono().isEmpty()
+                || clientes.getEmail().isEmpty() || clientes.getDireccion().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ningún campo puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         Connection con = ConexionBD.getConnection();
         String query = "INSERT INTO clientes( cedula, nombre, telefono,email, direccion) VALUES (?,?, ?,?,?)";
 
@@ -58,12 +62,14 @@ public class ClientesDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-
-
         }
     }
 
     public  void actualizar_cliente(int id, String cedula,String nombreCliente, String telefono, String email, String direccion){
+        if (cedula.isEmpty() || nombreCliente.isEmpty() || telefono.isEmpty() || email.isEmpty() || direccion.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ningún campo puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String query = "UPDATE clientes SET cedula = ?, nombre = ?, telefono = ?, email = ?, direccion = ? WHERE idclientes = ?";
         Connection con = ConexionBD.getConnection();
         try{

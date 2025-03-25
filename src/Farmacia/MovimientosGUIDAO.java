@@ -288,7 +288,7 @@ public class MovimientosGUIDAO {
         }
     }
     public void ejecutar() {
-        JFrame frame = new JFrame("Clientes");
+        JFrame frame = new JFrame("Movimientos financeros");
         frame.setContentPane(this.main);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
