@@ -63,6 +63,63 @@ public class GUIClientes {
 
             }
         });
+        socketsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                GUIServidor guiServidor = new GUIServidor();
+                guiServidor.ejecutar();
+
+                GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
+                guiClienteSocket.ejecutar();
+                SwingUtilities.getWindowAncestor(socketsButton).dispose();
+
+
+
+            }
+        });
+
+        cajaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUICaja guiCaja = new GUICaja();
+                guiCaja.ejecutar();
+                SwingUtilities.getWindowAncestor(cajaButton).dispose();
+            }
+        });
+        pedidoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PedidoGUIDAO pedidoGUIDAO = new PedidoGUIDAO();
+                pedidoGUIDAO.main();
+                SwingUtilities.getWindowAncestor(pedidoButton).dispose();
+            }
+        });
+        productosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
+                productoGUIDAO.main();
+                SwingUtilities.getWindowAncestor(productosButton).dispose();
+
+            }
+        });
+        REPORTESButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ReportesGUIDAO reportesGUIDAO = new ReportesGUIDAO();
+                reportesGUIDAO.main();
+                SwingUtilities.getWindowAncestor(REPORTESButton).dispose();
+            }
+        });
+        MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MovimientosGUIDAO movimientosGUIDAO = new MovimientosGUIDAO();
+                movimientosGUIDAO.ejecutar();
+                SwingUtilities.getWindowAncestor(MOVIMIENTOSFINANCIEROSButton).dispose();
+            }
+        });
 
 
 
