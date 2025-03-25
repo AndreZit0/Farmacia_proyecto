@@ -2,6 +2,7 @@ package Farmacia;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
@@ -113,6 +114,66 @@ public class ReportesGUIDAO {
                 mostrarReportes("1 MONTH");
             }
         });
+        clientesButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUIClientes guiClientes = new GUIClientes();
+                guiClientes.ejecutar();
+                SwingUtilities.getWindowAncestor(clientesButton).dispose();
+
+
+            }
+        });
+        socketsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                GUIServidor guiServidor = new GUIServidor();
+                guiServidor.ejecutar();
+
+                GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
+                guiClienteSocket.ejecutar();
+                SwingUtilities.getWindowAncestor(socketsButton).dispose();
+
+
+
+            }
+        });
+
+        cajaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUICaja guiCaja = new GUICaja();
+                guiCaja.ejecutar();
+                SwingUtilities.getWindowAncestor(cajaButton).dispose();
+            }
+        });
+        pedidoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PedidoGUIDAO pedidoGUIDAO = new PedidoGUIDAO();
+                pedidoGUIDAO.main();
+                SwingUtilities.getWindowAncestor(pedidoButton).dispose();
+            }
+        });
+        productosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
+                productoGUIDAO.main();
+                SwingUtilities.getWindowAncestor(productosButton).dispose();
+
+            }
+        });
+        MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MovimientosGUIDAO movimientosGUIDAO = new MovimientosGUIDAO();
+                movimientosGUIDAO.ejecutar();
+                SwingUtilities.getWindowAncestor(MOVIMIENTOSFINANCIEROSButton).dispose();
+            }
+        });
     }
 
     /**
@@ -147,7 +208,7 @@ public class ReportesGUIDAO {
     public void main() {
         JFrame frame = new JFrame("Reportes");
         frame.setContentPane(this.main);
-        frame.setSize(600, 400);
+        frame.setSize(600, 500);
         frame.setResizable(false);
         frame.setVisible(true);
     }
