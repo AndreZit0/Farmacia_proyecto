@@ -23,6 +23,7 @@ public class ReportesGUIDAO {
     private JButton cajaButton;
     private JButton socketsButton;
     private JButton REPORTESButton;
+    private JButton MOVIMIENTOSFINANCIEROSButton;
     private JLabel labelTitulo;
 
     private ReportesDAO reportesDAO = new ReportesDAO();

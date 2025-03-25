@@ -17,6 +17,7 @@ public class GUIServidor {
     private JButton cajaButton;
     private JButton socketsButton;
     private JButton REPORTESButton;
+    private JButton MOVIMIENTOSFINANCIEROSButton;
     private PrintWriter out;
     private BufferedReader in;
     private Socket clienteSocket;

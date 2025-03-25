@@ -13,6 +13,7 @@ public class GUIMenu {
     private JButton pedidoButton;
     private JButton productosButton;
     private JButton REPORTESButton;
+    private JButton MOVIMIENTOSFINANCIEROSButton;
 
     ClientesDAO clientesDAO = new ClientesDAO();
     CajaDAO cajaDAO = new CajaDAO();
@@ -71,6 +72,13 @@ public class GUIMenu {
             public void actionPerformed(ActionEvent e) {
                 ReportesGUIDAO reportesGUIDAO = new ReportesGUIDAO();
                 reportesGUIDAO.main();
+            }
+        });
+        MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MovimientosGUIDAO movimientosGUIDAO = new MovimientosGUIDAO();
+                movimientosGUIDAO.ejecutar();
             }
         });
     }
