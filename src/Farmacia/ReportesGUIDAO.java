@@ -35,7 +35,7 @@ public class ReportesGUIDAO {
      */
     class Reporte {
         int idPedido, cantidad;
-        String cliente, producto, fecha;
+        String cliente, producto, fecha, medida;
 
         /**
          * Constructor de la clase Reporte.
@@ -45,14 +45,16 @@ public class ReportesGUIDAO {
          * @param cantidad Cantidad del producto pedido.
          * @param fecha Fecha del pedido.
          */
-        public Reporte(int idPedido, String cliente, String producto, int cantidad, String fecha) {
+        public Reporte(int idPedido, String cliente, String producto, int cantidad, String fecha, String medida) {
             this.idPedido = idPedido;
             this.cliente = cliente;
             this.producto = producto;
             this.cantidad = cantidad;
             this.fecha = fecha;
+            this.medida = medida;
         }
     }
+
 
     /**
      * Esta clase permite gestionar y acceder a la base de datos para obtener los reportes de las ventas.
@@ -65,7 +67,7 @@ public class ReportesGUIDAO {
          */
         public List<Reporte> obtenerOrdenesPorPeriodo(String intervalo) {
             List<Reporte> reportes = new ArrayList<>();
-            String query = "SELECT p.idPedidos, c.nombre AS Cliente, pr.nombre AS Producto, dp.cantidad, p.fecha " +
+            String query = "SELECT p.idPedidos, c.nombre AS Cliente, pr.nombre AS Producto, dp.medida, dp.cantidad, p.fecha " +
                     "FROM pedidos p " +
                     "JOIN clientes c ON p.idclientes = c.idclientes " +
                     "JOIN detalle_pedido dp ON p.idPedidos = dp.idpedidos " +
@@ -82,7 +84,8 @@ public class ReportesGUIDAO {
                             rs.getString("Cliente"),
                             rs.getString("Producto"),
                             rs.getInt("cantidad"),
-                            rs.getString("fecha")
+                            rs.getString("fecha"),
+                            rs.getString("medida")
                     ));
                 }
             } catch (SQLException e) {
@@ -194,9 +197,10 @@ public class ReportesGUIDAO {
                     reporte.idPedido,
                     reporte.cliente,
                     reporte.producto,
-                    reporte.cantidad,
-                    reporte.fecha
+                    reporte.cantidad + "   " + reporte.medida,
+                    reporte.fecha,
             });
+
         }
 
         table1.setModel(model);
