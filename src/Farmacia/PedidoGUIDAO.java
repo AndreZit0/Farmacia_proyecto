@@ -526,7 +526,6 @@ public class PedidoGUIDAO {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                super.mouseClicked(e);
                 int selectFilas = Table1.getSelectedRow();
 
 
@@ -550,7 +549,6 @@ public class PedidoGUIDAO {
         tablePr.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
                 int selectFilas = tablePr.getSelectedRow();
 
                 if (selectFilas >= 0) {
@@ -562,9 +560,9 @@ public class PedidoGUIDAO {
 
                     filas = selectFilas;
                 }
-
             }
         });
+
 
         generarFacturaButton.addActionListener(new ActionListener() {
             @Override
@@ -648,35 +646,33 @@ public class PedidoGUIDAO {
         model.addColumn("Total");
 
         Table1.setModel(model);
+        String[] dato = new String[5];
         model.setRowCount(0);
 
-        String sql = "SELECT p.idPedidos, c.nombre, p.fecha, p.estado, p.total " +
-                "FROM pedidos AS p " +
-                "JOIN clientes AS c ON p.idclientes = c.idClientes";
+        Connection con;
 
-        try (Connection con = conexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-
-            boolean hayDatos = false;
+        try {
+            con = conexionBD.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT p.idPedidos, c.nombre, c.cedula, p.fecha, p.estado, p.total " +
+                    "FROM pedidos AS p " +
+                    "JOIN clientes AS c ON p.idclientes = c.idClientes");
             while (rs.next()) {
-                model.addRow(new Object[]{
-                        rs.getString("idPedidos"),
-                        rs.getString("nombre"),
-                        rs.getString("fecha"),
-                        rs.getString("estado"),
-                        rs.getString("total")
-                });
-                hayDatos = true;
-            }
+                int cedula = rs.getInt("c.cedula");
+                String nombre = rs.getString("c.nombre");
+                dato[0] = rs.getString(1);
+                dato[1] = cedula + " / " + nombre;;
+                dato[2] = rs.getString(4);
+                dato[3] = rs.getString(5);
+                dato[4] = rs.getString(6);
 
-            if (!hayDatos) {
-                JOptionPane.showMessageDialog(null, "No hay pedidos registrados.");
-            }
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener los pedidos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                model.addRow(dato);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
+
     }
 
     public void obtenerDatosDetPed() {
@@ -692,17 +688,18 @@ public class PedidoGUIDAO {
         Connection con;
         try {
             con = conexionBD.getConnection();
-            String query = "SELECT iddetalle_pedido, idpedidos, p.nombre, medida, cantidad, subtotal " +
-                    "FROM detalle_pedido d JOIN productos p ON d.idproductos = p.idproductos WHERE idpedidos = " + valID;
-            PreparedStatement pst = con.prepareStatement(query);
-            ResultSet rs = pst.executeQuery();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT iddetalle_pedido, idpedidos, p.nombre,p.precio, medida, cantidad, subtotal " +
+                    "FROM detalle_pedido d JOIN productos p ON d.idproductos = p.idproductos WHERE idpedidos = " + valID);
             while (rs.next()) {
+                int precio = rs.getInt("p.precio");
+                String nombre = rs.getString("p.nombre");
                 dato[0] = rs.getString(1);
                 dato[1] = rs.getString(2);
-                dato[2] = rs.getString(3);
-                dato[3] = rs.getString(4);
-                dato[4] = rs.getString(5);
-                dato[5] = rs.getString(6);
+                dato[2] = nombre + " / " + precio;
+                dato[3] = rs.getString(5);
+                dato[4] = rs.getString(6);
+                dato[5] = rs.getString(7);
 
                 model.addRow(dato);
             }
@@ -791,7 +788,7 @@ public class PedidoGUIDAO {
         frame.setContentPane(this.main);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(900, 700);
+        frame.setSize(1200, 700);
         frame.setResizable(false);
         frame.setVisible(true);
         pedidoDAO.obtener_productos();
