@@ -1,7 +1,7 @@
 /**
  * Clase que maneja la conexión a la base de datos MySQL para la farmacia.
  */
-package Farmacia;
+package Conexion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

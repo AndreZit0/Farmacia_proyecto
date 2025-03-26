@@ -1,5 +1,7 @@
 package Farmacia;
 
+import Conexion.ConexionBD;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -73,6 +75,81 @@ public class GUIClientes {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buscar_cliente_cedula();
+            }
+        });
+        table1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                int selectFilas = table1.getSelectedRow();
+
+                if (selectFilas >= 0) {
+                    textField1.setText((String) table1.getValueAt(selectFilas, 0));
+                    textField2.setText((String) table1.getValueAt(selectFilas, 1));
+                    textField3.setText((String) table1.getValueAt(selectFilas, 2));
+                    textField4.setText((String) table1.getValueAt(selectFilas, 3));
+                    textField5.setText((String) table1.getValueAt(selectFilas, 4));
+                    textField6.setText((String) table1.getValueAt(selectFilas, 5));
+
+                    filas = selectFilas;
+                }
+            }
+        });
+        socketsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                GUIServidor guiServidor = new GUIServidor();
+                guiServidor.ejecutar();
+
+                GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
+                guiClienteSocket.ejecutar();
+                SwingUtilities.getWindowAncestor(socketsButton).dispose();
+
+
+
+            }
+        });
+        productosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
+                productoGUIDAO.main();
+                SwingUtilities.getWindowAncestor(productosButton).dispose();
+
+            }
+        });
+
+        cajaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUICaja guiCaja = new GUICaja();
+                guiCaja.ejecutar();
+                SwingUtilities.getWindowAncestor(cajaButton).dispose();
+            }
+        });
+        pedidoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PedidoGUIDAO pedidoGUIDAO = new PedidoGUIDAO();
+                pedidoGUIDAO.main();
+                SwingUtilities.getWindowAncestor(pedidoButton).dispose();
+            }
+        });
+        REPORTESButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ReportesGUIDAO reportesGUIDAO = new ReportesGUIDAO();
+                reportesGUIDAO.main();
+                SwingUtilities.getWindowAncestor(REPORTESButton).dispose();
+            }
+        });
+        MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MovimientosGUIDAO movimientosGUIDAO = new MovimientosGUIDAO();
+                movimientosGUIDAO.ejecutar();
+                SwingUtilities.getWindowAncestor(MOVIMIENTOSFINANCIEROSButton).dispose();
             }
         });
     }
