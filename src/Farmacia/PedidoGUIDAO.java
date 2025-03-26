@@ -50,6 +50,7 @@ public class PedidoGUIDAO {
     private ConexionBD conexionBD = new ConexionBD();
     private Detalle_pedidoDAO detalle_pedidoDAO = new Detalle_pedidoDAO();
     private ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
+    private  CajaDAO cajaDAO = new CajaDAO();
 
     private HashMap<String, Integer> clienteMap = new HashMap<>();
     private HashMap<String, Integer> productoMap = new HashMap<>();
@@ -444,10 +445,13 @@ public class PedidoGUIDAO {
                 pedidoDAO.actualizar(pedido);
                 pedidoDAO.descontarStock(id);
 
+
+
                 if (estado.equalsIgnoreCase("entregado")) {
                     int idPedido = pedidoDAO.obtenerIdPedido(id);
 
-                    if (idPedido != -1) { // Esto es Si el pedido existe, insertamos en movimientos financieros
+                    if (idPedido != -1) {
+                        double totalPedido = obtenerTotalPedido(idPedido);// Esto es Si el pedido existe, insertamos en movimientos financieros
                         String query = "INSERT INTO movimientos_financieros (idPedidos, tipo, categoria, monto, fecha, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
 
                         try (Connection conn = conexionBD.getConnection();
@@ -461,11 +465,21 @@ public class PedidoGUIDAO {
                             stmt.setString(6, "Se acaba de realizar una venta en FarmaciaTech");
 
                             stmt.executeUpdate();
+                            int valorActual = cajaDAO.obtenerValorCaja();
+                            int nuevoValor = (int) (valorActual + totalPedido);
+                            boolean actualizado = cajaDAO.actualizarValorCaja(nuevoValor);
+//
+                            if (actualizado) {
+                               JOptionPane.showMessageDialog(null, "Se actualizó correctamente la caja");
+                            }
+//
                         } catch (SQLException ex) {
                             ex.printStackTrace();
                         }
+
                     }
                 }
+
 
                 obtenerDatosPed();
             }
