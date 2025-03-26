@@ -81,7 +81,7 @@ public class MovimientosGUIDAO {
     public class MovimientoDAO {
 
         public boolean agregarMovimiento(Movimiento movimiento) {
-            String query = "INSERT INTO movimientos_financieros (tipo, idPedidos, categoria, fecha, monto, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO movimientos_financieros (tipo, id_Pedido, categoria, fecha, monto, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
 
             try (Connection con = ConexionBD.getConnection();
                  PreparedStatement pst = con.prepareStatement(query)) {
@@ -370,8 +370,8 @@ public class MovimientosGUIDAO {
         DefaultTableModel modelo = new DefaultTableModel();
 
         modelo.addColumn("ID");
-        modelo.addColumn("ID Pedido");
         modelo.addColumn("Tipo");
+        modelo.addColumn("ID pedido");
         modelo.addColumn("Formato");
         modelo.addColumn("Monto");
         modelo.addColumn("Fecha");
