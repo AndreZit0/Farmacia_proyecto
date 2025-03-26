@@ -34,7 +34,7 @@ public class FacturaPDF {
             headerTable.setWidths(new float[]{3, 1});
 
             Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
-            PdfPCell titleCell = new PdfPCell(new Phrase("Factura de Compra \nFarmaTec", titleFont));
+            PdfPCell titleCell = new PdfPCell(new Phrase("Factura de Compra \nFarmaTech", titleFont));
             titleCell.setBorder(Rectangle.NO_BORDER);
             titleCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             titleCell.setHorizontalAlignment(Element.ALIGN_LEFT);
