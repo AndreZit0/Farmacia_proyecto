@@ -1,5 +1,7 @@
 package Farmacia;
 
+import Conexion.ConexionBD;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -34,7 +36,7 @@ public class ReportesGUIDAO {
      */
     class Reporte {
         int idPedido, cantidad;
-        String cliente, producto, fecha;
+        String cliente, producto, fecha, medida;
 
         /**
          * Constructor de la clase Reporte.
@@ -44,14 +46,16 @@ public class ReportesGUIDAO {
          * @param cantidad Cantidad del producto pedido.
          * @param fecha Fecha del pedido.
          */
-        public Reporte(int idPedido, String cliente, String producto, int cantidad, String fecha) {
+        public Reporte(int idPedido, String cliente, String producto, int cantidad, String fecha, String medida) {
             this.idPedido = idPedido;
             this.cliente = cliente;
             this.producto = producto;
             this.cantidad = cantidad;
             this.fecha = fecha;
+            this.medida = medida;
         }
     }
+
 
     /**
      * Esta clase permite gestionar y acceder a la base de datos para obtener los reportes de las ventas.
@@ -64,7 +68,7 @@ public class ReportesGUIDAO {
          */
         public List<Reporte> obtenerOrdenesPorPeriodo(String intervalo) {
             List<Reporte> reportes = new ArrayList<>();
-            String query = "SELECT p.idPedidos, c.nombre AS Cliente, pr.nombre AS Producto, dp.cantidad, p.fecha " +
+            String query = "SELECT p.idPedidos, c.nombre AS Cliente, pr.nombre AS Producto, dp.medida, dp.cantidad, p.fecha " +
                     "FROM pedidos p " +
                     "JOIN clientes c ON p.idclientes = c.idclientes " +
                     "JOIN detalle_pedido dp ON p.idPedidos = dp.idpedidos " +
@@ -81,7 +85,8 @@ public class ReportesGUIDAO {
                             rs.getString("Cliente"),
                             rs.getString("Producto"),
                             rs.getInt("cantidad"),
-                            rs.getString("fecha")
+                            rs.getString("fecha"),
+                            rs.getString("medida")
                     ));
                 }
             } catch (SQLException e) {
@@ -113,6 +118,66 @@ public class ReportesGUIDAO {
                 mostrarReportes("1 MONTH");
             }
         });
+        clientesButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUIClientes guiClientes = new GUIClientes();
+                guiClientes.ejecutar();
+                SwingUtilities.getWindowAncestor(clientesButton).dispose();
+
+
+            }
+        });
+        socketsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                GUIServidor guiServidor = new GUIServidor();
+                guiServidor.ejecutar();
+
+                GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
+                guiClienteSocket.ejecutar();
+                SwingUtilities.getWindowAncestor(socketsButton).dispose();
+
+
+
+            }
+        });
+
+        cajaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUICaja guiCaja = new GUICaja();
+                guiCaja.ejecutar();
+                SwingUtilities.getWindowAncestor(cajaButton).dispose();
+            }
+        });
+        pedidoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PedidoGUIDAO pedidoGUIDAO = new PedidoGUIDAO();
+                pedidoGUIDAO.main();
+                SwingUtilities.getWindowAncestor(pedidoButton).dispose();
+            }
+        });
+        productosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
+                productoGUIDAO.main();
+                SwingUtilities.getWindowAncestor(productosButton).dispose();
+
+            }
+        });
+        MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MovimientosGUIDAO movimientosGUIDAO = new MovimientosGUIDAO();
+                movimientosGUIDAO.ejecutar();
+                SwingUtilities.getWindowAncestor(MOVIMIENTOSFINANCIEROSButton).dispose();
+            }
+        });
     }
 
     /**
@@ -133,9 +198,10 @@ public class ReportesGUIDAO {
                     reporte.idPedido,
                     reporte.cliente,
                     reporte.producto,
-                    reporte.cantidad,
-                    reporte.fecha
+                    reporte.cantidad + "   " + reporte.medida,
+                    reporte.fecha,
             });
+
         }
 
         table1.setModel(model);
@@ -147,7 +213,7 @@ public class ReportesGUIDAO {
     public void main() {
         JFrame frame = new JFrame("Reportes");
         frame.setContentPane(this.main);
-        frame.setSize(600, 400);
+        frame.setSize(600, 500);
         frame.setResizable(false);
         frame.setVisible(true);
     }

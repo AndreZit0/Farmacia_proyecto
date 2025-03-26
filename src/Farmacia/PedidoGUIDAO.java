@@ -1,5 +1,7 @@
 package Farmacia;
 
+import Conexion.ConexionBD;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -41,11 +43,13 @@ public class PedidoGUIDAO {
     private JButton socketsButton;
     private JButton REPORTESButton;
     private JButton generarFacturaButton;
+    private JButton MOVIMIENTOSFINANCIEROSButton;
     private JPanel Detalle_ped;
 
     private PedidoDAO pedidoDAO = new PedidoDAO();
     private ConexionBD conexionBD = new ConexionBD();
     private Detalle_pedidoDAO detalle_pedidoDAO = new Detalle_pedidoDAO();
+    private ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
 
     private HashMap<String, Integer> clienteMap = new HashMap<>();
     private HashMap<String, Integer> productoMap = new HashMap<>();
@@ -125,8 +129,9 @@ public class PedidoGUIDAO {
                 if (resultado > 0)
                     JOptionPane.showMessageDialog(null, "Agregado con Exito");
 
-                else
+                else {
                     JOptionPane.showMessageDialog(null, "No Agregado con Exito");
+                }
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -157,6 +162,32 @@ public class PedidoGUIDAO {
                 JOptionPane.showMessageDialog(null, "No Actualizado con Exito");
             }
         }
+
+
+
+        //Obtener el id del pedido
+        public int obtenerIdPedido(int idPedido) {
+            int id = -1; // Valor por defecto si no encuentra el pedido
+            String sql = "SELECT idPedidos FROM pedidos WHERE idPedidos = ?";
+
+            try (Connection conn = conexionBD.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                stmt.setInt(1, idPedido);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    id = rs.getInt("idPedidos");
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return id;
+        }
+
+
+
         //Eliminar
         public void eliminar(int id) {
             Connection con = conexionBD.getConnection();
@@ -188,6 +219,7 @@ public class PedidoGUIDAO {
             String estadoQuery = "SELECT estado FROM pedidos WHERE idpedidos = ?";
             String detalleQuery = "SELECT idproductos, cantidad, medida FROM detalle_pedido WHERE idpedidos = ?";
             String updateStockQuery = "UPDATE productos SET stock = stock - ? WHERE idproductos = ?";
+            String stockQuery = "SELECT nombre, stock, stock_minimo FROM productos WHERE idproductos = ?";
 
             try {
                 PreparedStatement estadoStmt = con.prepareStatement(estadoQuery);
@@ -204,32 +236,44 @@ public class PedidoGUIDAO {
                         int cantidad = rsDetalle.getInt("cantidad");
                         String medida = rsDetalle.getString("medida");
 
-                        int cantidadReal = 0;
-                        switch (medida.toLowerCase()) {
-                            case "unidad":
-                                cantidadReal = cantidad;
-                                break;
-                            case "blister":
-                                cantidadReal = cantidad * 10;
-                                break;
-                            case "caja":
-                                cantidadReal = cantidad * 100;
-                                break;
+                        int cantidadReal = switch (medida.toLowerCase()) {
+                            case "unidad" -> cantidad;
+                            case "blister" -> cantidad * 10;
+                            case "caja" -> cantidad * 100;
+                            default -> 0;
+                        };
+
+                        // Verificar el stock actual antes de descontar
+                        PreparedStatement stockStmt = con.prepareStatement(stockQuery);
+                        stockStmt.setInt(1, idProducto);
+                        ResultSet rsStock = stockStmt.executeQuery();
+
+                        if (rsStock.next()) {
+                            String nombreProducto = rsStock.getString("nombre");
+                            int stockActual = rsStock.getInt("stock");
+                            int stockMinimo = rsStock.getInt("stock_minimo");
+
+                            // Si después de la reducción el stock está en nivel mínimo, avisar
+                            if ((stockActual - cantidadReal) <= stockMinimo) {
+                                JOptionPane.showMessageDialog(null, "Ya casi se te agota este producto: " + nombreProducto);
+                            }
+
+                            // Descontar stock
+                            PreparedStatement updateStockStmt = con.prepareStatement(updateStockQuery);
+                            updateStockStmt.setInt(1, cantidadReal);
+                            updateStockStmt.setInt(2, idProducto);
+                            updateStockStmt.executeUpdate();
+                            updateStockStmt.close();
                         }
 
-                        PreparedStatement updateStockStmt = con.prepareStatement(updateStockQuery);
-                        updateStockStmt.setInt(1, cantidadReal);
-                        updateStockStmt.setInt(2, idProducto);
-                        updateStockStmt.executeUpdate();
-                        updateStockStmt.close();
+                        rsStock.close();
+                        stockStmt.close();
                     }
 
                     rsDetalle.close();
                     detalleStmt.close();
 
-                    JOptionPane.showMessageDialog(null, "Stock descontado");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error");
+                    JOptionPane.showMessageDialog(null, "Stock descontado correctamente.");
                 }
 
                 rsEstado.close();
@@ -239,6 +283,7 @@ public class PedidoGUIDAO {
                 JOptionPane.showMessageDialog(null, "Error en la base de datos.");
             }
         }
+
         public void obtener_clientes(){
 
             String query= "Select idClientes,cedula, nombre from clientes";
@@ -296,24 +341,47 @@ public class PedidoGUIDAO {
         }
         public void obtener_ordenes(){
 
-            String query= "SELECT MAX(idPedidos) FROM pedidos";
+            String query = "SELECT MAX(idPedidos) FROM pedidos";
 
-            Statement st;
             ConexionBD con = new ConexionBD();
+            try (Connection connection = con.getConnection();
+                 Statement st = connection.createStatement();
+                 ResultSet rs = st.executeQuery(query)) {
 
-            try {
-                st = con.getConnection().createStatement();
-                ResultSet rs = st.executeQuery(query);
-                while(
-                        rs.next()) {
-                    comboBox5.addItem(rs.getString(1));
-                    valID = rs.getInt(1);
+                if (rs.next()) {
+                    int ultimoID = rs.getInt(1); // Obtener el último ID
+
+                    comboBox5.removeAllItems(); // Limpiar ComboBox
+                    comboBox5.addItem(String.valueOf(ultimoID)); // Agregar solo el último ID
+                    valID = ultimoID; // Guardar el ID más alto en la variable
                 }
+
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al actualizar el ComboBox: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         }
+    }
+
+    public double obtenerTotalPedido(int idPedido) {
+        double total = 0.0;
+        String sql = "SELECT SUM(subtotal) AS total FROM detalle_pedido WHERE idPedidos = ?";
+
+        try (Connection conn = conexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idPedido);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getDouble("total"); // acá está la suma de todos los subtotales del pedido
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
     }
 
     public static int obtenerIdpedido = 0;
@@ -361,22 +429,44 @@ public class PedidoGUIDAO {
                 });
                 pedidoDAO.obtener_ordenes();
                 obtenerDatosPed();
+                pedidoDAO.obtener_ordenes();
             }
         });
         actualizarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
                 int id = Integer.parseInt(textField1.getText());
-                int idCliente = pedidoDAO.obtenerIdSeleccionado(comboBox2,clienteMap);
+                int idCliente = pedidoDAO.obtenerIdSeleccionado(comboBox2, clienteMap);
                 Timestamp fecha = new Timestamp(System.currentTimeMillis());
                 String estado = comboBox3.getSelectedItem().toString();
 
-
-                Pedido pedido = new Pedido(id,idCliente,0,estado,fecha);
+                Pedido pedido = new Pedido(id, idCliente, 0, estado, fecha);
                 pedidoDAO.actualizar(pedido);
                 pedidoDAO.descontarStock(id);
+
+                if (estado.equalsIgnoreCase("entregado")) {
+                    int idPedido = pedidoDAO.obtenerIdPedido(id);
+
+                    if (idPedido != -1) { // Esto es Si el pedido existe, insertamos en movimientos financieros
+                        String query = "INSERT INTO movimientos_financieros (idPedidos, tipo, categoria, monto, fecha, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
+
+                        try (Connection conn = conexionBD.getConnection();
+                             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+                            stmt.setInt(1, idPedido);
+                            stmt.setString(2, "efectivo");
+                            stmt.setString(3, "ingreso");
+                            stmt.setDouble(4, obtenerTotalPedido(idPedido));
+                            stmt.setTimestamp(5, fecha);
+                            stmt.setString(6, "Se acaba de realizar una venta en FarmaciaTech");
+
+                            stmt.executeUpdate();
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+
                 obtenerDatosPed();
             }
         });
@@ -397,7 +487,7 @@ public class PedidoGUIDAO {
                 int idproductos = pedidoDAO.obtenerIdSeleccionado(comboBox4, productoMap);
                 int cantidad = Integer.parseInt(textField7.getText());
                 String medidad = comboBox1.getSelectedItem().toString();
-                int precioUnitario = obtenerPrecioUnitario(idproductos); // Asegúrate de que esto devuelve el precio correcto
+                int precioUnitario = obtenerPrecioUnitario(idproductos,medidad) ;
                 int subtotal = precioUnitario * cantidad; // Calcula el subtotal
 
                 Detalle_pedidoDAO.Detalle_pedido detped = new Detalle_pedidoDAO.Detalle_pedido(0, idpedidos, idproductos, cantidad, subtotal, medidad);
@@ -436,10 +526,8 @@ public class PedidoGUIDAO {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                super.mouseClicked(e);
                 int selectFilas = Table1.getSelectedRow();
 
-                JOptionPane.showMessageDialog(null,"Fila seleccionada");
 
                 if (selectFilas >= 0) {
                     textField1.setText((String) Table1.getValueAt(selectFilas,0));
@@ -461,7 +549,6 @@ public class PedidoGUIDAO {
         tablePr.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
                 int selectFilas = tablePr.getSelectedRow();
 
                 if (selectFilas >= 0) {
@@ -473,21 +560,76 @@ public class PedidoGUIDAO {
 
                     filas = selectFilas;
                 }
+            }
+        });
 
-            }
-        });
-        finalizarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                habilitarPed();
-//                inhabilitarDetPed();
-            }
-        });
+
         generarFacturaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FacturaPDF facturaPDF = new FacturaPDF();
-                facturaPDF.main();
+                facturaPDF.factura();
+            }
+        });
+        clientesButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUIClientes guiClientes = new GUIClientes();
+                guiClientes.ejecutar();
+                SwingUtilities.getWindowAncestor(clientesButton).dispose();
+
+
+            }
+        });
+        socketsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                GUIServidor guiServidor = new GUIServidor();
+                guiServidor.ejecutar();
+
+                GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
+                guiClienteSocket.ejecutar();
+                SwingUtilities.getWindowAncestor(socketsButton).dispose();
+
+
+
+            }
+        });
+
+        cajaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUICaja guiCaja = new GUICaja();
+                guiCaja.ejecutar();
+                SwingUtilities.getWindowAncestor(cajaButton).dispose();
+            }
+        });
+
+        productosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
+                productoGUIDAO.main();
+                SwingUtilities.getWindowAncestor(productosButton).dispose();
+
+            }
+        });
+        REPORTESButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ReportesGUIDAO reportesGUIDAO = new ReportesGUIDAO();
+                reportesGUIDAO.main();
+                SwingUtilities.getWindowAncestor(REPORTESButton).dispose();
+            }
+        });
+        MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MovimientosGUIDAO movimientosGUIDAO = new MovimientosGUIDAO();
+                movimientosGUIDAO.ejecutar();
+                SwingUtilities.getWindowAncestor(MOVIMIENTOSFINANCIEROSButton).dispose();
             }
         });
     }
@@ -504,43 +646,35 @@ public class PedidoGUIDAO {
         model.addColumn("Total");
 
         Table1.setModel(model);
+        String[] dato = new String[5];
         model.setRowCount(0);
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        Connection con;
+
         try {
             con = conexionBD.getConnection();
-            String sql = "SELECT p.idPedidos, c.nombre, p.fecha, p.estado, p.total " +
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT p.idPedidos, c.nombre, c.cedula, p.fecha, p.estado, p.total " +
                     "FROM pedidos AS p " +
-                    "JOIN clientes AS c ON p.idclientes = c.idClientes " +
-                    "ORDER BY p.idPedidos DESC LIMIT 1"; // Obtener solo el último pedido
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                model.addRow(new Object[]{
-                        rs.getString("idPedidos"),
-                        rs.getString("nombre"),
-                        rs.getString("fecha"),
-                        rs.getString("estado"),
-                        rs.getString("total")
-                });
-            } else {
-                JOptionPane.showMessageDialog(null, "No hay pedidos registrados.");
+                    "JOIN clientes AS c ON p.idclientes = c.idClientes");
+            while (rs.next()) {
+                int cedula = rs.getInt("c.cedula");
+                String nombre = rs.getString("c.nombre");
+                dato[0] = rs.getString(1);
+                dato[1] = cedula + " / " + nombre;;
+                dato[2] = rs.getString(4);
+                dato[3] = rs.getString(5);
+                dato[4] = rs.getString(6);
+
+
+                model.addRow(dato);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al obtener el último pedido.");
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (con != null) con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
+
     }
+
     public void obtenerDatosDetPed() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID");
@@ -554,19 +688,18 @@ public class PedidoGUIDAO {
         Connection con;
         try {
             con = conexionBD.getConnection();
-            String query = "SELECT iddetalle_pedido, idpedidos, p.nombre, medida, cantidad, subtotal " +
-                    "FROM detalle_pedido d " +
-                    "JOIN productos p ON d.idproductos = p.idproductos " +
-                    "WHERE idpedidos = " + valID;
-            PreparedStatement pst = con.prepareStatement(query);
-            ResultSet rs = pst.executeQuery();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT iddetalle_pedido, idpedidos, p.nombre,p.precio, medida, cantidad, subtotal " +
+                    "FROM detalle_pedido d JOIN productos p ON d.idproductos = p.idproductos WHERE idpedidos = " + valID);
             while (rs.next()) {
+                int precio = rs.getInt("p.precio");
+                String nombre = rs.getString("p.nombre");
                 dato[0] = rs.getString(1);
                 dato[1] = rs.getString(2);
-                dato[2] = rs.getString(3);
-                dato[3] = rs.getString(4);
-                dato[4] = rs.getString(5);
-                dato[5] = rs.getString(6);
+                dato[2] = nombre + " / " + precio;
+                dato[3] = rs.getString(5);
+                dato[4] = rs.getString(6);
+                dato[5] = rs.getString(7);
 
                 model.addRow(dato);
             }
@@ -574,7 +707,7 @@ public class PedidoGUIDAO {
             e.printStackTrace();
         }
     }
-    public int obtenerPrecioUnitario(int idProducto) {
+    public int obtenerPrecioUnitario(int idProducto, String medida) {
         int precioUnitario = 0;
         Connection con = conexionBD.getConnection();
         try {
@@ -588,8 +721,19 @@ public class PedidoGUIDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        // Ajustar el precio según la medida
+        switch (medida.toLowerCase()) {
+            case "blister":
+                precioUnitario *= 10;
+                break;
+            case "caja":
+                precioUnitario *= 100;
+                break;
+        }
         return precioUnitario;
     }
+
     public void actualizarTotalOrden(int id_pedido) {
         int total = calcularTotalOrden(id_pedido); // Calcula el total de la orden
         Connection con = conexionBD.getConnection();
@@ -602,15 +746,35 @@ public class PedidoGUIDAO {
             e.printStackTrace();
         }
     }
+
     public int calcularTotalOrden(int idOrden) {
         int total = 0;
         Connection con = conexionBD.getConnection();
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT SUM(subtotal) FROM detalle_pedido WHERE idPedidos = " + idOrden);
-            if (rs.next()) {
-                total = rs.getInt(1);
+            ResultSet rs = stmt.executeQuery("SELECT dp.idproductos, dp.medida, dp.cantidad, p.precio " +
+                    "FROM detalle_pedido dp " +
+                    "JOIN productos p ON dp.idproductos = p.idproductos " +
+                    "WHERE dp.idPedidos = " + idOrden);
+
+            while (rs.next()) {
+                int precioBase = rs.getInt("precio");
+                String medida = rs.getString("medida");
+                int cantidad = rs.getInt("cantidad");
+
+                // Ajustar el precio según la medida
+                switch (medida.toLowerCase()) {
+                    case "blister":
+                        precioBase *= 10;
+                        break;
+                    case "caja":
+                        precioBase *= 100;
+                        break;
+                }
+
+                total += precioBase * cantidad;
             }
+
             rs.close();
             stmt.close();
         } catch (SQLException e) {
@@ -618,12 +782,13 @@ public class PedidoGUIDAO {
         }
         return total;
     }
+
     public void main() {
         JFrame frame = new JFrame("Pedidos");
         frame.setContentPane(this.main);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(900, 700);
+        frame.setSize(1200, 700);
         frame.setResizable(false);
         frame.setVisible(true);
         pedidoDAO.obtener_productos();

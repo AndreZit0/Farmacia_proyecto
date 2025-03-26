@@ -1,4 +1,9 @@
+/**
+ * Clase que gestiona las operaciones de base de datos para los detalles de pedidos en la farmacia.
+ */
 package Farmacia;
+
+import Conexion.ConexionBD;
 
 import javax.swing.*;
 import java.sql.*;
@@ -7,15 +12,25 @@ import java.util.HashMap;
 public class Detalle_pedidoDAO {
 
     private ConexionBD conexionBD = new ConexionBD();
-
     private HashMap<String, Integer> ProductoMap = new HashMap<>();
 
+    /**
+     * Clase interna que representa un detalle de pedido.
+     */
+    public static class Detalle_pedido {
+        private int iddetalle_pedido, idpedidos, idproductos, cantidad, subtotal;
+        private String medida;
 
-    public  static class Detalle_pedido{
-
-        int iddetalle_pedido, idpedidos,idproductos,cantidad,subtotal;
-        String medida;
-
+        /**
+         * Constructor de la clase Detalle_pedido.
+         *
+         * @param iddetalle_pedido Identificador único del detalle de pedido.
+         * @param idpedidos Identificador del pedido asociado.
+         * @param idproductos Identificador del producto asociado.
+         * @param cantidad Cantidad del producto en el pedido.
+         * @param subtotal Subtotal del detalle de pedido.
+         * @param medida Unidad de medida del producto (unidad, blister, caja).
+         */
         public Detalle_pedido(int iddetalle_pedido, int idpedidos, int idproductos, int cantidad, int subtotal, String medida) {
             this.iddetalle_pedido = iddetalle_pedido;
             this.idpedidos = idpedidos;
@@ -25,57 +40,32 @@ public class Detalle_pedidoDAO {
             this.medida = medida;
         }
 
-        public int getIddetalle_pedido() {
-            return iddetalle_pedido;
-        }
+        // Métodos getter y setter
 
-        public void setIddetalle_pedido(int iddetalle_pedido) {
-            this.iddetalle_pedido = iddetalle_pedido;
-        }
+        public int getIddetalle_pedido() { return iddetalle_pedido; }
+        public void setIddetalle_pedido(int iddetalle_pedido) { this.iddetalle_pedido = iddetalle_pedido; }
 
-        public int getIdpedidos() {
-            return idpedidos;
-        }
+        public int getIdpedidos() { return idpedidos; }
+        public void setIdpedidos(int idpedidos) { this.idpedidos = idpedidos; }
 
-        public void setIdpedidos(int idpedidos) {
-            this.idpedidos = idpedidos;
-        }
+        public int getIdproductos() { return idproductos; }
+        public void setIdproductos(int idproductos) { this.idproductos = idproductos; }
 
-        public int getIdproductos() {
-            return idproductos;
-        }
+        public int getCantidad() { return cantidad; }
+        public void setCantidad(int cantidad) { this.cantidad = cantidad; }
 
-        public void setIdproductos(int idproductos) {
-            this.idproductos = idproductos;
-        }
+        public int getSubtotal() { return subtotal; }
+        public void setSubtotal(int subtotal) { this.subtotal = subtotal; }
 
-        public int getCantidad() {
-            return cantidad;
-        }
-
-        public void setCantidad(int cantidad) {
-            this.cantidad = cantidad;
-        }
-
-        public int getSubtotal() {
-            return subtotal;
-        }
-
-        public void setSubtotal(int subtotal) {
-            this.subtotal = subtotal;
-        }
-
-        public String getMedida() {
-            return medida;
-        }
-
-        public void setMedida(String medida) {
-            this.medida = medida;
-        }
-
-
+        public String getMedida() { return medida; }
+        public void setMedida(String medida) { this.medida = medida; }
     }
 
+    /**
+     * Agrega un detalle de pedido a la base de datos.
+     *
+     * @param detallePedido Objeto Detalle_pedido con la información del pedido.
+     */
     public void agregar(Detalle_pedido detallePedido) {
         Connection con = conexionBD.getConnection();
 
@@ -96,33 +86,22 @@ public class Detalle_pedidoDAO {
             if (rs.next()) {
                 int stockActual = rs.getInt("stock");
                 int stockMinimo = rs.getInt("stock_minimo");
-                String np = rs.getString("nombre");
 
-                int cantidadReal = 0;
-                switch (detallePedido.getMedida().toLowerCase()) {
-                    case "unidad":
-                        cantidadReal = detallePedido.getCantidad();
-                        break;
-                    case "blister":
-                        cantidadReal = detallePedido.getCantidad() * 10;
-                        break;
-                    case "caja":
-                        cantidadReal = detallePedido.getCantidad() * 100;
-                        break;
-                }
+                int cantidadReal = switch (detallePedido.getMedida().toLowerCase()) {
+                    case "unidad" -> detallePedido.getCantidad();
+                    case "blister" -> detallePedido.getCantidad() * 10;
+                    case "caja" -> detallePedido.getCantidad() * 100;
+                    default -> 0;
+                };
 
-                // Consultar la cantidad total del producto en el mismo pedido
+                // Verificar el stock disponible
                 PreparedStatement totalPedidoStmt = con.prepareStatement(totalPedidoQuery);
                 totalPedidoStmt.setInt(1, detallePedido.getIdproductos());
                 totalPedidoStmt.setInt(2, detallePedido.getIdpedidos());
                 ResultSet rsTotal = totalPedidoStmt.executeQuery();
 
-                int totalPedido = 0;
-                if (rsTotal.next()) {
-                    totalPedido = rsTotal.getInt("total_pedido");
-                }
+                int totalPedido = rsTotal.next() ? rsTotal.getInt("total_pedido") : 0;
 
-                // Verifica si la nueva cantidad supera el stock disponible
                 if ((totalPedido + cantidadReal) > stockActual) {
                     JOptionPane.showMessageDialog(null, "Stock insuficiente. Ya hay " + totalPedido +
                             " unidades registradas en este pedido y el stock total es de " + stockActual + ".");
@@ -138,12 +117,8 @@ public class Detalle_pedidoDAO {
 
                 int resultado = insertStmt.executeUpdate();
 
-                if (resultado > 0) {
-                    JOptionPane.showMessageDialog(null, "Pedido agregado.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error al agregar el pedido.");
-                }
-                // Cerrar recursos
+                JOptionPane.showMessageDialog(null, resultado > 0 ? "Pedido agregado." : "Error al agregar el pedido.");
+
                 rsTotal.close();
                 totalPedidoStmt.close();
                 insertStmt.close();
@@ -157,17 +132,17 @@ public class Detalle_pedidoDAO {
         }
     }
 
-
-
-
-    //actualizar
+    /**
+     * Actualiza un detalle de pedido existente en la base de datos.
+     *
+     * @param detallePedido Objeto Detalle_pedido con los datos actualizados.
+     */
     public void actualizar(Detalle_pedido detallePedido) {
         Connection con = conexionBD.getConnection();
-        String query = "UPDATE detalle_pedido SET idpedidos = ?,idproductos = ?,medida = ?,cantidad = ? WHERE iddetalle_pedido = ?";
+        String query = "UPDATE detalle_pedido SET idpedidos = ?, idproductos = ?, medida = ?, cantidad = ? WHERE iddetalle_pedido = ?";
 
         try {
             PreparedStatement pst = con.prepareStatement(query);
-
             pst.setInt(1, detallePedido.getIdpedidos());
             pst.setInt(2, detallePedido.getIdproductos());
             pst.setString(3, detallePedido.getMedida());
@@ -175,21 +150,21 @@ public class Detalle_pedidoDAO {
             pst.setInt(5, detallePedido.getIddetalle_pedido());
 
             int resultado = pst.executeUpdate();
-            if (resultado > 0)
-                JOptionPane.showMessageDialog(null, "Actualizado con Exito");
-            else
-                JOptionPane.showMessageDialog(null, "No Actualizado con Exito");
+            JOptionPane.showMessageDialog(null, resultado > 0 ? "Actualizado con éxito" : "No se pudo actualizar");
 
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "No Actualizado con Exito");
+            JOptionPane.showMessageDialog(null, "Error al actualizar el pedido.");
         }
     }
 
-    //Eliminar
+    /**
+     * Elimina un detalle de pedido de la base de datos.
+     *
+     * @param id ID del detalle de pedido a eliminar.
+     */
     public void eliminar(int id) {
         Connection con = conexionBD.getConnection();
-
         String query = "DELETE FROM detalle_pedido WHERE iddetalle_pedido = ?";
 
         try {
@@ -197,68 +172,11 @@ public class Detalle_pedidoDAO {
             pst.setInt(1, id);
 
             int resultado = pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, resultado > 0 ? "Eliminado con éxito" : "No se pudo eliminar");
 
-            if (resultado > 0)
-                JOptionPane.showMessageDialog(null, "Eliminado con Exito");
-            else
-                JOptionPane.showMessageDialog(null, "No Eliminado con Exito");
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "No Eliminado con Exito");
+            JOptionPane.showMessageDialog(null, "Error al eliminar el pedido.");
         }
     }
-
-
-
-
-
-//    public void actualizarStock(int idProducto, String tipo, int cantidad) {
-//        int unidad = 1; // Por defecto para Unit
-//
-//        if (tipo.equals("Blister")) {
-//            unidad = 10;
-//        } else if (tipo.equals("Caja")) {
-//            unidad = 20;
-//        }
-//
-//        int cantidadTotal = cantidad * unidad;
-//
-//        Connection connection = conexionBD.getConnection();
-//
-//        try {
-//
-//            String checkQuery = "SELECT stock FROM productos WHERE idproductos = ?";
-//            PreparedStatement checkStmt = connection.prepareStatement(checkQuery);
-//            checkStmt.setInt(1, idProducto);
-//            ResultSet rs = checkStmt.executeQuery();
-//
-//            if (rs.next()) {
-//                int stock_actual = rs.getInt("stock");
-//
-//                if (stock_actual >= cantidadTotal) {
-//
-//                    String updateQuery = "UPDATE productos SET stock = stock - ? WHERE idproductos = ?";
-//                    PreparedStatement updateStmt = connection.prepareStatement(updateQuery);
-//                    updateStmt.setInt(1, cantidadTotal);
-//                    updateStmt.setInt(2, idProducto);
-//                    updateStmt.executeUpdate();
-//
-//                    JOptionPane.showMessageDialog(null, "Stock updated correctly. " + cantidadTotal+ " units were discounted ");
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "Not enough stock. Current Stock: " + stock_actual + ", Required: " + cantidadTotal);
-//                }
-//
-//            }
-//
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Error al actualizar stock: " + ex.getMessage());
-//            ex.printStackTrace();
-//        }
-//    }
-
-
-
-
 }
-
-
