@@ -110,7 +110,7 @@ public class MovimientosGUIDAO {
 
 
         public boolean actualizarMovimiento(Movimiento movimiento) {
-            String query = "UPDATE movimientos_financieros SET tipo = ?, id_pedido = ?, categoria = ?, fecha = ?, monto = ?, descripcion = ? WHERE idmovimientos = ?";
+            String query = "UPDATE movimientos_financieros SET tipo = ?, idPedidos = ?, categoria = ?, fecha = ?, monto = ?, descripcion = ? WHERE idmovimientos = ?";
 
             try (Connection con = ConexionBD.getConnection();
                  PreparedStatement stmt = con.prepareStatement(query)) {
