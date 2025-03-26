@@ -568,7 +568,7 @@ public class PedidoGUIDAO {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FacturaPDF facturaPDF = new FacturaPDF();
-                facturaPDF.main();
+                facturaPDF.factura();
             }
         });
         clientesButton.addActionListener(new ActionListener() {
