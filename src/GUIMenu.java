@@ -15,8 +15,6 @@ public class GUIMenu {
     private JButton REPORTESButton;
     private JButton MOVIMIENTOSFINANCIEROSButton;
 
-    ClientesDAO clientesDAO = new ClientesDAO();
-    CajaDAO cajaDAO = new CajaDAO();
 
 
     public GUIMenu() {

@@ -3,6 +3,8 @@
  */
 package Farmacia;
 
+import Conexion.ConexionBD;
+
 import javax.swing.*;
 import java.sql.*;
 import java.util.HashMap;
