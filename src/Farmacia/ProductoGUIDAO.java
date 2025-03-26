@@ -40,6 +40,7 @@ public class ProductoGUIDAO {
     private JButton cajaButton;
     private JButton socketsButton;
     private JButton REPORTESButton;
+    private JButton MOVIMIENTOSFINANCIEROSButton;
 
     private ConexionBD conexionBD = new ConexionBD();
     private ProductoDAO productoDAO = new ProductoDAO();

@@ -389,42 +389,25 @@ public class PedidoGUIDAO {
                 obtenerDatosPed();
             }
         });
-
+        //Botones para agregar el detalle de pedido
         agregarButtonP.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Double iva = 0.21;
                 int idpedidos = Integer.parseInt(comboBox5.getSelectedItem().toString());
                 int idproductos = pedidoDAO.obtenerIdSeleccionado(comboBox4, productoMap);
                 int cantidad = Integer.parseInt(textField7.getText());
-                String medida = comboBox1.getSelectedItem().toString();
-                int precioUnitario = obtenerPrecioUnitario(idproductos);
+                String medidad = comboBox1.getSelectedItem().toString();
+                int precioUnitario = obtenerPrecioUnitario(idproductos); // Asegúrate de que esto devuelve el precio correcto
+                int subtotal = precioUnitario * cantidad; // Calcula el subtotal
 
-
-                int multiplicador = 1;
-                if (medida.equals("Blister")) {
-                    multiplicador = 10;
-                } else if (medida.equals("Caja")) {
-                    multiplicador = 100;
-                }
-
-
-                int cantidadTotal = cantidad * multiplicador;
-
-
-                int subtotal = precioUnitario * cantidadTotal;
-
-
-                Detalle_pedidoDAO.Detalle_pedido detped = new Detalle_pedidoDAO.Detalle_pedido(0, idpedidos, idproductos, cantidadTotal, subtotal, medida);
+                Detalle_pedidoDAO.Detalle_pedido detped = new Detalle_pedidoDAO.Detalle_pedido(0, idpedidos, idproductos, cantidad, subtotal, medidad);
                 detalle_pedidoDAO.agregar(detped);
 
-
-                actualizarTotalOrden(idpedidos);
+                actualizarTotalOrden(idpedidos); // Actualiza el total del pedido
                 obtenerDatosDetPed();
-                obtenerDatosPed();
+               obtenerDatosPed();
             }
         });
-
         actualizarButtonP.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

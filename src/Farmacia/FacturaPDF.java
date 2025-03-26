@@ -14,10 +14,16 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class FacturaPDF {
     public void main() {
-        String dest = "factura1.pdf";
+
         ConexionBD conexionBD = new ConexionBD();
 
+        int idpedido = PedidoGUIDAO.obtenerIdpedido;
+
         try (Connection conn = conexionBD.getConnection()) {
+
+            String dest = "src/Facturas/factura_pedido"+idpedido+".pdf";
+            String nom_pdf = "factura_pedido"+idpedido+".pdf";
+
             Document document = new Document(PageSize.A4, 50, 50, 50, 50);
             PdfWriter.getInstance(document, new FileOutputStream(dest));
             document.open();
@@ -50,14 +56,14 @@ public class FacturaPDF {
             document.add(new Paragraph("\n"));
 
             // Datos del cliente
-            int clienteP = PedidoGUIDAO.obtenerIdpedido;
+
             String clienteQuery = "SELECT c.cedula, c.nombre, c.telefono, c.email, c.direccion " +
                     "FROM clientes c " +
                     "JOIN pedidos p ON c.idclientes = p.idclientes " +
                     "WHERE p.idpedidos = ?";
 
             try (PreparedStatement stmt = conn.prepareStatement(clienteQuery)) {
-                stmt.setInt(1, clienteP);
+                stmt.setInt(1, idpedido);
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
                         Font dataFont = new Font(Font.FontFamily.HELVETICA, 12);
@@ -71,13 +77,13 @@ public class FacturaPDF {
                 }
             }
 
-            document.add(new Paragraph("N° de pedido: " + clienteP, new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD)));
+            document.add(new Paragraph("N° de pedido: " + idpedido, new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD)));
             document.add(new Paragraph("\n"));
 
             // Crear tabla de productos
             PdfPTable table = new PdfPTable(5);
             table.setWidthPercentage(100);
-            table.setWidths(new float[]{2, 3, 2, 2, 2});
+            table.setWidths(new float[]{1, 2, 2, 3, 2});
 
             // Encabezados
             Font headerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE);
@@ -86,12 +92,11 @@ public class FacturaPDF {
             for (String header : headersText) {
                 PdfPCell headerCell = new PdfPCell(new Phrase(header, headerFont));
                 headerCell.setBackgroundColor(headerColor);
-                headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
                 table.addCell(headerCell);
             }
 
             int total = 0;
-            int pedidoId = PedidoGUIDAO.obtenerIdpedido;
             String productosQuery = "SELECT pr.nombre AS Producto, dp.medida, dp.cantidad, pr.precio, dp.subtotal " +
                     "FROM pedidos p " +
                     "JOIN detalle_pedido dp ON p.idPedidos = dp.idpedidos " +
@@ -101,7 +106,7 @@ public class FacturaPDF {
             int cont = 0;
 
             try (PreparedStatement stmt = conn.prepareStatement(productosQuery)) {
-                stmt.setInt(1, pedidoId);
+                stmt.setInt(1, idpedido);
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
                         String nombre = rs.getString("Producto");
@@ -130,7 +135,7 @@ public class FacturaPDF {
 
             document.add(table);
             document.close();
-            JOptionPane.showMessageDialog(null, "PDF creado con éxito: " + dest);
+            JOptionPane.showMessageDialog(null, "PDF creado con éxito: "+nom_pdf);
         } catch (Exception e) {
             e.printStackTrace();
         }
