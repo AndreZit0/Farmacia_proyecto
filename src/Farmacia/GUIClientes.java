@@ -115,8 +115,8 @@ public class GUIClientes {
         productosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
-                productoGUIDAO.main();
+                ProductoGUI productoGUI = new ProductoGUI();
+                productoGUI.main();
                 SwingUtilities.getWindowAncestor(productosButton).dispose();
 
             }
@@ -149,8 +149,8 @@ public class GUIClientes {
         MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MovimientosGUIDAO movimientosGUIDAO = new MovimientosGUIDAO();
-                movimientosGUIDAO.ejecutar();
+                MovimientosGUI movimientosGUI = new MovimientosGUI();
+                movimientosGUI.ejecutar();
                 SwingUtilities.getWindowAncestor(MOVIMIENTOSFINANCIEROSButton).dispose();
             }
         });

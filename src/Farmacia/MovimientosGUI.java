@@ -14,7 +14,7 @@ import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class MovimientosGUIDAO {
+public class MovimientosGUI {
     private JPanel main;
     private JButton clientesButton;
     private JButton productosButton;
@@ -197,7 +197,7 @@ public class MovimientosGUIDAO {
     }
 
 
-    public MovimientosGUIDAO() {
+    public MovimientosGUI() {
         obtenerDatosMovimientos();
         agregarButton.addActionListener(new ActionListener() {
             @Override
