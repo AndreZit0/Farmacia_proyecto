@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class MovimientoDAO {
 
     public boolean agregarMovimiento(Movimiento movimiento) {
-        String query = "INSERT INTO movimientos_financieros (tipo, id_pedidos, categoria, fecha, monto, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO movimientos_financieros (tipo, id_pedido, categoria, fecha, monto, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement pst = con.prepareStatement(query)) {
@@ -41,7 +41,7 @@ public class MovimientoDAO {
 
 
     public boolean actualizarMovimiento(Movimiento movimiento) {
-        String query = "UPDATE movimientos_financieros SET tipo = ?, id_pedidos = ?, categoria = ?, fecha = ?, monto = ?, descripcion = ? WHERE idmovimientos = ?";
+        String query = "UPDATE movimientos_financieros SET tipo = ?, id_pedido = ?, categoria = ?, fecha = ?, monto = ?, descripcion = ? WHERE idmovimientos = ?";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {

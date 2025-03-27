@@ -162,6 +162,8 @@ public class PedidoGUI {
                                 boolean actualizado = cajaDAO.actualizarValorCaja(nuevoValor);
 
                                 if (actualizado) {
+                                    JOptionPane.showMessageDialog(null, "El estado cambio a entregado");
+
                                     JOptionPane.showMessageDialog(null, "Se actualizó correctamente la caja.");
                                 }
 
