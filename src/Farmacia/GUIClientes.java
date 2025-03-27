@@ -1,8 +1,6 @@
 package Farmacia;
 
 import Conexion.ConexionBD;
-import Farmacia.C.ClientesDAO;
-import Farmacia.M.Clientes;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

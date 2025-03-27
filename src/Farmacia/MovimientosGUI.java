@@ -1,8 +1,6 @@
 package Farmacia;
 
 import Conexion.ConexionBD;
-import Farmacia.C.MovimientoDAO;
-import Farmacia.M.Movimiento;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

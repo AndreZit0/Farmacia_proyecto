@@ -1,7 +1,7 @@
-package Farmacia.C;
+package Farmacia;
 
 import Conexion.ConexionBD;
-import Farmacia.M.Movimiento;
+
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -61,7 +61,7 @@ public class MovimientoDAO {
             int filas = stmt.executeUpdate();
 
             if (filas > 0) {
-                JOptionPane.showMessageDialog(null, "Farmacia.M.Movimiento actualizado con éxito.");
+                JOptionPane.showMessageDialog(null, "Farmacia.Movimiento actualizado con éxito.");
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el movimiento con ID: " + movimiento.getIdMovimientos());
             }
@@ -87,7 +87,7 @@ public class MovimientoDAO {
             int filas = stmt.executeUpdate();
 
             if (filas > 0) {
-                JOptionPane.showMessageDialog(null, "Farmacia.M.Movimiento eliminado exitosamente.");
+                JOptionPane.showMessageDialog(null, "Farmacia.Movimiento eliminado exitosamente.");
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el movimiento con ID: " + idMovimiento);
             }
