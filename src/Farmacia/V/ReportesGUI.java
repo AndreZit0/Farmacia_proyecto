@@ -4,8 +4,11 @@ import Conexion.ConexionBD;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +22,16 @@ public class ReportesGUI {
     private JButton diariasButton;
     private JButton semanalesButton;
     private JButton mensualesButton;
-    private JButton clientesButton;
-    private JButton productosButton;
-    private JButton pedidoButton;
-    private JButton cajaButton;
-    private JButton socketsButton;
-    private JButton REPORTESButton;
+
     private JButton MOVIMIENTOSFINANCIEROSButton;
-    private JLabel labelTitulo;
+    private JPanel sidebar;
+    private JButton CHATButton;
+    private JButton reportesButton;
+    private JButton CAJAButton;
+    private JButton PEDIDOSButton;
+    private JButton PRODUCTOSButton;
+    private JButton CLIENTESButton;
+
 
     private ReportesDAO reportesDAO = new ReportesDAO();
     ConexionBD conexionBD = new ConexionBD();
@@ -118,18 +123,18 @@ public class ReportesGUI {
                 mostrarReportes("1 MONTH");
             }
         });
-        clientesButton.addActionListener(new ActionListener() {
+        CLIENTESButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIClientes guiClientes = new GUIClientes();
                 guiClientes.ejecutar();
-                SwingUtilities.getWindowAncestor(clientesButton).dispose();
+                SwingUtilities.getWindowAncestor(CLIENTESButton).dispose();
 
 
             }
         });
-        socketsButton.addActionListener(new ActionListener() {
+        CHATButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -138,35 +143,35 @@ public class ReportesGUI {
 
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
-                SwingUtilities.getWindowAncestor(socketsButton).dispose();
+                SwingUtilities.getWindowAncestor(CHATButton).dispose();
 
 
 
             }
         });
 
-        cajaButton.addActionListener(new ActionListener() {
+        CAJAButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUICaja guiCaja = new GUICaja();
                 guiCaja.ejecutar();
-                SwingUtilities.getWindowAncestor(cajaButton).dispose();
+                SwingUtilities.getWindowAncestor(CAJAButton).dispose();
             }
         });
-        pedidoButton.addActionListener(new ActionListener() {
+        PEDIDOSButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 PedidoGUI pedidoGUIDAO = new PedidoGUI();
                 pedidoGUIDAO.main();
-                SwingUtilities.getWindowAncestor(pedidoButton).dispose();
+                SwingUtilities.getWindowAncestor(PEDIDOSButton).dispose();
             }
         });
-        productosButton.addActionListener(new ActionListener() {
+        PRODUCTOSButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ProductoGUI productoGUI = new ProductoGUI();
                 productoGUI.main();
-                SwingUtilities.getWindowAncestor(productosButton).dispose();
+                SwingUtilities.getWindowAncestor(PRODUCTOSButton).dispose();
 
             }
         });
@@ -176,6 +181,124 @@ public class ReportesGUI {
                 MovimientosGUI movimientosGUI = new MovimientosGUI();
                 movimientosGUI.ejecutar();
                 SwingUtilities.getWindowAncestor(MOVIMIENTOSFINANCIEROSButton).dispose();
+            }
+        });
+        CLIENTESButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                CLIENTESButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                CLIENTESButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        PRODUCTOSButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                PRODUCTOSButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                PRODUCTOSButton.setBackground(Color.decode("#008000"));
+            }
+        });
+
+        PEDIDOSButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                PEDIDOSButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                PEDIDOSButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        CAJAButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                CAJAButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                CAJAButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        CHATButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                CHATButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                CHATButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        MOVIMIENTOSFINANCIEROSButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                MOVIMIENTOSFINANCIEROSButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                MOVIMIENTOSFINANCIEROSButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        diariasButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                diariasButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                diariasButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        semanalesButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                semanalesButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                semanalesButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        mensualesButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                mensualesButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                mensualesButton.setBackground(Color.decode("#008000"));
             }
         });
     }
