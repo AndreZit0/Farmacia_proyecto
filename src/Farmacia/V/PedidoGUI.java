@@ -303,7 +303,7 @@ public class PedidoGUI {
         REPORTESButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ReportesGUIDAO reportesGUIDAO = new ReportesGUIDAO();
+                ReportesGUI reportesGUIDAO = new ReportesGUI();
                 reportesGUIDAO.main();
                 SwingUtilities.getWindowAncestor(REPORTESButton).dispose();
             }

@@ -1,7 +1,6 @@
 package Farmacia.V;
 
 import Conexion.ConexionBD;
-import Farmacia.*;
 import Farmacia.C.ProductosDAO;
 import Farmacia.M.Productos;
 
@@ -159,7 +158,7 @@ public class ProductoGUI {
         REPORTESButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ReportesGUIDAO reportesGUIDAO = new ReportesGUIDAO();
+                ReportesGUI reportesGUIDAO = new ReportesGUI();
                 reportesGUIDAO.main();
                 SwingUtilities.getWindowAncestor(REPORTESButton).dispose();
             }

@@ -1,7 +1,6 @@
-package Farmacia;
+package Farmacia.V;
 
 import Conexion.ConexionBD;
-import Farmacia.V.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,7 +13,7 @@ import java.util.List;
 /**
  * Clase ReportesGUIDAO que gestiona la interfaz gráfica y la obtención de reportes desde la base de datos.
  */
-public class ReportesGUIDAO {
+public class ReportesGUI {
     private JPanel main;
     private JTable table1;
     private JButton diariasButton;
@@ -100,7 +99,7 @@ public class ReportesGUIDAO {
     /**
      * El constructor ReportesGUIDAO permite asignar los eventos a cada boton.
      */
-    public ReportesGUIDAO() {
+    public ReportesGUI() {
         diariasButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -219,4 +218,3 @@ public class ReportesGUIDAO {
         frame.setVisible(true);
     }
 }
-
