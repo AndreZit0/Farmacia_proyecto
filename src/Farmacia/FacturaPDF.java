@@ -18,7 +18,7 @@ public class FacturaPDF {
     public void factura() {
 
         ConexionBD conexionBD = new ConexionBD();
-        int idpedido = PedidoGUIDAO.obtenerIdpedido;
+        int idpedido = PedidoGUI.obtenerIdpedido;
 
         try (Connection conn = conexionBD.getConnection()) {
 

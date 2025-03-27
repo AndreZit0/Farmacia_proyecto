@@ -1,72 +1,22 @@
 /**
  * Clase que gestiona las operaciones de base de datos para los detalles de pedidos en la farmacia.
  */
-package Farmacia;
+package Farmacia.C;
 
 import Conexion.ConexionBD;
+import Farmacia.M.Detalles_pedido;
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.HashMap;
 
 public class Detalle_pedidoDAO {
-
-    private ConexionBD conexionBD = new ConexionBD();
-    private HashMap<String, Integer> ProductoMap = new HashMap<>();
-
-    /**
-     * Clase interna que representa un detalle de pedido.
-     */
-    public static class Detalle_pedido {
-        private int iddetalle_pedido, idpedidos, idproductos, cantidad, subtotal;
-        private String medida;
-
-        /**
-         * Constructor de la clase Detalle_pedido.
-         *
-         * @param iddetalle_pedido Identificador único del detalle de pedido.
-         * @param idpedidos Identificador del pedido asociado.
-         * @param idproductos Identificador del producto asociado.
-         * @param cantidad Cantidad del producto en el pedido.
-         * @param subtotal Subtotal del detalle de pedido.
-         * @param medida Unidad de medida del producto (unidad, blister, caja).
-         */
-        public Detalle_pedido(int iddetalle_pedido, int idpedidos, int idproductos, int cantidad, int subtotal, String medida) {
-            this.iddetalle_pedido = iddetalle_pedido;
-            this.idpedidos = idpedidos;
-            this.idproductos = idproductos;
-            this.cantidad = cantidad;
-            this.subtotal = subtotal;
-            this.medida = medida;
-        }
-
-        // Métodos getter y setter
-
-        public int getIddetalle_pedido() { return iddetalle_pedido; }
-        public void setIddetalle_pedido(int iddetalle_pedido) { this.iddetalle_pedido = iddetalle_pedido; }
-
-        public int getIdpedidos() { return idpedidos; }
-        public void setIdpedidos(int idpedidos) { this.idpedidos = idpedidos; }
-
-        public int getIdproductos() { return idproductos; }
-        public void setIdproductos(int idproductos) { this.idproductos = idproductos; }
-
-        public int getCantidad() { return cantidad; }
-        public void setCantidad(int cantidad) { this.cantidad = cantidad; }
-
-        public int getSubtotal() { return subtotal; }
-        public void setSubtotal(int subtotal) { this.subtotal = subtotal; }
-
-        public String getMedida() { return medida; }
-        public void setMedida(String medida) { this.medida = medida; }
-    }
-
+    ConexionBD conexionBD = new ConexionBD();
     /**
      * Agrega un detalle de pedido a la base de datos.
      *
      * @param detallePedido Objeto Detalle_pedido con la información del pedido.
      */
-    public void agregar(Detalle_pedido detallePedido) {
+    public void agregar(Detalles_pedido detallePedido) {
         Connection con = conexionBD.getConnection();
 
         String stockQuery = "SELECT nombre, stock, stock_minimo FROM productos WHERE idproductos = ?";
@@ -137,7 +87,7 @@ public class Detalle_pedidoDAO {
      *
      * @param detallePedido Objeto Detalle_pedido con los datos actualizados.
      */
-    public void actualizar(Detalle_pedido detallePedido) {
+    public void actualizar(Detalles_pedido detallePedido) {
         Connection con = conexionBD.getConnection();
         String query = "UPDATE detalle_pedido SET idpedidos = ?, idproductos = ?, medida = ?, cantidad = ? WHERE iddetalle_pedido = ?";
 

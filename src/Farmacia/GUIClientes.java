@@ -1,6 +1,8 @@
 package Farmacia;
 
 import Conexion.ConexionBD;
+import Farmacia.C.ClientesDAO;
+import Farmacia.M.Clientes;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -131,7 +133,7 @@ public class GUIClientes {
         pedidoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PedidoGUIDAO pedidoGUIDAO = new PedidoGUIDAO();
+                PedidoGUI pedidoGUIDAO = new PedidoGUI();
                 pedidoGUIDAO.main();
                 SwingUtilities.getWindowAncestor(pedidoButton).dispose();
             }

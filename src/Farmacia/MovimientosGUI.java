@@ -1,6 +1,7 @@
 package Farmacia;
 
 import Conexion.ConexionBD;
+import Farmacia.C.CajaDAO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.*;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class MovimientosGUI {
@@ -37,7 +39,137 @@ public class MovimientosGUI {
     private CajaDAO cajaDAO = new CajaDAO();
     int filas = 0;
 
+    public class Movimiento {
+        int idMovimientos;
+        String tipo;
+        int idPedido;
+        String categoria;
+        Timestamp fecha;
+        int monto;
+        String descripcion;
 
+        public Movimiento(int idMovimientos, String tipo, int idPedido, String categoria, Timestamp fecha, int monto, String descripcion) {
+            this.idMovimientos = idMovimientos;
+            this.tipo = tipo;
+            this.idPedido = idPedido;
+            this.categoria = categoria;
+            this.fecha = fecha;
+            this.monto = monto;
+            this.descripcion = descripcion;
+        }
+
+        public int getIdMovimientos() { return idMovimientos; }
+        public void setIdMovimientos(int idMovimientos) { this.idMovimientos = idMovimientos; }
+
+        public String getTipo() { return tipo; }
+        public void setTipo(String tipo) { this.tipo = tipo; }
+
+        public int getIdPedido() { return idPedido; }
+        public void setIdPedido(int idPedido) { this.idPedido = idPedido; }
+
+        public String getCategoria() { return categoria; }
+        public void setCategoria(String categoria) { this.categoria = categoria; }
+
+        public Timestamp getFecha() { return fecha; }
+        public void setFecha(Timestamp fecha) { this.fecha = fecha; }
+
+        public int getMonto() { return monto; }
+        public void setMonto(int monto) { this.monto = monto; }
+
+        public String getDescripcion() { return descripcion; }
+        public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    }
+    public class MovimientoDAO {
+
+        public boolean agregarMovimiento(Movimiento movimiento) {
+            String query = "INSERT INTO movimientos_financieros (tipo, id_Pedido, categoria, fecha, monto, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
+
+            try (Connection con = ConexionBD.getConnection();
+                 PreparedStatement pst = con.prepareStatement(query)) {
+
+                if (con == null) {
+                    JOptionPane.showMessageDialog(null, "Error de conexión con la base de datos.");
+                    return false;
+                }
+
+                pst.setString(1, movimiento.getTipo());
+                pst.setInt(2, movimiento.getIdPedido());
+                pst.setString(3, movimiento.getCategoria());
+                pst.setTimestamp(4, movimiento.getFecha());
+                pst.setDouble(5, movimiento.getMonto());
+                pst.setString(6, movimiento.getDescripcion());
+
+                int resultado = pst.executeUpdate();
+                return resultado > 0;
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al agregar movimiento: " + e.getMessage());
+                return false;
+            }
+        }
+
+
+
+        public boolean actualizarMovimiento(Movimiento movimiento) {
+            String query = "UPDATE movimientos_financieros SET tipo = ?, id_pedido = ?, categoria = ?, fecha = ?, monto = ?, descripcion = ? WHERE idmovimientos = ?";
+
+            try (Connection con = ConexionBD.getConnection();
+                 PreparedStatement stmt = con.prepareStatement(query)) {
+
+                if (con == null) {
+                    JOptionPane.showMessageDialog(null, "Error de conexión con la base de datos.");
+                    return false;
+                }
+
+                stmt.setString(1, movimiento.getTipo());
+                stmt.setInt(2, movimiento.getIdPedido());
+                stmt.setString(3, movimiento.getCategoria());
+                stmt.setTimestamp(4, movimiento.getFecha());
+                stmt.setDouble(5, movimiento.getMonto());
+                stmt.setString(6, movimiento.getDescripcion());
+                stmt.setInt(7, movimiento.getIdMovimientos());
+
+                int filas = stmt.executeUpdate();
+
+                if (filas > 0) {
+                    JOptionPane.showMessageDialog(null, "Movimiento actualizado con éxito.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontró el movimiento con ID: " + movimiento.getIdMovimientos());
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al actualizar movimiento: " + e.getMessage());
+            }
+            return false;
+        }
+
+        public void eliminarMovimiento(int idMovimiento) {
+            String query = "DELETE FROM movimientos_financieros WHERE idmovimientos = ?";
+
+            try (Connection con = ConexionBD.getConnection();
+                 PreparedStatement stmt = con.prepareStatement(query)) {
+
+                if (con == null) {
+                    JOptionPane.showMessageDialog(null, "Error de conexión con la base de datos.");
+                    return;
+                }
+
+                stmt.setInt(1, idMovimiento);
+                int filas = stmt.executeUpdate();
+
+                if (filas > 0) {
+                    JOptionPane.showMessageDialog(null, "Movimiento eliminado exitosamente.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontró el movimiento con ID: " + idMovimiento);
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al eliminar movimiento: " + e.getMessage());
+            }
+        }
+
+
+    }
 
 
 
@@ -45,19 +177,13 @@ public class MovimientosGUI {
     private void actualizarCaja(int monto, String tipo) {
         if (tipo.equalsIgnoreCase("egreso")) {
             try {
-
                 int valorActual = cajaDAO.obtenerValorCaja();
+                int nuevoValor = valorActual - monto;
 
-
-                int nuevoValor = valorActual - monto; // se resta el monto
-
-                // Verificar que el valor no sea negativo o igual a 0
                 if (nuevoValor < 0) {
                     JOptionPane.showMessageDialog(null, "Fondos insuficientes en la caja.");
                     return;
                 }
-
-
                 if (cajaDAO.actualizarValorCaja(nuevoValor)) {
                     JOptionPane.showMessageDialog(null, "Se ha actualizado el valor de la caja.");
                 } else {
@@ -122,13 +248,30 @@ public class MovimientosGUI {
                     String descripcion = textField7.getText();
 
                     Movimiento movimiento = new Movimiento(id, tipo, idPedido, categoria, new Timestamp(System.currentTimeMillis()), monto, descripcion);
-                    if (movimientoDAO.actualizarMovimiento(movimiento)){
+                    obtenerDatosMovimientos();
+                    clear();
+                    if(tipo.equalsIgnoreCase("egreso")){
+                        int valor_actual = cajaDAO.obtenerValorCaja();
+                        int nuevoValor = valor_actual -monto;
+                        cajaDAO.actualizarValorCaja(nuevoValor);
 
+                    }
+                    if(tipo.equalsIgnoreCase("ingreso")){
+                        int valor_actual = cajaDAO.obtenerValorCaja();
+                        int nuevoValor = valor_actual +monto;
+                        cajaDAO.actualizarValorCaja(nuevoValor);
 
+                    }
+                    if (movimientoDAO.actualizarMovimiento(movimiento)) {
+                        actualizarCaja(monto, tipo);
+                        JOptionPane.showMessageDialog(null, "Movimiento agregado exitosamente.");
                         obtenerDatosMovimientos();
-                        clear();}
+                        clear();
+                    }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos en los campos ID Pedido y Monto.");
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
                 }
 
 
@@ -204,7 +347,7 @@ public class MovimientosGUI {
         pedidoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PedidoGUIDAO pedidoGUIDAO = new PedidoGUIDAO();
+                PedidoGUI pedidoGUIDAO = new PedidoGUI();
                 pedidoGUIDAO.main();
                 SwingUtilities.getWindowAncestor(pedidoButton).dispose();
             }
@@ -212,8 +355,8 @@ public class MovimientosGUI {
         productosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProductoGUI productoGUI = new ProductoGUI();
-                productoGUI.main();
+                ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
+                productoGUIDAO.main();
                 SwingUtilities.getWindowAncestor(productosButton).dispose();
 
             }
@@ -239,8 +382,8 @@ public class MovimientosGUI {
         DefaultTableModel modelo = new DefaultTableModel();
 
         modelo.addColumn("ID");
-        modelo.addColumn("ID Pedido");
         modelo.addColumn("Tipo");
+        modelo.addColumn("ID pedido");
         modelo.addColumn("Formato");
         modelo.addColumn("Monto");
         modelo.addColumn("Fecha");
