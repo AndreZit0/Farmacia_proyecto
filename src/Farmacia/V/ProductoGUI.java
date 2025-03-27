@@ -42,6 +42,8 @@ public class ProductoGUI {
 
 
     public ProductoGUI() {
+        textField1.setEnabled(false);
+
         obtenerDatos();
         agregarButton.addActionListener(new ActionListener() {
             @Override

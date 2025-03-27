@@ -41,6 +41,11 @@ public class MovimientosGUI {
     int filas = 0;
 
     public MovimientosGUI() {
+
+        textField1.setEnabled(false);
+        textField6.setEnabled(false);
+
+
         obtenerDatosMovimientos();
         agregarButton.addActionListener(new ActionListener() {
             @Override
