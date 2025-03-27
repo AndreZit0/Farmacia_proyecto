@@ -1,12 +1,9 @@
 
-package Farmacia;
+package Farmacia.C;
 
 import Conexion.ConexionBD;
 
-import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CajaDAO
 {

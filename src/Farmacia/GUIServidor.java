@@ -68,8 +68,8 @@ public class GUIServidor {
         productosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
-                productoGUIDAO.main();
+                ProductoGUI productoGUI = new ProductoGUI();
+                productoGUI.main();
 
 
             }
@@ -85,8 +85,8 @@ public class GUIServidor {
         MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MovimientosGUIDAO movimientosGUIDAO = new MovimientosGUIDAO();
-                movimientosGUIDAO.ejecutar();
+                MovimientosGUI movimientosGUI = new MovimientosGUI();
+                movimientosGUI.ejecutar();
 
             }
         });

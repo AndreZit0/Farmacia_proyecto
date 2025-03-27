@@ -53,7 +53,7 @@ public class FacturaPDF {
             document.add(new Paragraph("\n"));
 
             // Consulta para obtener los datos del cliente
-            String clienteQuery = "SELECT c.cedula, c.nombre, c.telefono, c.email, c.direccion " +
+            String clienteQuery = "SELECT c.cedula, c.nombre, c.telefono, c.email, c.direccion, p.fecha " +
                     "FROM clientes c " +
                     "JOIN pedidos p ON c.idclientes = p.idclientes " +
                     "WHERE p.idpedidos = ?";
@@ -63,6 +63,7 @@ public class FacturaPDF {
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
                         Font dataFont = new Font(Font.FontFamily.HELVETICA, 12);
+                        document.add(new Paragraph("Fecha del pedido: " + rs.getString("fecha"), dataFont));
                         document.add(new Paragraph("Cédula: " + rs.getString("cedula"), dataFont));
                         document.add(new Paragraph("Nombre: " + rs.getString("nombre"), dataFont));
                         document.add(new Paragraph("Teléfono: " + rs.getString("telefono"), dataFont));
@@ -73,7 +74,7 @@ public class FacturaPDF {
                 }
             }
 
-            document.add(new Paragraph("N° de pedido: " + idpedido, new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD)));
+            document.add(new Paragraph("N° de Factura: " + idpedido, new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD)));
             document.add(new Paragraph("\n"));
 
             // Creación de la tabla de productos
@@ -129,6 +130,11 @@ public class FacturaPDF {
             table.addCell("$" + total);
 
             document.add(table);
+            Font thanksFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
+            Paragraph thanks = new Paragraph("Gracias por su compra", thanksFont);
+            thanks.setAlignment(Element.ALIGN_CENTER);
+            document.add(new Paragraph("\n")); // Espacio antes del mensaje
+            document.add(thanks);
             document.close();
 
             JOptionPane.showMessageDialog(null, "PDF creado con éxito: " + nom_pdf);

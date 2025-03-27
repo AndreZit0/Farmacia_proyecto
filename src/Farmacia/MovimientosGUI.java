@@ -1,6 +1,9 @@
 package Farmacia;
 
 import Conexion.ConexionBD;
+import Farmacia.C.CajaDAO;
+import Farmacia.C.MovimientoDAO;
+import Farmacia.M.Movimiento;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,10 +13,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.*;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class MovimientosGUIDAO {
+public class MovimientosGUI {
     private JPanel main;
     private JButton clientesButton;
     private JButton productosButton;
@@ -35,140 +37,10 @@ public class MovimientosGUIDAO {
     private JButton MOVIMIENTOSFINANCIEROSButton;
     private ConexionBD conexionBD = new ConexionBD();
     private MovimientoDAO movimientoDAO = new MovimientoDAO();
-    private  CajaDAO cajaDAO = new CajaDAO();
+    private CajaDAO cajaDAO = new CajaDAO();
     int filas = 0;
 
-    public class Movimiento {
-        int idMovimientos;
-        String tipo;
-        int idPedido;
-        String categoria;
-        Timestamp fecha;
-        int monto;
-        String descripcion;
 
-        public Movimiento(int idMovimientos, String tipo, int idPedido, String categoria, Timestamp fecha, int monto, String descripcion) {
-            this.idMovimientos = idMovimientos;
-            this.tipo = tipo;
-            this.idPedido = idPedido;
-            this.categoria = categoria;
-            this.fecha = fecha;
-            this.monto = monto;
-            this.descripcion = descripcion;
-        }
-
-        public int getIdMovimientos() { return idMovimientos; }
-        public void setIdMovimientos(int idMovimientos) { this.idMovimientos = idMovimientos; }
-
-        public String getTipo() { return tipo; }
-        public void setTipo(String tipo) { this.tipo = tipo; }
-
-        public int getIdPedido() { return idPedido; }
-        public void setIdPedido(int idPedido) { this.idPedido = idPedido; }
-
-        public String getCategoria() { return categoria; }
-        public void setCategoria(String categoria) { this.categoria = categoria; }
-
-        public Timestamp getFecha() { return fecha; }
-        public void setFecha(Timestamp fecha) { this.fecha = fecha; }
-
-        public int getMonto() { return monto; }
-        public void setMonto(int monto) { this.monto = monto; }
-
-        public String getDescripcion() { return descripcion; }
-        public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-    }
-    public class MovimientoDAO {
-
-        public boolean agregarMovimiento(Movimiento movimiento) {
-            String query = "INSERT INTO movimientos_financieros (tipo, idPedidos, categoria, fecha, monto, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
-
-            try (Connection con = ConexionBD.getConnection();
-                 PreparedStatement pst = con.prepareStatement(query)) {
-
-                if (con == null) {
-                    JOptionPane.showMessageDialog(null, "Error de conexión con la base de datos.");
-                    return false;
-                }
-
-                pst.setString(1, movimiento.getTipo());
-                pst.setInt(2, movimiento.getIdPedido());
-                pst.setString(3, movimiento.getCategoria());
-                pst.setTimestamp(4, movimiento.getFecha());
-                pst.setDouble(5, movimiento.getMonto());
-                pst.setString(6, movimiento.getDescripcion());
-
-                int resultado = pst.executeUpdate();
-                return resultado > 0;
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error al agregar movimiento: " + e.getMessage());
-                return false;
-            }
-        }
-
-
-
-        public boolean actualizarMovimiento(Movimiento movimiento) {
-            String query = "UPDATE movimientos_financieros SET tipo = ?, idPedidos = ?, categoria = ?, fecha = ?, monto = ?, descripcion = ? WHERE idmovimientos = ?";
-
-            try (Connection con = ConexionBD.getConnection();
-                 PreparedStatement stmt = con.prepareStatement(query)) {
-
-                if (con == null) {
-                    JOptionPane.showMessageDialog(null, "Error de conexión con la base de datos.");
-                    return false;
-                }
-
-                stmt.setString(1, movimiento.getTipo());
-                stmt.setInt(2, movimiento.getIdPedido());
-                stmt.setString(3, movimiento.getCategoria());
-                stmt.setTimestamp(4, movimiento.getFecha());
-                stmt.setDouble(5, movimiento.getMonto());
-                stmt.setString(6, movimiento.getDescripcion());
-                stmt.setInt(7, movimiento.getIdMovimientos());
-
-                int filas = stmt.executeUpdate();
-
-                if (filas > 0) {
-                    JOptionPane.showMessageDialog(null, "Movimiento actualizado con éxito.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se encontró el movimiento con ID: " + movimiento.getIdMovimientos());
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error al actualizar movimiento: " + e.getMessage());
-            }
-            return false;
-        }
-
-        public void eliminarMovimiento(int idMovimiento) {
-            String query = "DELETE FROM movimientos_financieros WHERE idmovimientos = ?";
-
-            try (Connection con = ConexionBD.getConnection();
-                 PreparedStatement stmt = con.prepareStatement(query)) {
-
-                if (con == null) {
-                    JOptionPane.showMessageDialog(null, "Error de conexión con la base de datos.");
-                    return;
-                }
-
-                stmt.setInt(1, idMovimiento);
-                int filas = stmt.executeUpdate();
-
-                if (filas > 0) {
-                    JOptionPane.showMessageDialog(null, "Movimiento eliminado exitosamente.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se encontró el movimiento con ID: " + idMovimiento);
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error al eliminar movimiento: " + e.getMessage());
-            }
-        }
-
-
-    }
 
 
 
@@ -202,7 +74,7 @@ public class MovimientosGUIDAO {
     }
 
 
-    public MovimientosGUIDAO() {
+    public MovimientosGUI() {
         obtenerDatosMovimientos();
         agregarButton.addActionListener(new ActionListener() {
             @Override
@@ -343,8 +215,8 @@ public class MovimientosGUIDAO {
         productosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
-                productoGUIDAO.main();
+                ProductoGUI productoGUI = new ProductoGUI();
+                productoGUI.main();
                 SwingUtilities.getWindowAncestor(productosButton).dispose();
 
             }

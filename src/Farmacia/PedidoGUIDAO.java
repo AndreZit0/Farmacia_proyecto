@@ -1,6 +1,7 @@
 package Farmacia;
 
 import Conexion.ConexionBD;
+import Farmacia.C.CajaDAO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -49,8 +50,8 @@ public class PedidoGUIDAO {
     private PedidoDAO pedidoDAO = new PedidoDAO();
     private ConexionBD conexionBD = new ConexionBD();
     private Detalle_pedidoDAO detalle_pedidoDAO = new Detalle_pedidoDAO();
-    private ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
-    private  CajaDAO cajaDAO = new CajaDAO();
+    private ProductoGUI productoGUI = new ProductoGUI();
+    private CajaDAO cajaDAO = new CajaDAO();
 
     private HashMap<String, Integer> clienteMap = new HashMap<>();
     private HashMap<String, Integer> productoMap = new HashMap<>();
@@ -624,8 +625,8 @@ public class PedidoGUIDAO {
         productosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
-                productoGUIDAO.main();
+                ProductoGUI productoGUI = new ProductoGUI();
+                productoGUI.main();
                 SwingUtilities.getWindowAncestor(productosButton).dispose();
 
             }
@@ -641,8 +642,8 @@ public class PedidoGUIDAO {
         MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MovimientosGUIDAO movimientosGUIDAO = new MovimientosGUIDAO();
-                movimientosGUIDAO.ejecutar();
+                MovimientosGUI movimientosGUI = new MovimientosGUI();
+                movimientosGUI.ejecutar();
                 SwingUtilities.getWindowAncestor(MOVIMIENTOSFINANCIEROSButton).dispose();
             }
         });
