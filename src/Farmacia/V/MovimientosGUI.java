@@ -298,19 +298,6 @@ public class MovimientosGUI {
                 socketsButton.setBackground(Color.decode("#008000"));
             }
         });
-        MOVIMIENTOSFINANCIEROSButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                MOVIMIENTOSFINANCIEROSButton.setBackground(new Color(48,192,50));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                MOVIMIENTOSFINANCIEROSButton.setBackground(Color.decode("#008000"));
-            }
-        });
     }
     public void clear(){
         textField1.setText("");

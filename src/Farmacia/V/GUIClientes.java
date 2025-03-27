@@ -160,19 +160,6 @@ public class GUIClientes {
                 SwingUtilities.getWindowAncestor(MOVIMIENTOSFINANCIEROSButton).dispose();
             }
         });
-        clientesButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                clientesButton.setBackground(new Color(48,192,50));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                clientesButton.setBackground(Color.decode("#008000"));
-            }
-        });
         productosButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {

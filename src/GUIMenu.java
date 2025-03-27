@@ -191,7 +191,7 @@ public class GUIMenu {
         frame.setContentPane(new GUIMenu().main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(1000, 750);
+        frame.setSize(1200, 700);
         frame.setResizable(false);
         frame.setVisible(true);
     }

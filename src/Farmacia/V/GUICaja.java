@@ -131,19 +131,6 @@ public class GUICaja {
                 pedidoButton.setBackground(Color.decode("#008000"));
             }
         });
-        cajaButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                cajaButton.setBackground(new Color(48,192,50));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                cajaButton.setBackground(Color.decode("#008000"));
-            }
-        });
         REPORTESButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {

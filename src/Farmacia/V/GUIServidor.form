@@ -111,25 +111,9 @@
               <text value="PRODUCTOS"/>
             </properties>
           </component>
-          <component id="3ecd" class="javax.swing.JButton" binding="pedidoButton" default-binding="true">
-            <constraints>
-              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-16744448"/>
-              <borderPainted value="false"/>
-              <focusPainted value="false"/>
-              <font style="1"/>
-              <foreground color="-1"/>
-              <horizontalAlignment value="2"/>
-              <icon value="imagenes/historial-de-pedidos.png"/>
-              <requestFocusEnabled value="false"/>
-              <text value="PEDIDOS"/>
-            </properties>
-          </component>
           <component id="543e1" class="javax.swing.JButton" binding="cajaButton" default-binding="true">
             <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-16744448"/>
@@ -145,7 +129,7 @@
           </component>
           <component id="c7fcc" class="javax.swing.JButton" binding="socketsButton" default-binding="true">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-13582286"/>
@@ -177,6 +161,37 @@
               <verticalTextPosition value="1"/>
             </properties>
           </component>
+          <component id="88419" class="javax.swing.JButton" binding="MOVIMIENTOSFINANCIEROSButton" default-binding="true">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-14780644"/>
+              <borderPainted value="false"/>
+              <focusPainted value="false"/>
+              <foreground color="-65793"/>
+              <horizontalAlignment value="2"/>
+              <icon value="imagenes/estadisticas.png"/>
+              <requestFocusEnabled value="false"/>
+              <text value="MOVIMIENTOS FINANCIEROS"/>
+            </properties>
+          </component>
+          <component id="3ecd" class="javax.swing.JButton" binding="pedidoButton" default-binding="true">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-16744448"/>
+              <borderPainted value="false"/>
+              <focusPainted value="false"/>
+              <font style="1"/>
+              <foreground color="-1"/>
+              <horizontalAlignment value="2"/>
+              <icon value="imagenes/historial-de-pedidos.png"/>
+              <requestFocusEnabled value="false"/>
+              <text value="PEDIDOS"/>
+            </properties>
+          </component>
           <component id="f48df" class="javax.swing.JButton" binding="REPORTESButton" default-binding="true">
             <constraints>
               <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -192,21 +207,6 @@
               <icon value="imagenes/ico-reporte.png"/>
               <requestFocusEnabled value="false"/>
               <text value="REPORTES"/>
-            </properties>
-          </component>
-          <component id="88419" class="javax.swing.JButton" binding="MOVIMIENTOSFINANCIEROSButton" default-binding="true">
-            <constraints>
-              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-14780644"/>
-              <borderPainted value="false"/>
-              <focusPainted value="false"/>
-              <foreground color="-65793"/>
-              <horizontalAlignment value="2"/>
-              <icon value="imagenes/estadisticas.png"/>
-              <requestFocusEnabled value="false"/>
-              <text value="MOVIMIENTOS FINANCIEROS"/>
             </properties>
           </component>
         </children>

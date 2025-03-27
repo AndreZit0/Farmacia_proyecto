@@ -158,19 +158,6 @@ public class GUIServidor {
                 REPORTESButton.setBackground(Color.decode("#008000"));
             }
         });
-        socketsButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                socketsButton.setBackground(new Color(48,192,50));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                socketsButton.setBackground(Color.decode("#008000"));
-            }
-        });
         MOVIMIENTOSFINANCIEROSButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -269,7 +256,7 @@ public class GUIServidor {
         JFrame frame = new JFrame("Servidor de Chat");
         frame.setContentPane(this.main);
         frame.pack();
-        frame.setSize(600, 400);
+        frame.setSize(1200, 700);
         frame.setResizable(false);
         frame.setVisible(true);
     }

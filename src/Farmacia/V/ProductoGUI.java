@@ -266,20 +266,6 @@ public class ProductoGUI {
                 clientesButton.setBackground(Color.decode("#008000"));
             }
         });
-        productosButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                productosButton.setBackground(new Color(48,192,50));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                productosButton.setBackground(Color.decode("#008000"));
-            }
-        });
-
         pedidoButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {

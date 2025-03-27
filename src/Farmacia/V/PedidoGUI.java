@@ -368,20 +368,6 @@ public class PedidoGUI {
                 productosButton.setBackground(Color.decode("#008000"));
             }
         });
-
-        pedidoButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                pedidoButton.setBackground(new Color(48,192,50));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                pedidoButton.setBackground(Color.decode("#008000"));
-            }
-        });
         cajaButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
