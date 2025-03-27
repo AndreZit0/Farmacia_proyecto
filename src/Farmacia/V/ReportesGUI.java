@@ -213,7 +213,7 @@ public class ReportesGUI {
     public void main() {
         JFrame frame = new JFrame("Reportes");
         frame.setContentPane(this.main);
-        frame.setSize(600, 500);
+        frame.setSize(1200, 700);
         frame.setResizable(false);
         frame.setVisible(true);
     }
