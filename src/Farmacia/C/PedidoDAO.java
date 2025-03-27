@@ -2,7 +2,7 @@ package Farmacia.C;
 
 import Conexion.ConexionBD;
 import Farmacia.M.Pedido;
-import Farmacia.PedidoGUI;
+import Farmacia.V.PedidoGUI;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

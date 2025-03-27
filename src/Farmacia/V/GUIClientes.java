@@ -1,6 +1,7 @@
-package Farmacia;
+package Farmacia.V;
 
 import Conexion.ConexionBD;
+import Farmacia.*;
 import Farmacia.C.ClientesDAO;
 import Farmacia.M.Clientes;
 

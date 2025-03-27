@@ -1,6 +1,7 @@
-package Farmacia;
+package Farmacia.C;
 
 import Conexion.ConexionBD;
+import Farmacia.M.Productos;
 
 import javax.swing.*;
 import java.sql.Connection;

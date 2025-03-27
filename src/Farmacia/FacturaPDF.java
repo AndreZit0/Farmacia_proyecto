@@ -1,6 +1,7 @@
 package Farmacia;
 
 import Conexion.ConexionBD;
+import Farmacia.V.PedidoGUI;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import javax.swing.*;
