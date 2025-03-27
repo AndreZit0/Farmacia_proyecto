@@ -1,6 +1,9 @@
-package Farmacia;
+package Farmacia.V;
 
 import Conexion.ConexionBD;
+import Farmacia.*;
+import Farmacia.C.ProductosDAO;
+import Farmacia.M.Productos;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

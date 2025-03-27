@@ -1,6 +1,7 @@
 package Farmacia;
 
 import Conexion.ConexionBD;
+import Farmacia.V.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

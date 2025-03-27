@@ -1,4 +1,4 @@
-package Farmacia;
+package Farmacia.M;
 
 import java.sql.Timestamp;
 

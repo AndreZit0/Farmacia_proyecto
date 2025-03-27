@@ -1,7 +1,8 @@
 
-package Farmacia;
+package Farmacia.V;
 
 import Conexion.ConexionBD;
+import Farmacia.*;
 import Farmacia.C.CajaDAO;
 import Farmacia.C.Detalle_pedidoDAO;
 import Farmacia.C.PedidoDAO;
@@ -293,7 +294,7 @@ public class PedidoGUI {
         productosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProductoGUIDAO productoGUIDAO = new ProductoGUIDAO();
+                ProductoGUI productoGUIDAO = new ProductoGUI();
                 productoGUIDAO.main();
                 SwingUtilities.getWindowAncestor(productosButton).dispose();
 
@@ -310,8 +311,8 @@ public class PedidoGUI {
         MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MovimientosGUIDAO movimientosGUIDAO = new MovimientosGUIDAO();
-                movimientosGUIDAO.ejecutar();
+                MovimientosGUI movimientosGUI = new MovimientosGUI();
+                movimientosGUI.ejecutar();
                 SwingUtilities.getWindowAncestor(MOVIMIENTOSFINANCIEROSButton).dispose();
             }
         });
