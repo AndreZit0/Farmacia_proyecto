@@ -1,6 +1,7 @@
 package Farmacia;
 
 import Conexion.ConexionBD;
+import Farmacia.C.CajaDAO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -35,7 +36,7 @@ public class MovimientosGUIDAO {
     private JButton MOVIMIENTOSFINANCIEROSButton;
     private ConexionBD conexionBD = new ConexionBD();
     private MovimientoDAO movimientoDAO = new MovimientoDAO();
-    private  CajaDAO cajaDAO = new CajaDAO();
+    private CajaDAO cajaDAO = new CajaDAO();
     int filas = 0;
 
     public class Movimiento {
@@ -110,7 +111,7 @@ public class MovimientosGUIDAO {
 
 
         public boolean actualizarMovimiento(Movimiento movimiento) {
-            String query = "UPDATE movimientos_financieros SET tipo = ?, idPedidos = ?, categoria = ?, fecha = ?, monto = ?, descripcion = ? WHERE idmovimientos = ?";
+            String query = "UPDATE movimientos_financieros SET tipo = ?, id_pedido = ?, categoria = ?, fecha = ?, monto = ?, descripcion = ? WHERE idmovimientos = ?";
 
             try (Connection con = ConexionBD.getConnection();
                  PreparedStatement stmt = con.prepareStatement(query)) {
@@ -176,19 +177,13 @@ public class MovimientosGUIDAO {
     private void actualizarCaja(int monto, String tipo) {
         if (tipo.equalsIgnoreCase("egreso")) {
             try {
-
                 int valorActual = cajaDAO.obtenerValorCaja();
+                int nuevoValor = valorActual - monto;
 
-
-                int nuevoValor = valorActual - monto; // se resta el monto
-
-                // Verificar que el valor no sea negativo o igual a 0
                 if (nuevoValor < 0) {
                     JOptionPane.showMessageDialog(null, "Fondos insuficientes en la caja.");
                     return;
                 }
-
-
                 if (cajaDAO.actualizarValorCaja(nuevoValor)) {
                     JOptionPane.showMessageDialog(null, "Se ha actualizado el valor de la caja.");
                 } else {
@@ -253,13 +248,30 @@ public class MovimientosGUIDAO {
                     String descripcion = textField7.getText();
 
                     Movimiento movimiento = new Movimiento(id, tipo, idPedido, categoria, new Timestamp(System.currentTimeMillis()), monto, descripcion);
-                    if (movimientoDAO.actualizarMovimiento(movimiento)){
+                    obtenerDatosMovimientos();
+                    clear();
+                    if(tipo.equalsIgnoreCase("egreso")){
+                        int valor_actual = cajaDAO.obtenerValorCaja();
+                        int nuevoValor = valor_actual -monto;
+                        cajaDAO.actualizarValorCaja(nuevoValor);
 
+                    }
+                    if(tipo.equalsIgnoreCase("ingreso")){
+                        int valor_actual = cajaDAO.obtenerValorCaja();
+                        int nuevoValor = valor_actual +monto;
+                        cajaDAO.actualizarValorCaja(nuevoValor);
 
+                    }
+                    if (movimientoDAO.actualizarMovimiento(movimiento)) {
+                        actualizarCaja(monto, tipo);
+                        JOptionPane.showMessageDialog(null, "Movimiento agregado exitosamente.");
                         obtenerDatosMovimientos();
-                        clear();}
+                        clear();
+                    }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos en los campos ID Pedido y Monto.");
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
                 }
 
 
@@ -335,7 +347,7 @@ public class MovimientosGUIDAO {
         pedidoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PedidoGUIDAO pedidoGUIDAO = new PedidoGUIDAO();
+                PedidoGUI pedidoGUIDAO = new PedidoGUI();
                 pedidoGUIDAO.main();
                 SwingUtilities.getWindowAncestor(pedidoButton).dispose();
             }

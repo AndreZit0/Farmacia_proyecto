@@ -1,7 +1,7 @@
 /**
  * Clase que representa un cliente en el sistema de farmacia.
  */
-package Farmacia;
+package Farmacia.M;
 
 public class Clientes {
 
