@@ -63,6 +63,15 @@ public class PedidoGUI {
     public static int obtenerIdpedido = 0;
 
     public PedidoGUI() {
+
+
+        //Inhabilitar Campos
+        textField1.setEnabled(false);
+        textField4.setEnabled(false);
+        textField2.setEnabled(false);
+        comboBox5.setEnabled(false);
+
+
         agregarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -341,17 +350,18 @@ public class PedidoGUI {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT p.idPedidos, c.nombre, c.cedula, p.fecha, p.estado, p.total " +
                     "FROM pedidos AS p " +
-                    "JOIN clientes AS c ON p.idclientes = c.idClientes");
-            while (rs.next()) {
-                int cedula = rs.getInt("c.cedula");
-                String nombre = rs.getString("c.nombre");
+                    "JOIN clientes AS c ON p.idclientes = c.idClientes " +
+                    "ORDER BY p.idPedidos DESC " +
+                    "LIMIT 1");
+
+            if (rs.next()) {
+                int cedula = rs.getInt("cedula");
+                String nombre = rs.getString("nombre");
                 dato[0] = rs.getString(1);
                 dato[1] = cedula + " / " + nombre;
-                ;
                 dato[2] = rs.getString(4);
                 dato[3] = rs.getString(5);
                 dato[4] = rs.getString(6);
-
 
                 model.addRow(dato);
             }
@@ -359,6 +369,7 @@ public class PedidoGUI {
             throw new RuntimeException(ex);
         }
     }
+
 
 
     public void obtenerDatosDetPed() {

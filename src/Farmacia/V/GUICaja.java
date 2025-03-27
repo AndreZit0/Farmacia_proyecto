@@ -126,7 +126,7 @@ public class GUICaja {
         frame.setContentPane(this.main);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(600, 400);
+        frame.setSize(1200, 700);
         frame.setResizable(false);
         frame.setVisible(true);
     }

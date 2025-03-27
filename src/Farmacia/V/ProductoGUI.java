@@ -231,7 +231,7 @@ public class ProductoGUI {
         JFrame frame = new JFrame("Producto");
         frame.setContentPane(this.main);
         frame.pack();
-        frame.setSize(1000, 500);
+        frame.setSize(1200, 700);
         frame.setResizable(false);
         frame.setVisible(true);
     }
