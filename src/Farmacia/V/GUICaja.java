@@ -4,8 +4,11 @@ import Conexion.ConexionBD;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,6 +24,7 @@ public class GUICaja {
     private JButton socketsButton;
     private JButton REPORTESButton;
     private JButton MOVIMIENTOSFINANCIEROSButton;
+    private JPanel sidebar;
 
 
     public GUICaja() {
@@ -85,6 +89,85 @@ public class GUICaja {
                 MovimientosGUI movimientosGUI = new MovimientosGUI();
                 movimientosGUI.ejecutar();
                 SwingUtilities.getWindowAncestor(MOVIMIENTOSFINANCIEROSButton).dispose();
+            }
+        });
+        clientesButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                clientesButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                clientesButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        productosButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                productosButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                productosButton.setBackground(Color.decode("#008000"));
+            }
+        });
+
+        pedidoButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                pedidoButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                pedidoButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        REPORTESButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                REPORTESButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                REPORTESButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        socketsButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                socketsButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                socketsButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        MOVIMIENTOSFINANCIEROSButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                MOVIMIENTOSFINANCIEROSButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                MOVIMIENTOSFINANCIEROSButton.setBackground(Color.decode("#008000"));
             }
         });
     }

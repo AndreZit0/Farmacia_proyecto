@@ -1,6 +1,7 @@
 package Farmacia.V;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.ServerSocket;
@@ -18,6 +19,7 @@ public class GUIServidor {
     private JButton socketsButton;
     private JButton REPORTESButton;
     private JButton MOVIMIENTOSFINANCIEROSButton;
+    private JPanel sidebar;
     private PrintWriter out;
     private BufferedReader in;
     private Socket clienteSocket;
@@ -88,6 +90,85 @@ public class GUIServidor {
                 MovimientosGUI movimientosGUI = new MovimientosGUI();
                 movimientosGUI.ejecutar();
 
+            }
+        });
+        clientesButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                clientesButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                clientesButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        productosButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                productosButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                productosButton.setBackground(Color.decode("#008000"));
+            }
+        });
+
+        pedidoButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                pedidoButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                pedidoButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        cajaButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                cajaButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                cajaButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        REPORTESButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                REPORTESButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                REPORTESButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        MOVIMIENTOSFINANCIEROSButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                MOVIMIENTOSFINANCIEROSButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                MOVIMIENTOSFINANCIEROSButton.setBackground(Color.decode("#008000"));
             }
         });
     }
@@ -175,7 +256,7 @@ public class GUIServidor {
         JFrame frame = new JFrame("Servidor de Chat");
         frame.setContentPane(this.main);
         frame.pack();
-        frame.setSize(600, 400);
+        frame.setSize(1200, 700);
         frame.setResizable(false);
         frame.setVisible(true);
     }

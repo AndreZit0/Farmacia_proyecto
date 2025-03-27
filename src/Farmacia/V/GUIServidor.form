@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="main" layout-manager="GridLayoutManager" row-count="3" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="551" height="400"/>
+      <xy x="20" y="20" width="666" height="400"/>
     </constraints>
     <properties>
       <background color="-14780644"/>
@@ -68,13 +68,13 @@
           </component>
         </children>
       </scrollpane>
-      <grid id="bf90e" layout-manager="GridLayoutManager" row-count="8" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="bf90e" binding="sidebar" layout-manager="GridLayoutManager" row-count="8" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <background color="-65793"/>
+          <background color="-16744448"/>
         </properties>
         <border type="none"/>
         <children>
@@ -85,10 +85,13 @@
             <properties>
               <autoscrolls value="false"/>
               <background color="-16744448"/>
-              <borderPainted value="true"/>
+              <borderPainted value="false"/>
+              <focusPainted value="false"/>
               <font style="1"/>
               <foreground color="-1"/>
+              <horizontalAlignment value="2"/>
               <icon value="imagenes/persona-sencilla (1).png"/>
+              <requestFocusEnabled value="false"/>
               <text value="CLIENTES"/>
             </properties>
           </component>
@@ -98,76 +101,64 @@
             </constraints>
             <properties>
               <background color="-16744448"/>
-              <borderPainted value="true"/>
+              <borderPainted value="false"/>
+              <focusPainted value="false"/>
               <font style="1"/>
               <foreground color="-1"/>
+              <horizontalAlignment value="2"/>
               <icon value="imagenes/jeringuilla.png"/>
+              <requestFocusEnabled value="false"/>
               <text value="PRODUCTOS"/>
             </properties>
           </component>
-          <component id="3ecd" class="javax.swing.JButton" binding="pedidoButton" default-binding="true">
-            <constraints>
-              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-16744448"/>
-              <font style="1"/>
-              <foreground color="-1"/>
-              <icon value="imagenes/historial-de-pedidos.png"/>
-              <text value="PEDIDOS"/>
-            </properties>
-          </component>
           <component id="543e1" class="javax.swing.JButton" binding="cajaButton" default-binding="true">
-            <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-16744448"/>
-              <font style="1"/>
-              <foreground color="-1"/>
-              <icon value="imagenes/caja-registradora.png"/>
-              <text value="CAJA"/>
-            </properties>
-          </component>
-          <component id="c7fcc" class="javax.swing.JButton" binding="socketsButton" default-binding="true">
             <constraints>
               <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-16744448"/>
-              <enabled value="true"/>
+              <borderPainted value="false"/>
+              <focusPainted value="false"/>
               <font style="1"/>
               <foreground color="-1"/>
+              <horizontalAlignment value="2"/>
+              <icon value="imagenes/caja-registradora.png"/>
+              <requestFocusEnabled value="false"/>
+              <text value="CAJA"/>
+            </properties>
+          </component>
+          <component id="c7fcc" class="javax.swing.JButton" binding="socketsButton" default-binding="true">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-13582286"/>
+              <borderPainted value="false"/>
+              <enabled value="true"/>
+              <focusPainted value="false"/>
+              <font style="1"/>
+              <foreground color="-1"/>
+              <horizontalAlignment value="2"/>
               <icon value="imagenes/comentar-alt-puntos.png"/>
+              <requestFocusEnabled value="false"/>
               <text value="CHAT"/>
             </properties>
           </component>
           <component id="7be75" class="javax.swing.JLabel">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-1"/>
               <font name="Bauhaus 93" size="24"/>
               <foreground color="-14780644"/>
-              <horizontalAlignment value="10"/>
+              <horizontalAlignment value="0"/>
               <horizontalTextPosition value="0"/>
               <icon value="imagenes/verde_logo_30x30.png"/>
+              <opaque value="true"/>
               <text value="FARMAC TECH"/>
               <verticalAlignment value="1"/>
               <verticalTextPosition value="1"/>
-            </properties>
-          </component>
-          <component id="f48df" class="javax.swing.JButton" binding="REPORTESButton" default-binding="true">
-            <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-16744448"/>
-              <font style="1"/>
-              <foreground color="-1"/>
-              <hideActionText value="false"/>
-              <icon value="imagenes/ico-reporte.png"/>
-              <text value="REPORTES"/>
             </properties>
           </component>
           <component id="88419" class="javax.swing.JButton" binding="MOVIMIENTOSFINANCIEROSButton" default-binding="true">
@@ -176,9 +167,46 @@
             </constraints>
             <properties>
               <background color="-14780644"/>
+              <borderPainted value="false"/>
+              <focusPainted value="false"/>
               <foreground color="-65793"/>
+              <horizontalAlignment value="2"/>
               <icon value="imagenes/estadisticas.png"/>
+              <requestFocusEnabled value="false"/>
               <text value="MOVIMIENTOS FINANCIEROS"/>
+            </properties>
+          </component>
+          <component id="3ecd" class="javax.swing.JButton" binding="pedidoButton" default-binding="true">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-16744448"/>
+              <borderPainted value="false"/>
+              <focusPainted value="false"/>
+              <font style="1"/>
+              <foreground color="-1"/>
+              <horizontalAlignment value="2"/>
+              <icon value="imagenes/historial-de-pedidos.png"/>
+              <requestFocusEnabled value="false"/>
+              <text value="PEDIDOS"/>
+            </properties>
+          </component>
+          <component id="f48df" class="javax.swing.JButton" binding="REPORTESButton" default-binding="true">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-16744448"/>
+              <borderPainted value="false"/>
+              <focusPainted value="false"/>
+              <font style="1"/>
+              <foreground color="-1"/>
+              <hideActionText value="false"/>
+              <horizontalAlignment value="2"/>
+              <icon value="imagenes/ico-reporte.png"/>
+              <requestFocusEnabled value="false"/>
+              <text value="REPORTES"/>
             </properties>
           </component>
         </children>
