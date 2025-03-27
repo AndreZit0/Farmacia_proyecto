@@ -46,6 +46,13 @@ public class MovimientosGUI {
         textField6.setEnabled(false);
 
 
+
+
+
+
+
+
+
         obtenerDatosMovimientos();
         agregarButton.addActionListener(new ActionListener() {
             @Override
@@ -95,7 +102,19 @@ public class MovimientosGUI {
                     int monto = Integer.parseInt(textField5.getText());
                     String descripcion = textField7.getText();
 
+
+
+
+
+
+
+
+
+
+
                     Movimiento movimiento = new Movimiento(id, tipo, idPedido, categoria, new Timestamp(System.currentTimeMillis()), monto, descripcion);
+
+                    movimientoDAO.actualizar(movimiento);
                     obtenerDatosMovimientos();
                     clear();
                     if(tipo.equalsIgnoreCase("egreso")){
@@ -104,6 +123,9 @@ public class MovimientosGUI {
                         cajaDAO.actualizarValorCaja(nuevoValor);
 
                     }
+
+
+
                     if(tipo.equalsIgnoreCase("ingreso")){
                         int valor_actual = cajaDAO.obtenerValorCaja();
                         int nuevoValor = valor_actual +monto;
@@ -116,6 +138,8 @@ public class MovimientosGUI {
                         obtenerDatosMovimientos();
                         clear();
                     }
+
+                    obtenerDatosMovimientos();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos en los campos ID Pedido y Monto.");
                 } catch (SQLException ex) {
@@ -144,8 +168,8 @@ public class MovimientosGUI {
 
                 if(seleccionarFlas >= 0){
                     textField1.setText((String)table1.getValueAt(seleccionarFlas, 0));
-                    comboBox1.setSelectedItem(table1.getValueAt(seleccionarFlas, 1));
-                    textField3.setText((String)table1.getValueAt(seleccionarFlas, 2));
+                    textField3.setText((String)table1.getValueAt(seleccionarFlas, 1));
+                    comboBox1.setSelectedItem(table1.getValueAt(seleccionarFlas, 2));
                     comboBox2.setSelectedItem(table1.getValueAt(seleccionarFlas, 3));
                     textField5.setText((String)table1.getValueAt(seleccionarFlas, 4));
                     textField6.setText((String)table1.getValueAt(seleccionarFlas, 5));
@@ -218,6 +242,16 @@ public class MovimientosGUI {
             }
         });
     }
+
+
+
+
+
+
+
+
+
+
     public void clear(){
         textField1.setText("");
         textField3.setText("");
@@ -230,8 +264,8 @@ public class MovimientosGUI {
         DefaultTableModel modelo = new DefaultTableModel();
 
         modelo.addColumn("ID");
-        modelo.addColumn("Tipo");
-        modelo.addColumn("ID pedido");
+        modelo.addColumn("Id pedido");
+        modelo.addColumn("tipo");
         modelo.addColumn("Formato");
         modelo.addColumn("Monto");
         modelo.addColumn("Fecha");
