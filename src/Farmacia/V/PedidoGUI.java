@@ -63,6 +63,8 @@ public class PedidoGUI {
     public static int obtenerIdpedido = 0;
 
     public PedidoGUI() {
+        this.pedidoDAO = new PedidoDAO();
+
 
 
         //Inhabilitar Campos
@@ -126,43 +128,54 @@ public class PedidoGUI {
                 pedidoDAO.actualizar(pedido);
                 pedidoDAO.descontarStock(id);
 
-
-
                 if (estado.equalsIgnoreCase("entregado")) {
-                    int idPedido = pedidoDAO.obtenerIdPedido(id);
+                    String[] opcionesPago = {"Efectivo"};
+                    String metodoPago = (String) JOptionPane.showInputDialog(
+                            null,
+                            "Seleccione el método de pago:",
+                            "Método de Pago",
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            opcionesPago,
+                            opcionesPago[0]
+                    );
 
-                    if (idPedido != -1) {
-                        double totalPedido = pedidoDAO.obtenerTotalPedido(idPedido);// Esto es Si el pedido existe, insertamos en movimientos financieros
-                        String query = "INSERT INTO movimientos_financieros (idPedidos, tipo, categoria, monto, fecha, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
+                    if (metodoPago != null) { // Si el usuario selecciona un método de pago
+                        int idPedido = pedidoDAO.obtenerIdPedido(id);
+                        if (idPedido != -1) {
+                            double totalPedido = pedidoDAO.obtenerTotalPedido(idPedido);
+                            String query = "INSERT INTO movimientos_financieros (id_pedido, tipo, categoria, monto, fecha, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
 
-                        try (Connection conn = conexionBD.getConnection();
-                             PreparedStatement stmt = conn.prepareStatement(query)) {
+                            try (Connection conn = conexionBD.getConnection();
+                                 PreparedStatement stmt = conn.prepareStatement(query)) {
 
-                            stmt.setInt(1, idPedido);
-                            stmt.setString(2, "efectivo");
-                            stmt.setString(3, "ingreso");
-                            stmt.setDouble(4, pedidoDAO.obtenerTotalPedido(idPedido));
-                            stmt.setTimestamp(5, fecha);
-                            stmt.setString(6, "Se acaba de realizar una venta en FarmaciaTech");
+                                stmt.setInt(1, idPedido);
+                                stmt.setString(2,"ingreso" );
+                                stmt.setString(3, metodoPago.toLowerCase());
+                                stmt.setDouble(4, totalPedido);
+                                stmt.setTimestamp(5, fecha);
+                                stmt.setString(6, "Venta realizada con " + metodoPago);
 
-                            stmt.executeUpdate();
-                            int valorActual = cajaDAO.obtenerValorCaja();
-                            int nuevoValor = (int) (valorActual + totalPedido);
-                            boolean actualizado = cajaDAO.actualizarValorCaja(nuevoValor);
-//
-                            if (actualizado) {
-                                JOptionPane.showMessageDialog(null, "Se actualizó correctamente la caja");
+                                stmt.executeUpdate();
+                                int valorActual = cajaDAO.obtenerValorCaja();
+                                int nuevoValor = (int) (valorActual + totalPedido);
+                                boolean actualizado = cajaDAO.actualizarValorCaja(nuevoValor);
+
+                                if (actualizado) {
+                                    JOptionPane.showMessageDialog(null, "Se actualizó correctamente la caja.");
+                                }
+
+                            } catch (SQLException ex) {
+                                ex.printStackTrace();
                             }
-//
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
                         }
-
                     }
                 }
-                pedidoDAO.obtenerDatosPed();
+
+                obtenerDatosPed();
             }
         });
+
         eliminarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
