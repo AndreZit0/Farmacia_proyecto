@@ -1,4 +1,4 @@
-package Farmacia;
+package Farmacia.V;
 
 import javax.swing.*;
 import java.awt.event.*;

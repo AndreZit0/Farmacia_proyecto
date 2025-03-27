@@ -1,6 +1,4 @@
-package Farmacia;
-
-import Farmacia.V.*;
+package Farmacia.V;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -79,7 +77,7 @@ public class GUIServidor {
         REPORTESButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ReportesGUIDAO reportesGUIDAO = new ReportesGUIDAO();
+                ReportesGUI reportesGUIDAO = new ReportesGUI();
                 reportesGUIDAO.main();
 
             }
