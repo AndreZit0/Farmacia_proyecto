@@ -1,5 +1,5 @@
 
-package Farmacia.C;
+package Farmacia;
 
 import Conexion.ConexionBD;
 

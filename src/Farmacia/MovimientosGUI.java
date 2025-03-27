@@ -1,7 +1,6 @@
 package Farmacia;
 
 import Conexion.ConexionBD;
-import Farmacia.C.CajaDAO;
 import Farmacia.C.MovimientoDAO;
 import Farmacia.M.Movimiento;
 
