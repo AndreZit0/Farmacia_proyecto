@@ -44,6 +44,10 @@ public class GUIClientes {
      * Inicializa los componentes de la interfaz gráfica y configura los eventos de los botones.
      */
     public GUIClientes() {
+
+        textField1.setEnabled(false);
+
+
         obetenerClientes();
 
         agregarButton.addActionListener(new ActionListener() {
