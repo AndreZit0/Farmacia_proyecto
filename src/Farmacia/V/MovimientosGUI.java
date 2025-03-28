@@ -59,8 +59,6 @@ public class MovimientosGUI {
         obtenerDatosMovimientos(); // Carga los movimientos financieros al iniciar la interfaz
 
 
-        obtenerDatosMovimientos();
-
         agregarButton.addActionListener(new ActionListener() {
             /**
              * Acción a realizar cuando se pulsa el botón "Agregar".
@@ -157,7 +155,8 @@ public class MovimientosGUI {
                     }
 
                     obtenerDatosMovimientos();
-                } catch (NumberFormatException ex) {
+                    }
+                }catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos en los campos ID Pedido y Monto.");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -198,17 +197,18 @@ public class MovimientosGUI {
                     comboBox1.setSelectedItem(table1.getValueAt(seleccionarFlas, 1));
                     textField3.setText((String) table1.getValueAt(seleccionarFlas, 2));
 
-                if(seleccionarFlas >= 0){
-                    textField1.setText((String)table1.getValueAt(seleccionarFlas, 0));
-                    textField3.setText((String)table1.getValueAt(seleccionarFlas, 1));
-                    comboBox1.setSelectedItem(table1.getValueAt(seleccionarFlas, 2));
+                    if (seleccionarFlas >= 0) {
+                        textField1.setText((String) table1.getValueAt(seleccionarFlas, 0));
+                        textField3.setText((String) table1.getValueAt(seleccionarFlas, 1));
+                        comboBox1.setSelectedItem(table1.getValueAt(seleccionarFlas, 2));
 
-                    comboBox2.setSelectedItem(table1.getValueAt(seleccionarFlas, 3));
-                    textField5.setText((String) table1.getValueAt(seleccionarFlas, 4));
-                    textField6.setText((String) table1.getValueAt(seleccionarFlas, 5));
-                    textField7.setText((String) table1.getValueAt(seleccionarFlas, 6));
+                        comboBox2.setSelectedItem(table1.getValueAt(seleccionarFlas, 3));
+                        textField5.setText((String) table1.getValueAt(seleccionarFlas, 4));
+                        textField6.setText((String) table1.getValueAt(seleccionarFlas, 5));
+                        textField7.setText((String) table1.getValueAt(seleccionarFlas, 6));
 
-                    filas = seleccionarFlas;
+                        filas = seleccionarFlas;
+                    }
                 }
             }
         });
@@ -444,7 +444,7 @@ public class MovimientosGUI {
     /**
      * Limpia los campos de entrada de la interfaz gráfica.
      */
-    public void clear() 
+
 
 
     public void clear(){
@@ -524,7 +524,8 @@ public class MovimientosGUI {
 
             }
 
-        }}
+        }
+    }
 
     /**
      * Método para ejecutar y mostrar la interfaz gráfica del moviento financiero.
@@ -540,3 +541,4 @@ public class MovimientosGUI {
 
     }
 }
+
