@@ -7,6 +7,10 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Esta clase representa la interfaz gráfica del servidor de chat.
+ * Permite al servidor enviar y recibir mensajes de un cliente conectado.
+ */
 public class GUIServidor {
     private JTextField textField1;
     private JTextArea textArea1;
@@ -24,14 +28,26 @@ public class GUIServidor {
     private BufferedReader in;
     private Socket clienteSocket;
 
+    /**
+     * Constructor de la clase GUIServidor.
+     * Inicializa la interfaz gráfica y arranca el servidor en un hilo separado
+     * para no bloquear la interfaz de usuario. También configura los listeners
+     * para el envío de mensajes.
+     */
     public GUIServidor() {
         new Thread(this::servidor).start(); // Iniciar el servidor en un hilo separado
 
         // Enviar mensaje con el botón
         enviarMensajeAlClienteButton.addActionListener(e -> enviarMensaje());
 
-        // Enviar mensaje con ENTER
+        // Enviar mensaje con ENTER en el campo de texto
         textField1.addKeyListener(new KeyAdapter() {
+            /**
+             * Se llama cuando se presiona y se suelta una tecla en el campo de texto.
+             * Si la tecla presionada es ENTER, se llama al método para enviar el mensaje.
+             *
+             * @param e El evento de la tecla.
+             */
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -40,65 +56,101 @@ public class GUIServidor {
             }
         });
         clientesButton.addActionListener(new ActionListener() {
-
+            /**
+             * Acción a realizar cuando se hace clic en el botón de Clientes.
+             * Abre la interfaz de gestión de clientes.
+             *
+             * @param e El evento de acción.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIClientes guiClientes = new GUIClientes();
                 guiClientes.ejecutar();
-
-
-
             }
         });
 
         cajaButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se hace clic en el botón de Caja.
+             * Abre la interfaz de la caja.
+             *
+             * @param e El evento de acción.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUICaja guiCaja = new GUICaja();
                 guiCaja.ejecutar();
-
             }
         });
         pedidoButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se hace clic en el botón de Pedidos.
+             * Abre la interfaz de gestión de pedidos.
+             *
+             * @param e El evento de acción.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 PedidoGUI pedidoGUIDAO = new PedidoGUI();
                 pedidoGUIDAO.main();
-
             }
         });
         productosButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se hace clic en el botón de Productos.
+             * Abre la interfaz de gestión de productos.
+             *
+             * @param e El evento de acción.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 ProductoGUI productoGUI = new ProductoGUI();
                 productoGUI.main();
-
-
             }
         });
         REPORTESButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se hace clic en el botón de Reportes.
+             * Abre la interfaz de reportes.
+             *
+             * @param e El evento de acción.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 ReportesGUI reportesGUIDAO = new ReportesGUI();
                 reportesGUIDAO.main();
-
             }
         });
         MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se hace clic en el botón de Movimientos Financieros.
+             * Abre la interfaz de movimientos financieros.
+             *
+             * @param e El evento de acción.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 MovimientosGUI movimientosGUI = new MovimientosGUI();
                 movimientosGUI.ejecutar();
-
             }
         });
         clientesButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                clientesButton.setBackground(new Color(48,192,50));
+                clientesButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -106,12 +158,22 @@ public class GUIServidor {
             }
         });
         productosButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                productosButton.setBackground(new Color(48,192,50));
+                productosButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -120,12 +182,22 @@ public class GUIServidor {
         });
 
         pedidoButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                pedidoButton.setBackground(new Color(48,192,50));
+                pedidoButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -133,12 +205,22 @@ public class GUIServidor {
             }
         });
         cajaButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                cajaButton.setBackground(new Color(48,192,50));
+                cajaButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -146,12 +228,22 @@ public class GUIServidor {
             }
         });
         REPORTESButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                REPORTESButton.setBackground(new Color(48,192,50));
+                REPORTESButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -159,12 +251,22 @@ public class GUIServidor {
             }
         });
         MOVIMIENTOSFINANCIEROSButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                MOVIMIENTOSFINANCIEROSButton.setBackground(new Color(48,192,50));
+                MOVIMIENTOSFINANCIEROSButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -175,13 +277,14 @@ public class GUIServidor {
 
     /**
      * Método para iniciar el servidor y aceptar conexiones de clientes.
+     * Se ejecuta en un hilo separado.
      */
     public void servidor() {
         try (ServerSocket serverSocket = new ServerSocket(123)) { // Asegurar que el puerto coincida con el cliente
-            textArea1.append("Servidor iniciado. Esperando conexión...\n");
+            SwingUtilities.invokeLater(() -> textArea1.append("Servidor iniciado. Esperando conexión...\n"));
 
             clienteSocket = serverSocket.accept(); // Esperar conexión de un cliente
-            textArea1.append("Cliente conectado.\n");
+            SwingUtilities.invokeLater(() -> textArea1.append("Cliente conectado.\n"));
 
             // Configurar flujo de entrada y salida
             in = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
@@ -193,7 +296,7 @@ public class GUIServidor {
                     String receivedMessage;
                     while ((receivedMessage = in.readLine()) != null) {
                         if (receivedMessage.equalsIgnoreCase("CLIENTE: EXIT")) {
-                            textArea1.append("El cliente ha salido del chat.\n");
+                            SwingUtilities.invokeLater(() -> textArea1.append("El cliente ha salido del chat.\n"));
                             cerrarConexion();
                             return;
                         }
@@ -211,53 +314,54 @@ public class GUIServidor {
     }
 
     /**
-     * Envía un mensaje al cliente si el campo de texto no está vacío.
+     * Método para enviar el mensaje escrito en el campo de texto al cliente conectado.
+     * Limpia el campo de texto después de enviar el mensaje.
      */
-    public void enviarMensaje() {
-        String sendMessage = textField1.getText().trim();
-        if (sendMessage.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No puedes enviar un mensaje vacío.");
-            return;
-        }
-
-        if (out != null) {
-            out.println("Farmacia: " + sendMessage);
-            textArea1.append("Yo: " + sendMessage + "\n");
+    private void enviarMensaje() {
+        String message = textField1.getText();
+        if (out != null && !message.trim().isEmpty()) {
+            out.println("SERVIDOR: " + message);
+            textArea1.append("SERVIDOR: " + message + "\n");
             textField1.setText("");
-
-            if (sendMessage.equalsIgnoreCase("salir")) {
-                out.println("SERVER: EXIT");
-                cerrarConexion();
-            }
         }
-
-        // Volver a enfocar el campo de texto para seguir escribiendo
-        textField1.requestFocus();
     }
 
     /**
-     * Cierra la conexión con el cliente y libera los recursos.
+     * Cierra la conexión con el cliente y los flujos de entrada/salida.
      */
-    public void cerrarConexion() {
+    private void cerrarConexion() {
         try {
-            if (out != null) out.close();
             if (in != null) in.close();
-            if (clienteSocket != null) clienteSocket.close();
-            textArea1.append("Conexión cerrada.\n");
+            if (out != null) out.close();
+            if (clienteSocket != null && !clienteSocket.isClosed()) clienteSocket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + e.getMessage()));
         }
     }
 
     /**
-     * Ejecuta la interfaz gráfica del servidor.
+     * Método para ejecutar y mostrar la interfaz gráfica del servidor.
      */
     public void ejecutar() {
-        JFrame frame = new JFrame("Servidor de Chat");
+        JFrame frame = new JFrame("Servidor");
         frame.setContentPane(this.main);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cerrar solo esta ventana
         frame.pack();
         frame.setSize(1200, 700);
-        frame.setResizable(false);
+        frame.setLocationRelativeTo(null); // Centrar la ventana
         frame.setVisible(true);
+
+        frame.addWindowListener(new WindowAdapter() {
+            /**
+             * Se llama cuando la ventana está en proceso de cierre.
+             * Asegura que la conexión con el cliente se cierre correctamente.
+             *
+             * @param e El evento de la ventana.
+             */
+            @Override
+            public void windowClosing(WindowEvent e) {
+                cerrarConexion();
+            }
+        });
     }
 }

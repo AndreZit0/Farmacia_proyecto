@@ -3,14 +3,22 @@ package Farmacia.C;
 import Conexion.ConexionBD;
 import Farmacia.M.Movimiento;
 
-
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Clase que maneja las operaciones de la base de datos para los movimientos financieros.
+ */
 public class MovimientoDAO {
 
+    /**
+     * Agrega un nuevo movimiento financiero a la base de datos.
+     *
+     * @param movimiento Objeto Movimiento con los datos del movimiento a agregar.
+     * @return true si el movimiento se agregó con éxito, false en caso contrario.
+     */
     public boolean agregarMovimiento(Movimiento movimiento) {
         String query = "INSERT INTO movimientos_financieros (tipo, id_pedido, categoria, fecha, monto, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -38,8 +46,12 @@ public class MovimientoDAO {
         }
     }
 
-
-
+    /**
+     * Actualiza un movimiento financiero existente en la base de datos.
+     *
+     * @param movimiento Objeto Movimiento con los datos actualizados del movimiento.
+     * @return true si el movimiento se actualizó con éxito, false en caso contrario.
+     */
     public boolean actualizarMovimiento(Movimiento movimiento) {
         String query = "UPDATE movimientos_financieros SET tipo = ?, id_pedido = ?, categoria = ?, fecha = ?, monto = ?, descripcion = ? WHERE idmovimientos = ?";
 
@@ -63,6 +75,7 @@ public class MovimientoDAO {
 
             if (filas > 0) {
                 JOptionPane.showMessageDialog(null, "Movimiento actualizado con éxito.");
+                return true;
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el movimiento con ID: " + movimiento.getIdMovimientos());
             }
@@ -73,6 +86,11 @@ public class MovimientoDAO {
         return false;
     }
 
+    /**
+     * Elimina un movimiento financiero de la base de datos por su ID.
+     *
+     * @param idMovimiento ID del movimiento a eliminar.
+     */
     public void eliminarMovimiento(int idMovimiento) {
         String query = "DELETE FROM movimientos_financieros WHERE idmovimientos = ?";
 

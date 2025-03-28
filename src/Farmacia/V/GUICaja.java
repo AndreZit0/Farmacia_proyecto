@@ -14,6 +14,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Esta clase representa la interfaz gráfica para la gestión de la caja de la farmacia.
+ * Permite visualizar los valores actuales en caja y navegar a otras secciones del sistema.
+ */
 public class GUICaja {
     private JTable table1;
     private JPanel main;
@@ -26,39 +30,53 @@ public class GUICaja {
     private JButton MOVIMIENTOSFINANCIEROSButton;
     private JPanel sidebar;
 
-
+    /**
+     * Constructor de la clase GUICaja.
+     * Inicializa la interfaz, carga los valores de la caja en la tabla
+     * y configura los listeners para los botones de navegación.
+     */
     public GUICaja() {
         obtener_valores_de_caja();
 
-
         clientesButton.addActionListener(new ActionListener() {
-
+            /**
+             * Acción a realizar cuando se hace clic en el botón de Clientes.
+             * Abre la interfaz de gestión de clientes y cierra la interfaz actual.
+             *
+             * @param e El evento de acción.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIClientes guiClientes = new GUIClientes();
                 guiClientes.ejecutar();
                 SwingUtilities.getWindowAncestor(clientesButton).dispose();
-
-
             }
         });
         socketsButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se hace clic en el botón de Sockets.
+             * Abre las interfaces del servidor y cliente de sockets, y cierra la interfaz actual.
+             *
+             * @param e El evento de acción.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 GUIServidor guiServidor = new GUIServidor();
                 guiServidor.ejecutar();
 
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
                 SwingUtilities.getWindowAncestor(socketsButton).dispose();
-
-
-
             }
         });
 
         pedidoButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se hace clic en el botón de Pedidos.
+             * Abre la interfaz de gestión de pedidos y cierra la interfaz actual.
+             *
+             * @param e El evento de acción.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 PedidoGUI pedidoGUIDAO = new PedidoGUI();
@@ -67,15 +85,26 @@ public class GUICaja {
             }
         });
         productosButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se hace clic en el botón de Productos.
+             * Abre la interfaz de gestión de productos y cierra la interfaz actual.
+             *
+             * @param e El evento de acción.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 ProductoGUI productoGUI = new ProductoGUI();
                 productoGUI.main();
                 SwingUtilities.getWindowAncestor(productosButton).dispose();
-
             }
         });
         REPORTESButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se hace clic en el botón de Reportes.
+             * Abre la interfaz de generación de reportes y cierra la interfaz actual.
+             *
+             * @param e El evento de acción.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 ReportesGUI reportesGUIDAO = new ReportesGUI();
@@ -84,6 +113,12 @@ public class GUICaja {
             }
         });
         MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se hace clic en el botón de Movimientos Financieros.
+             * Abre la interfaz de gestión de movimientos financieros y cierra la interfaz actual.
+             *
+             * @param e El evento de acción.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 MovimientosGUI movimientosGUI = new MovimientosGUI();
@@ -91,13 +126,26 @@ public class GUICaja {
                 SwingUtilities.getWindowAncestor(MOVIMIENTOSFINANCIEROSButton).dispose();
             }
         });
+
+        // hover de los botones
+
         clientesButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                clientesButton.setBackground(new Color(48,192,50));
+                clientesButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -105,12 +153,22 @@ public class GUICaja {
             }
         });
         productosButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                productosButton.setBackground(new Color(48,192,50));
+                productosButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -119,12 +177,22 @@ public class GUICaja {
         });
 
         pedidoButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                pedidoButton.setBackground(new Color(48,192,50));
+                pedidoButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -132,12 +200,22 @@ public class GUICaja {
             }
         });
         REPORTESButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                REPORTESButton.setBackground(new Color(48,192,50));
+                REPORTESButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -145,12 +223,22 @@ public class GUICaja {
             }
         });
         socketsButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                socketsButton.setBackground(new Color(48,192,50));
+                socketsButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -158,12 +246,22 @@ public class GUICaja {
             }
         });
         MOVIMIENTOSFINANCIEROSButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                MOVIMIENTOSFINANCIEROSButton.setBackground(new Color(48,192,50));
+                MOVIMIENTOSFINANCIEROSButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -171,6 +269,11 @@ public class GUICaja {
             }
         });
     }
+
+    /**
+     * Obtiene los valores actuales de la caja desde la base de datos
+     * y los muestra en la tabla de la interfaz.
+     */
     public void obtener_valores_de_caja() {
         DefaultTableModel modelo = new DefaultTableModel();
 
@@ -187,8 +290,7 @@ public class GUICaja {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("Select * FROM caja");
 
-            while (rs.next())
-            {
+            while (rs.next()) {
                 dato[0] = rs.getString(1);
                 dato[1] = rs.getString(2);
                 dato[2] = rs.getString(3);
@@ -201,8 +303,9 @@ public class GUICaja {
         }
     }
 
-
-
+    /**
+     * Método principal para ejecutar y mostrar la interfaz de la caja.
+     */
     public void ejecutar() {
         JFrame frame = new JFrame("caja");
         frame.setContentPane(this.main);
@@ -212,6 +315,4 @@ public class GUICaja {
         frame.setResizable(false);
         frame.setVisible(true);
     }
-
-
 }

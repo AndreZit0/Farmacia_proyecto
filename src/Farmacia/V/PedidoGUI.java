@@ -19,9 +19,16 @@ import java.awt.event.MouseEvent;
 import java.sql.*;
 import java.util.HashMap;
 
+/**
+ * Clase que representa la interfaz gráfica para la gestión de pedidos.
+ * Permite crear, actualizar, eliminar y visualizar pedidos, así como sus detalles.
+ */
 public class PedidoGUI {
 
     private JPanel main;
+    /**
+     * Tabla para mostrar la información de los pedidos.
+     */
     public JTable Table1;
     private JTextField textField1;
     private JTextField textField4;
@@ -30,6 +37,9 @@ public class PedidoGUI {
     private JButton eliminarButton;
     JComboBox comboBox2;
     private JComboBox comboBox3;
+    /**
+     * Tabla para mostrar los detalles de un pedido específico.
+     */
     public JTable tablePr;
     private JTextField textField2;
     private JTextField textField3;
@@ -52,22 +62,29 @@ public class PedidoGUI {
     private JButton MOVIMIENTOSFINANCIEROSButton;
     private JPanel sidebar;
 
-    PedidoDAO pedidoDAO;
+    private PedidoDAO pedidoDAO;
     private ConexionBD conexionBD = new ConexionBD();
     private Detalle_pedidoDAO detalle_pedidoDAO = new Detalle_pedidoDAO();
     private CajaDAO cajaDAO = new CajaDAO();
-    HashMap<String, Integer> clienteMap = new HashMap<>();
-    HashMap<String, Integer> productoMap = new HashMap<>();
+    private HashMap<String, Integer> clienteMap = new HashMap<>();
+    private HashMap<String, Integer> productoMap = new HashMap<>();
 
-    int filas = 0;
+    private int filas = 0;
+    /**
+     * Almacena el ID del pedido seleccionado.
+     */
     public int valID = 0;
 
+    /**
+     * Almacena el ID del pedido para generar la factura.
+     */
     public static int obtenerIdpedido = 0;
 
+    /**
+     * Constructor de la clase PedidoGUI. Inicializa los componentes de la interfaz y los listeners de los eventos.
+     */
     public PedidoGUI() {
         this.pedidoDAO = new PedidoDAO();
-
-
 
         //Inhabilitar Campos
         textField1.setEnabled(false);
@@ -75,19 +92,17 @@ public class PedidoGUI {
         textField2.setEnabled(false);
         comboBox5.setEnabled(false);
 
-
         agregarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int idCliente = obtenerIdSeleccionado(comboBox2, clienteMap);
+                Timestamp fecha = new Timestamp(System.currentTimeMillis()); // Fecha y hora actual
+                String estado = comboBox3.getSelectedItem().toString(); // Obtener el estado del JComboBox
 
-                    int idCliente = obtenerIdSeleccionado(comboBox2,clienteMap);
-                    Timestamp fecha = new Timestamp(System.currentTimeMillis()); // Fecha y hora actual
-                    String estado = comboBox3.getSelectedItem().toString(); // Obtener el estado del JComboBox
+                Pedido pedido = new Pedido(0, idCliente, 0, estado, fecha);
+                pedidoDAO.agregar(pedido);
 
-                    Pedido pedido = new Pedido(0, idCliente, 0, estado, fecha);
-                    pedidoDAO.agregar(pedido);
-
-                    obtenerDatosPed();
+                obtenerDatosPed();
 
 //
                 tablePr.addMouseListener(new MouseAdapter() {
@@ -97,11 +112,11 @@ public class PedidoGUI {
                         int selectFilas = tablePr.getSelectedRow();
 
                         if (selectFilas >= 0) {
-                            textField2.setText((String) Table1.getValueAt(selectFilas,0));
-                            comboBox5.setSelectedItem( Table1.getValueAt(selectFilas,1));
-                            comboBox4.setSelectedItem( Table1.getValueAt(selectFilas,2));
-                            comboBox1.setSelectedItem( Table1.getValueAt(selectFilas,3));
-                            textField7.setText((String) Table1.getValueAt(selectFilas,4));
+                            textField2.setText((String) Table1.getValueAt(selectFilas, 0));
+                            comboBox5.setSelectedItem(Table1.getValueAt(selectFilas, 1));
+                            comboBox4.setSelectedItem(Table1.getValueAt(selectFilas, 2));
+                            comboBox1.setSelectedItem(Table1.getValueAt(selectFilas, 3));
+                            textField7.setText((String) Table1.getValueAt(selectFilas, 4));
 
                             filas = selectFilas;
                         }
@@ -152,7 +167,7 @@ public class PedidoGUI {
                                  PreparedStatement stmt = conn.prepareStatement(query)) {
 
                                 stmt.setInt(1, idPedido);
-                                stmt.setString(2,"ingreso" );
+                                stmt.setString(2, "ingreso");
                                 stmt.setString(3, metodoPago.toLowerCase());
                                 stmt.setDouble(4, totalPedido);
                                 stmt.setTimestamp(5, fecha);
@@ -197,7 +212,7 @@ public class PedidoGUI {
                 int idproductos = obtenerIdSeleccionado(comboBox4, productoMap);
                 int cantidad = Integer.parseInt(textField7.getText());
                 String medidad = comboBox1.getSelectedItem().toString();
-                int precioUnitario = obtenerPrecioUnitario(idproductos,medidad) ;
+                int precioUnitario = obtenerPrecioUnitario(idproductos, medidad);
                 int subtotal = precioUnitario * cantidad; // Calcula el subtotal
 
                 Detalles_pedido detped = new Detalles_pedido(0, idpedidos, idproductos, cantidad, subtotal, medidad);
@@ -217,7 +232,7 @@ public class PedidoGUI {
                 int cantidad = Integer.parseInt(textField7.getText());
                 String medidad = comboBox1.getSelectedItem().toString();
 
-                Detalles_pedido detped = new Detalles_pedido(id, idpedidos,idproductos,cantidad,0,medidad);
+                Detalles_pedido detped = new Detalles_pedido(id, idpedidos, idproductos, cantidad, 0, medidad);
                 detalle_pedidoDAO.actualizar(detped);
 
                 obtenerDatosDetPed();
@@ -238,23 +253,17 @@ public class PedidoGUI {
                 super.mouseClicked(e);
                 int selectFilas = Table1.getSelectedRow();
 
-
                 if (selectFilas >= 0) {
-                    textField1.setText((String) Table1.getValueAt(selectFilas,0));
-                    comboBox2.setSelectedItem( Table1.getValueAt(selectFilas,1));
-                    textField4.setText((String) Table1.getValueAt(selectFilas,2));
-                    comboBox3.setSelectedItem( Table1.getValueAt(selectFilas,3));
+                    textField1.setText((String) Table1.getValueAt(selectFilas, 0));
+                    comboBox2.setSelectedItem(Table1.getValueAt(selectFilas, 1));
+                    textField4.setText((String) Table1.getValueAt(selectFilas, 2));
+                    comboBox3.setSelectedItem(Table1.getValueAt(selectFilas, 3));
 
-                    obtenerIdpedido = Integer.parseInt(Table1.getValueAt(selectFilas,0).toString());
-
-
+                    obtenerIdpedido = Integer.parseInt(Table1.getValueAt(selectFilas, 0).toString());
 
                     filas = selectFilas;
                 }
             }
-
-
-
         });
         tablePr.addMouseListener(new MouseAdapter() {
             @Override
@@ -262,17 +271,16 @@ public class PedidoGUI {
                 int selectFilas = tablePr.getSelectedRow();
 
                 if (selectFilas >= 0) {
-                    textField2.setText((String) tablePr.getValueAt(selectFilas,0));
-                    comboBox5.setSelectedItem( tablePr.getValueAt(selectFilas,1));
-                    comboBox4.setSelectedItem( tablePr.getValueAt(selectFilas,2));
-                    comboBox1.setSelectedItem( tablePr.getValueAt(selectFilas,3));
-                    textField7.setText((String) tablePr.getValueAt(selectFilas,4));
+                    textField2.setText((String) tablePr.getValueAt(selectFilas, 0));
+                    comboBox5.setSelectedItem(tablePr.getValueAt(selectFilas, 1));
+                    comboBox4.setSelectedItem(tablePr.getValueAt(selectFilas, 2));
+                    comboBox1.setSelectedItem(tablePr.getValueAt(selectFilas, 3));
+                    textField7.setText((String) tablePr.getValueAt(selectFilas, 4));
 
                     filas = selectFilas;
                 }
             }
         });
-
 
         generarFacturaButton.addActionListener(new ActionListener() {
             @Override
@@ -288,8 +296,6 @@ public class PedidoGUI {
                 GUIClientes guiClientes = new GUIClientes();
                 guiClientes.ejecutar();
                 SwingUtilities.getWindowAncestor(clientesButton).dispose();
-
-
             }
         });
         socketsButton.addActionListener(new ActionListener() {
@@ -302,9 +308,6 @@ public class PedidoGUI {
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
                 SwingUtilities.getWindowAncestor(socketsButton).dispose();
-
-
-
             }
         });
 
@@ -323,7 +326,6 @@ public class PedidoGUI {
                 ProductoGUI productoGUIDAO = new ProductoGUI();
                 productoGUIDAO.main();
                 SwingUtilities.getWindowAncestor(productosButton).dispose();
-
             }
         });
         REPORTESButton.addActionListener(new ActionListener() {
@@ -346,7 +348,7 @@ public class PedidoGUI {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                clientesButton.setBackground(new Color(48,192,50));
+                clientesButton.setBackground(new Color(48, 192, 50));
             }
 
             @Override
@@ -359,7 +361,7 @@ public class PedidoGUI {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                productosButton.setBackground(new Color(48,192,50));
+                productosButton.setBackground(new Color(48, 192, 50));
             }
 
             @Override
@@ -372,7 +374,7 @@ public class PedidoGUI {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                cajaButton.setBackground(new Color(48,192,50));
+                cajaButton.setBackground(new Color(48, 192, 50));
             }
 
             @Override
@@ -385,7 +387,7 @@ public class PedidoGUI {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                REPORTESButton.setBackground(new Color(48,192,50));
+                REPORTESButton.setBackground(new Color(48, 192, 50));
             }
 
             @Override
@@ -398,7 +400,7 @@ public class PedidoGUI {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                socketsButton.setBackground(new Color(48,192,50));
+                socketsButton.setBackground(new Color(48, 192, 50));
             }
 
             @Override
@@ -411,7 +413,7 @@ public class PedidoGUI {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                MOVIMIENTOSFINANCIEROSButton.setBackground(new Color(48,192,50));
+                MOVIMIENTOSFINANCIEROSButton.setBackground(new Color(48, 192, 50));
             }
 
             @Override
@@ -422,10 +424,17 @@ public class PedidoGUI {
         });
     }
 
-    public void limpiar(){
+    /**
+     * Limpia los campos de texto para la información del pedido.
+     */
+    public void limpiar() {
         textField1.setText("");
         textField4.setText("");
     }
+
+    /**
+     * Obtiene y muestra los datos del último pedido en la tabla de pedidos.
+     */
     public void obtenerDatosPed() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID");
@@ -466,7 +475,9 @@ public class PedidoGUI {
     }
 
 
-
+    /**
+     * Obtiene y muestra los datos del los productos de un pedido.
+     */
     public void obtenerDatosDetPed() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID");
@@ -500,6 +511,9 @@ public class PedidoGUI {
         }
     }
 
+    /**
+     * Obtiene el precio unitario del producto.
+     */
     public int obtenerPrecioUnitario(int idProducto, String medida) {
         int precioUnitario = 0;
         Connection con = conexionBD.getConnection();
@@ -527,6 +541,9 @@ public class PedidoGUI {
         return precioUnitario;
     }
 
+    /**
+     * actualiza el total de ordenes.
+     */
     public void actualizarTotalOrden(int id_pedido) {
         int total = calcularTotalOrden(id_pedido); // Calcula el total de la orden
         Connection con = conexionBD.getConnection();
@@ -540,6 +557,9 @@ public class PedidoGUI {
         }
     }
 
+    /**
+     * calcula el total de las ordenes.
+     */
     public int calcularTotalOrden(int idOrden) {
         int total = 0;
         Connection con = conexionBD.getConnection();
@@ -576,10 +596,22 @@ public class PedidoGUI {
         return total;
     }
 
+    /**
+     * Obtiene el ID asociado al elemento seleccionado en un JComboBox.
+     * El mapeo entre el nombre del elemento y su ID se proporciona a través de un HashMap.
+     *
+     * @param comboBox El {@link JComboBox} del cual se obtendrá el elemento seleccionado.
+     * @param map      El {@link HashMap} que contiene la correspondencia entre los nombres de los elementos (claves de tipo String)
+     * y sus respectivos IDs (valores de tipo Integer).
+     * @return El ID (valor Integer) asociado al elemento seleccionado en el JComboBox.
+     * Devuelve -1 si el elemento seleccionado no se encuentra como clave en el HashMap.
+     */
     public int obtenerIdSeleccionado(JComboBox<String> comboBox, HashMap<String, Integer> map) {
         String seleccionado = (String) comboBox.getSelectedItem();
         return map.getOrDefault(seleccionado, -1); // Si no encuentra el nombre, devuelve -1
     }
+
+
     public void obtener_clientes(){
 
         String query= "Select idClientes,cedula, nombre from clientes";
@@ -679,6 +711,9 @@ public class PedidoGUI {
     }
 
 
+    /**
+     * ejecuta la interfaz de pedido
+     */
 
     public void main() {
         JFrame frame = new JFrame("Pedidos");

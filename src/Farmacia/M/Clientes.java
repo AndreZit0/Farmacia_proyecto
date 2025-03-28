@@ -6,12 +6,8 @@ package Farmacia.M;
 public class Clientes {
 
     // Atributos de la clase
-    private int id_cliente;
-    private String cedula;
-    private String nombre;
-    private String telefoono;
-    private String email;
-    private String direccion;
+    int id_cliente;
+    String cedula,nombre,telefoono,email,direccion;
 
     /**
      * Constructor de la clase Clientes.
