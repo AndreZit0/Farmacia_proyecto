@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 import java.sql.*;
 
 /**
- * Clase que representa la interfaz gráfica para la gestión de clientes en la farmacia.
+ * Esta clase representa la interfaz gráfica para la gestión de clientes en la farmacia.
  * Permite agregar, actualizar, eliminar y buscar clientes en la base de datos.
  */
 public class GUIClientes {
@@ -43,49 +43,79 @@ public class GUIClientes {
 
     /**
      * Constructor de la clase GUIClientes.
-     * Inicializa los componentes de la interfaz gráfica y configura los eventos de los botones.
+     * Aquí se inicializan todos los componentes de la ventana y se configuran
+     * los "listeners" para que los botones hagan algo cuando se les hace clic.
      */
     public GUIClientes() {
 
-        textField1.setEnabled(false);
+        textField1.setEnabled(false); // El ID no se debería poder editar directamente
 
-
-        obetenerClientes();
+        obetenerClientes(); // Cargamos la lista de clientes al iniciar la ventana
 
         agregarButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se pulsa el botón "Agregar".
+             * Llama al método para agregar un nuevo cliente y luego actualiza la tabla.
+             *
+             * @param e El evento del botón.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 agregar_cliente();
                 obetenerClientes();
-                clear();
+                clear(); // Limpiamos los campos después de agregar
             }
         });
 
         actualizarButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se pulsa el botón "Actualizar".
+             * Llama al método para actualizar la información del cliente seleccionado.
+             *
+             * @param e El evento del botón.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 actualizar_cliente();
                 obetenerClientes();
-                clear();
+                clear(); // Limpiamos los campos después de actualizar
             }
         });
 
         eliminarButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se pulsa el botón "Eliminar".
+             * Llama al método para eliminar el cliente seleccionado.
+             *
+             * @param e El evento del botón.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 eliminar();
                 obetenerClientes();
-                clear();
+                clear(); // Limpiamos los campos después de eliminar
             }
         });
 
         buscarClienteButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se pulsa el botón "Buscar Cliente".
+             * Llama al método para buscar clientes por su cédula.
+             *
+             * @param e El evento del botón.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 buscar_cliente_cedula();
             }
         });
         table1.addMouseListener(new MouseAdapter() {
+            /**
+             * Acción a realizar cuando se hace clic en una fila de la tabla.
+             * Carga los datos de la fila seleccionada en los campos de texto para editar.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -99,11 +129,17 @@ public class GUIClientes {
                     textField5.setText((String) table1.getValueAt(selectFilas, 4));
                     textField6.setText((String) table1.getValueAt(selectFilas, 5));
 
-                    filas = selectFilas;
+                    filas = selectFilas; // Guardamos la fila seleccionada por si acaso
                 }
             }
         });
         socketsButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se pulsa el botón de Sockets.
+             * Abre las ventanas de servidor y cliente de sockets.
+             *
+             * @param e El evento del botón.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -113,22 +149,30 @@ public class GUIClientes {
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
                 SwingUtilities.getWindowAncestor(socketsButton).dispose();
-
-
-
             }
         });
         productosButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se pulsa el botón de Productos.
+             * Abre la ventana de gestión de productos.
+             *
+             * @param e El evento del botón.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 ProductoGUI productoGUI = new ProductoGUI();
                 productoGUI.main();
                 SwingUtilities.getWindowAncestor(productosButton).dispose();
-
             }
         });
 
         cajaButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se pulsa el botón de Caja.
+             * Abre la ventana de la caja.
+             *
+             * @param e El evento del botón.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUICaja guiCaja = new GUICaja();
@@ -137,6 +181,12 @@ public class GUIClientes {
             }
         });
         pedidoButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se pulsa el botón de Pedidos.
+             * Abre la ventana de gestión de pedidos.
+             *
+             * @param e El evento del botón.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 PedidoGUI pedidoGUIDAO = new PedidoGUI();
@@ -145,6 +195,12 @@ public class GUIClientes {
             }
         });
         REPORTESButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se pulsa el botón de Reportes.
+             * Abre la ventana de reportes.
+             *
+             * @param e El evento del botón.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 ReportesGUI reportesGUIDAO = new ReportesGUI();
@@ -153,6 +209,12 @@ public class GUIClientes {
             }
         });
         MOVIMIENTOSFINANCIEROSButton.addActionListener(new ActionListener() {
+            /**
+             * Acción a realizar cuando se pulsa el botón de Movimientos Financieros.
+             * Abre la ventana de movimientos financieros.
+             *
+             * @param e El evento del botón.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 MovimientosGUI movimientosGUI = new MovimientosGUI();
@@ -161,12 +223,22 @@ public class GUIClientes {
             }
         });
         productosButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                productosButton.setBackground(new Color(48,192,50));
+                productosButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -175,12 +247,22 @@ public class GUIClientes {
         });
 
         pedidoButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                pedidoButton.setBackground(new Color(48,192,50));
+                pedidoButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -188,12 +270,22 @@ public class GUIClientes {
             }
         });
         cajaButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                cajaButton.setBackground(new Color(48,192,50));
+                cajaButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -201,12 +293,22 @@ public class GUIClientes {
             }
         });
         REPORTESButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                REPORTESButton.setBackground(new Color(48,192,50));
+                REPORTESButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -214,12 +316,22 @@ public class GUIClientes {
             }
         });
         socketsButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                socketsButton.setBackground(new Color(48,192,50));
+                socketsButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -227,12 +339,22 @@ public class GUIClientes {
             }
         });
         MOVIMIENTOSFINANCIEROSButton.addMouseListener(new MouseAdapter() {
+            /**
+             * Cambia el color de fondo del botón cuando el ratón entra.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                MOVIMIENTOSFINANCIEROSButton.setBackground(new Color(48,192,50));
+                MOVIMIENTOSFINANCIEROSButton.setBackground(new Color(48, 192, 50));
             }
 
+            /**
+             * Restaura el color de fondo del botón cuando el ratón sale.
+             *
+             * @param e El evento del ratón.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
@@ -242,9 +364,9 @@ public class GUIClientes {
     }
 
     /**
-     * Limpia los campos de entrada en la interfaz gráfica.
+     * Limpia los campos de texto de la interfaz.
      */
-    public void clear(){
+    public void clear() {
         textField1.setText("");
         textField2.setText("");
         textField3.setText("");
@@ -254,7 +376,7 @@ public class GUIClientes {
     }
 
     /**
-     * Obtiene la lista de clientes desde la base de datos y la muestra en la tabla.
+     * Obtiene todos los clientes de la base de datos y los muestra en la tabla.
      */
     public void obetenerClientes() {
         DefaultTableModel modelo = new DefaultTableModel();
@@ -288,9 +410,9 @@ public class GUIClientes {
     }
 
     /**
-     * Agrega un nuevo cliente a la base de datos.
+     * Agrega un nuevo cliente a la base de datos utilizando la información de los campos de texto.
      */
-    public void agregar_cliente(){
+    public void agregar_cliente() {
         String cedula = textField2.getText();
         String nombre = textField3.getText();
         String telefono = textField4.getText();
@@ -299,17 +421,18 @@ public class GUIClientes {
 
         Clientes clientes = new Clientes(0, cedula, nombre, telefono, email, direccion);
 
-        if(clientesDAO.agregar_cliente(clientes)) {
-            JOptionPane.showMessageDialog(null,"Cliente agregado con éxito!");
+        if (clientesDAO.agregar_cliente(clientes)) {
+            JOptionPane.showMessageDialog(null, "¡Cliente agregado con éxito!");
         } else {
-            JOptionPane.showMessageDialog(null,"Error de creación.");
+            JOptionPane.showMessageDialog(null, "¡Ups! No se pudo crear el cliente.");
         }
     }
 
     /**
-     * Actualiza la información de un cliente en la base de datos.
+     * Actualiza la información del cliente seleccionado en la base de datos.
+     * Utiliza los datos de los campos de texto.
      */
-    public void actualizar_cliente(){
+    public void actualizar_cliente() {
         int id_cliente = Integer.parseInt(textField1.getText());
         String cedula = textField2.getText();
         String nombre = textField3.getText();
@@ -320,21 +443,22 @@ public class GUIClientes {
     }
 
     /**
-     * Elimina un cliente de la base de datos.
+     * Elimina el cliente seleccionado de la base de datos, utilizando el ID mostrado en el campo de texto.
      */
-    public void eliminar(){
+    public void eliminar() {
         int id = Integer.parseInt(textField1.getText());
         clientesDAO.eliminarClientes(id);
     }
 
     /**
-     * Busca un cliente por su cédula y muestra sus datos en la tabla.
+     * Busca clientes por su número de cédula en la base de datos y muestra los resultados en la tabla.
+     * Si el campo de cédula está vacío, muestra un mensaje.
      */
     public void buscar_cliente_cedula() {
         String cedula = textField2.getText().trim();
 
         if (cedula.isEmpty()) {
-            JOptionPane.showMessageDialog(null,"El campo de cédula está vacío.");
+            JOptionPane.showMessageDialog(null, "El campo de cédula está vacío.");
             return;
         }
 
@@ -369,11 +493,17 @@ public class GUIClientes {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+
             JOptionPane.showMessageDialog(null,"Error al buscar cliente: " + e.getMessage());
+
         }
     }
 
-public void ejecutar() {
+    /**
+     * Método principal para ejecutar y mostrar la interfaz de clientes.
+     */
+
+    public void ejecutar() {
         JFrame frame = new JFrame("Clientes");
         frame.setContentPane(this.main);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -381,5 +511,7 @@ public void ejecutar() {
         frame.setSize(1200, 700);
         frame.setResizable(false);
         frame.setVisible(true);
+
     }
+
 }

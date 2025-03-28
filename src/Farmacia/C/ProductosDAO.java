@@ -8,12 +8,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Esta clase se encarga de hablar con la base de datos para todo lo relacionado con los productos.
+ * Aquí podemos agregar, eliminar y actualizar la información de los productos.
+ */
 public class ProductosDAO {
+    ConexionBD conexionBD = new ConexionBD();
+
     /**
-     * Agrega un nuevo producto a la base de datos.
+     * Guarda un nuevo producto en la base de datos.
      *
-     * @param productos Objeto de la clase Productos con la información a insertar.
-     */ ConexionBD conexionBD = new ConexionBD();
+     * @param productos El objeto `Productos` que contiene la información del producto que queremos guardar.
+     * Debe tener el nombre, precio, stock, stock mínimo, fecha de vencimiento, descripción y categoría del producto.
+     */
     public void agregar(Productos productos) {
 
         Connection con = conexionBD.getConnection();
@@ -33,21 +40,22 @@ public class ProductosDAO {
 
             int resultado = pst.executeUpdate();
 
-            if (resultado > 0)
-                JOptionPane.showMessageDialog(null, "Agregado con Exito");
-            else
-                JOptionPane.showMessageDialog(null, "No Agregado con Exito");
+            if (resultado > 0) {
+                JOptionPane.showMessageDialog(null, "Producto agregado");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo agregar el producto :(");
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "No Agregado con Exito");
+            JOptionPane.showMessageDialog(null, "un error al agregar el producto.");
         }
     }
 
     /**
-     * Elimina un producto de la base de datos según su ID.
+     * Elimina un producto de la base de datos usando su ID.
      *
-     * @param id Identificador único del producto a eliminar.
+     * @param id El ID del producto que queremos borrar. ¡Ten cuidado con esto!
      */
     public void eliminar(int id) {
         Connection con = conexionBD.getConnection();
@@ -60,20 +68,22 @@ public class ProductosDAO {
 
             int resultado = pst.executeUpdate();
 
-            if (resultado > 0)
-                JOptionPane.showMessageDialog(null, "Eliminado con Exito");
-            else
-                JOptionPane.showMessageDialog(null, "No Eliminado con Exito");
+            if (resultado > 0) {
+                JOptionPane.showMessageDialog(null, "Producto eliminado");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar el producto :(");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "No Eliminado con Exito");
+            JOptionPane.showMessageDialog(null, "Error al eliminar el producto.");
         }
     }
 
     /**
-     * Actualiza los datos de un producto en la base de datos.
+     * Actualiza la información de un producto que ya existe en la base de datos.
      *
-     * @param productos Objeto de la clase Productos con los nuevos datos.
+     * @param productos El objeto `Productos` con la información actualizada.
+     * Es importante que el ID del producto en este objeto sea el correcto para saber cuál actualizar.
      */
     public void actualizar(Productos productos) {
         Connection con = conexionBD.getConnection();
@@ -91,14 +101,15 @@ public class ProductosDAO {
             pst.setInt(8, productos.getIdproductos());
 
             int resultado = pst.executeUpdate();
-            if (resultado > 0)
-                JOptionPane.showMessageDialog(null, "Actualizado con Exito");
-            else
-                JOptionPane.showMessageDialog(null, "No Actualizado con Exito");
+            if (resultado > 0) {
+                JOptionPane.showMessageDialog(null, "Producto actualizado");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo actualizar el producto :(");
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "No Actualizado con Exito");
+            JOptionPane.showMessageDialog(null, " Error al actualizar el producto.");
         }
     }
 }

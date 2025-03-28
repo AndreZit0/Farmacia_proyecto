@@ -8,11 +8,21 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 
+/**
+ * Esta clase se encarga de manejar la información de los pedidos en la base de datos.
+ * Aquí podemos guardar, buscar, actualizar y borrar pedidos.
+ */
 public class PedidoDAO {
     PedidoGUI pedidoGUI;
     ConexionBD conexionBD = new ConexionBD();
 
 
+    /**
+     * Guarda un nuevo pedido en la base de datos.
+     *
+     * @param pedido El objeto con la información del pedido que queremos guardar.
+     * Debe tener los datos del cliente, la fecha, el estado y el total.
+     */
     public static void agregar(Pedido pedido) {
         Connection con = ConexionBD.getConnection();
 
@@ -28,20 +38,24 @@ public class PedidoDAO {
             pst.setInt(4, pedido.getTotal());
 
             int resultado = pst.executeUpdate();
-            if (resultado > 0)
-                JOptionPane.showMessageDialog(null, "Agregado con Exito");
-
-            else {
-                JOptionPane.showMessageDialog(null, "No Agregado con Exito");
+            if (resultado > 0) {
+                JOptionPane.showMessageDialog(null, "Pedido guardado exitosamente.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo guardar el pedido.");
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "No Agregado con Exito");
+            JOptionPane.showMessageDialog(null, "Hubo un error al guardar el pedido.");
         }
     }
 
-    //actualizar
+    /**
+     * Actualiza la información de un pedido que ya existe.
+     *
+     * @param pedido El objeto con la información actualizada del pedido.
+     * Es importante que el ID del pedido en este objeto sea correcto.
+     */
     public void actualizar(Pedido pedido) {
         Connection con = conexionBD.getConnection();
         String query = "UPDATE pedidos SET idclientes = ?,fecha = ?,estado = ? WHERE idPedidos = ?";
@@ -55,21 +69,27 @@ public class PedidoDAO {
             pst.setInt(4, pedido.getIdPedidos());
 
             int resultado = pst.executeUpdate();
-            if (resultado > 0)
-                JOptionPane.showMessageDialog(null, "Actualizado con Exito");
-            else
-                JOptionPane.showMessageDialog(null, "No Actualizado con Exito");
+            if (resultado > 0) {
+                JOptionPane.showMessageDialog(null, "Pedido actualizado.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo actualizar el pedido.");
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "No Actualizado con Exito");
+            JOptionPane.showMessageDialog(null, "Error al actualizar el pedido.");
         }
     }
 
 
-    //Obtener el id del pedido
+    /**
+     * Busca un pedido por su ID y devuelve el ID encontrado.
+     *
+     * @param idPedido El ID del pedido que estamos buscando.
+     * @return El ID del pedido si se encuentra, o -1 si no existe.
+     */
     public int obtenerIdPedido(int idPedido) {
-        int id = -1; // Valor por defecto si no encuentra el pedido
+        int id = -1; // Valor por defecto si no lo encontramos
         String sql = "SELECT idPedidos FROM pedidos WHERE idPedidos = ?";
 
         try (Connection conn = conexionBD.getConnection();
@@ -89,7 +109,11 @@ public class PedidoDAO {
     }
 
 
-    //Eliminar
+    /**
+     * Elimina un pedido de la base de datos usando su ID.
+     *
+     * @param id El ID del pedido que queremos eliminar. ¡Cuidado con esto!
+     */
     public void eliminar(int id) {
         Connection con = conexionBD.getConnection();
 
@@ -101,16 +125,23 @@ public class PedidoDAO {
 
             int resultado = pst.executeUpdate();
 
-            if (resultado > 0)
-                JOptionPane.showMessageDialog(null, "Eliminado con Exito");
-            else
-                JOptionPane.showMessageDialog(null, "No Eliminado con Exito");
+            if (resultado > 0) {
+                JOptionPane.showMessageDialog(null, "Pedido eliminado.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar el pedido.");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "No Eliminado con Exito");
+            JOptionPane.showMessageDialog(null, "Error al eliminar el pedido.");
         }
     }
 
+    /**
+     * Cuando un pedido se marca como enviado, esta función resta la cantidad pedida del stock de cada producto.
+     * También revisa si el stock de algún producto está llegando al mínimo y muestra una alerta.
+     *
+     * @param idPedido El ID del pedido que se acaba de enviar.
+     */
     public void descontarStock(int idPedido) {
         Connection con = conexionBD.getConnection();
 
@@ -141,7 +172,7 @@ public class PedidoDAO {
                         default -> 0;
                     };
 
-                    // Verificar el stock actual antes de descontar
+                    // Verificamos el stock antes de quitar
                     PreparedStatement stockStmt = con.prepareStatement(stockQuery);
                     stockStmt.setInt(1, idProducto);
                     ResultSet rsStock = stockStmt.executeQuery();
@@ -151,12 +182,12 @@ public class PedidoDAO {
                         int stockActual = rsStock.getInt("stock");
                         int stockMinimo = rsStock.getInt("stock_minimo");
 
-                        // Si después de la reducción el stock está en nivel mínimo, avisar
+                        // Si después de descontar, el stock está en el mínimo o menos, avisamos
                         if ((stockActual - cantidadReal) <= stockMinimo) {
-                            JOptionPane.showMessageDialog(null, "Ya casi se te agota este producto: " + nombreProducto);
+                            JOptionPane.showMessageDialog(null, "¡Ojo! El producto " + nombreProducto + " está casi agotado.");
                         }
 
-                        // Descontar stock
+                        // Ahora sí, actualizamos el stock
                         PreparedStatement updateStockStmt = con.prepareStatement(updateStockQuery);
                         updateStockStmt.setInt(1, cantidadReal);
                         updateStockStmt.setInt(2, idProducto);
@@ -171,17 +202,21 @@ public class PedidoDAO {
                 rsDetalle.close();
                 detalleStmt.close();
 
-                JOptionPane.showMessageDialog(null, "Stock descontado correctamente.");
+                JOptionPane.showMessageDialog(null, "Stock descontado.");
             }
 
             rsEstado.close();
             estadoStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error en la base de datos.");
+            JOptionPane.showMessageDialog(null, "Error con la base de datos al descontar stock.");
         }
     }
 
+    /**
+     * Obtiene todos los pedidos de la base de datos y los muestra en la tabla de la interfaz.
+     * Muestra el ID del pedido, el nombre del cliente, la fecha, el estado y el total.
+     */
     public void obtenerDatosPed() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID");
@@ -221,6 +256,10 @@ public class PedidoDAO {
     }
 
 
+    /**
+     * Obtiene los detalles de un pedido específico y los muestra en la tabla de detalles.
+     * Muestra el ID del detalle, el número del pedido, el nombre del producto, el tipo de medida, la cantidad y el precio total de ese detalle.
+     */
     public void obtenerDatosDetPed() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID");
@@ -254,6 +293,13 @@ public class PedidoDAO {
         }
     }
 
+    /**
+     * Obtiene el precio de un producto, teniendo en cuenta si se vende por unidad, blister o caja.
+     *
+     * @param idProducto El ID del producto.
+     * @param medida     La forma en que se vende ("unidad", "blister", "caja").
+     * @return El precio del producto según la medida.
+     */
     public int obtenerPrecioUnitario(int idProducto, String medida) {
         int precioUnitario = 0;
         Connection con = conexionBD.getConnection();
@@ -269,7 +315,7 @@ public class PedidoDAO {
             e.printStackTrace();
         }
 
-        // Ajustar el precio según la medida
+        // Ajustamos el precio si la medida no es unidad
         switch (medida.toLowerCase()) {
             case "blister":
                 precioUnitario *= 10;
@@ -281,8 +327,13 @@ public class PedidoDAO {
         return precioUnitario;
     }
 
+    /**
+     * Calcula el total de un pedido y lo guarda en la base de datos.
+     *
+     * @param id_pedido El ID del pedido al que le vamos a actualizar el total.
+     */
     public void actualizarTotalOrden(int id_pedido) {
-        int total = calcularTotalOrden(id_pedido); // Calcula el total de la orden
+        int total = calcularTotalOrden(id_pedido); // Primero calculamos el total
         Connection con = conexionBD.getConnection();
         try {
             Statement stmt = con.createStatement();
@@ -294,6 +345,13 @@ public class PedidoDAO {
         }
     }
 
+    /**
+     * Calcula el total de un pedido sumando el precio de todos los productos que incluye,
+     * considerando la cantidad y la forma de venta (unidad, blister, caja).
+     *
+     * @param idOrden El ID del pedido.
+     * @return El precio total del pedido.
+     */
     public int calcularTotalOrden(int idOrden) {
         int total = 0;
         Connection con = conexionBD.getConnection();
@@ -309,7 +367,7 @@ public class PedidoDAO {
                 String medida = rs.getString("medida");
                 int cantidad = rs.getInt("cantidad");
 
-                // Ajustar el precio según la medida
+                // Ajustamos el precio según la medida
                 switch (medida.toLowerCase()) {
                     case "blister":
                         precioBase *= 10;
@@ -330,11 +388,12 @@ public class PedidoDAO {
         return total;
     }
 
-
-
-
-
-
+    /**
+     * Obtiene el total de un pedido sumando los subtotales de cada producto en el detalle del pedido.
+     *
+     * @param idPedido El ID del pedido.
+     * @return El total del pedido (la suma de los subtotales).
+     */
     public double obtenerTotalPedido(int idPedido) {
         double total = 0.0;
         String sql = "SELECT SUM(subtotal) AS total FROM detalle_pedido WHERE idPedidos = ?";
@@ -346,7 +405,7 @@ public class PedidoDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                total = rs.getDouble("total"); // acá está la suma de todos los subtotales del pedido
+                total = rs.getDouble("total"); // Aquí obtenemos la suma de los subtotales
             }
 
         } catch (SQLException e) {
@@ -355,6 +414,3 @@ public class PedidoDAO {
         return total;
     }
 }
-
-
-

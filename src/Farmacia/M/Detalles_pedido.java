@@ -36,21 +36,111 @@ public class Detalles_pedido {
 
         // Métodos getter y setter
 
-        public int getIddetalle_pedido() { return iddetalle_pedido; }
-        public void setIddetalle_pedido(int iddetalle_pedido) { this.iddetalle_pedido = iddetalle_pedido; }
+    /**
+     * Obtiene el identificador único del detalle del pedido.
+     *
+     * @return El ID del detalle del pedido.
+     */
+    public int getIddetalle_pedido() {
+        return iddetalle_pedido;
+    }
 
-        public int getIdpedidos() { return idpedidos; }
-        public void setIdpedidos(int idpedidos) { this.idpedidos = idpedidos; }
+    /**
+     * Establece el identificador único del detalle del pedido.
+     *
+     * @param iddetalle_pedido El nuevo ID para el detalle del pedido.
+     */
+    public void setIddetalle_pedido(int iddetalle_pedido) {
+        this.iddetalle_pedido = iddetalle_pedido;
+    }
 
-        public int getIdproductos() { return idproductos; }
-        public void setIdproductos(int idproductos) { this.idproductos = idproductos; }
+    /**
+     * Obtiene el identificador del pedido al que pertenece este detalle.
+     *
+     * @return El ID del pedido.
+     */
+    public int getIdpedidos() {
+        return idpedidos;
+    }
 
-        public int getCantidad() { return cantidad; }
-        public void setCantidad(int cantidad) { this.cantidad = cantidad; }
+    /**
+     * Establece el identificador del pedido al que pertenece este detalle.
+     *
+     * @param idpedidos El nuevo ID del pedido.
+     */
+    public void setIdpedidos(int idpedidos) {
+        this.idpedidos = idpedidos;
+    }
 
-        public int getSubtotal() { return subtotal; }
-        public void setSubtotal(int subtotal) { this.subtotal = subtotal; }
+    /**
+     * Obtiene el identificador del producto incluido en este detalle.
+     *
+     * @return El ID del producto.
+     */
+    public int getIdproductos() {
+        return idproductos;
+    }
 
-        public String getMedida() { return medida; }
-        public void setMedida(String medida) { this.medida = medida; }
+    /**
+     * Establece el identificador del producto incluido en este detalle.
+     *
+     * @param idproductos El nuevo ID del producto.
+     */
+    public void setIdproductos(int idproductos) {
+        this.idproductos = idproductos;
+    }
+
+    /**
+     * Obtiene la cantidad del producto en este detalle del pedido.
+     *
+     * @return La cantidad del producto.
+     */
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    /**
+     * Establece la cantidad del producto en este detalle del pedido.
+     *
+     * @param cantidad La nueva cantidad del producto.
+     */
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    /**
+     * Obtiene el subtotal correspondiente a este detalle del pedido.
+     *
+     * @return El subtotal del detalle.
+     */
+    public int getSubtotal() {
+        return subtotal;
+    }
+
+    /**
+     * Establece el subtotal correspondiente a este detalle del pedido.
+     *
+     * @param subtotal El nuevo subtotal del detalle.
+     */
+    public void setSubtotal(int subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    /**
+     * Obtiene la unidad de medida del producto en este detalle del pedido.
+     *
+     * @return La unidad de medida (ej. "unidad", "blister", "caja").
+     */
+    public String getMedida() {
+        return medida;
+    }
+
+    /**
+     * Establece la unidad de medida del producto en este detalle del pedido.
+     *
+     * @param medida La nueva unidad de medida (ej. "unidad", "blister", "caja").
+     */
+    public void setMedida(String medida) {
+        this.medida = medida;
+    }
 }
