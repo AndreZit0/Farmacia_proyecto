@@ -2,7 +2,15 @@ package Farmacia;
 
 import Conexion.ConexionBD;
 import Farmacia.V.PedidoGUI;
-import com.itextpdf.text.*;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 import javax.swing.*;
 import java.io.FileOutputStream;

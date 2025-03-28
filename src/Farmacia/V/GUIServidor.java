@@ -295,7 +295,7 @@ public class GUIServidor {
                 try {
                     String receivedMessage;
                     while ((receivedMessage = in.readLine()) != null) {
-                        if (receivedMessage.equalsIgnoreCase("CLIENTE: EXIT")) {
+                        if (receivedMessage.equalsIgnoreCase("CLIENTE: salir")) {
                             SwingUtilities.invokeLater(() -> textArea1.append("El cliente ha salido del chat.\n"));
                             cerrarConexion();
                             return;
@@ -320,8 +320,8 @@ public class GUIServidor {
     private void enviarMensaje() {
         String message = textField1.getText();
         if (out != null && !message.trim().isEmpty()) {
-            out.println("SERVIDOR: " + message);
-            textArea1.append("SERVIDOR: " + message + "\n");
+            out.println("Farmacia: " + message);
+            textArea1.append("Farmacia: " + message + "\n");
             textField1.setText("");
         }
     }

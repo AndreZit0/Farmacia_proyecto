@@ -167,7 +167,7 @@ public class PedidoGUI {
                                  PreparedStatement stmt = conn.prepareStatement(query)) {
 
                                 stmt.setInt(1, idPedido);
-                                stmt.setString(2, "ingreso");
+                                stmt.setString(2, "Ingreso");
                                 stmt.setString(3, metodoPago.toLowerCase());
                                 stmt.setDouble(4, totalPedido);
                                 stmt.setTimestamp(5, fecha);

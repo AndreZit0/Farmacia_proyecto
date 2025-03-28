@@ -116,16 +116,6 @@ public class MovimientosGUI {
                     int monto = Integer.parseInt(textField5.getText());
                     String descripcion = textField7.getText();
 
-
-
-
-
-
-
-
-
-
-
                     Movimiento movimiento = new Movimiento(id, tipo, idPedido, categoria, new Timestamp(System.currentTimeMillis()), monto, descripcion);
 
                     movimientoDAO.actualizar(movimiento);
@@ -199,8 +189,8 @@ public class MovimientosGUI {
 
                     if (seleccionarFlas >= 0) {
                         textField1.setText((String) table1.getValueAt(seleccionarFlas, 0));
-                        textField3.setText((String) table1.getValueAt(seleccionarFlas, 1));
-                        comboBox1.setSelectedItem(table1.getValueAt(seleccionarFlas, 2));
+                        textField3.setText((String) table1.getValueAt(seleccionarFlas, 2));
+                        comboBox1.setSelectedItem(table1.getValueAt(seleccionarFlas, 1));
 
                         comboBox2.setSelectedItem(table1.getValueAt(seleccionarFlas, 3));
                         textField5.setText((String) table1.getValueAt(seleccionarFlas, 4));
@@ -462,8 +452,8 @@ public class MovimientosGUI {
         DefaultTableModel modelo = new DefaultTableModel();
 
         modelo.addColumn("ID");
-        modelo.addColumn("Id pedido");
         modelo.addColumn("tipo");
+        modelo.addColumn("ID pedido");
         modelo.addColumn("Formato");
         modelo.addColumn("Monto");
         modelo.addColumn("Fecha");

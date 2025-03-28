@@ -57,7 +57,7 @@ public class GUIClienteSocket {
                 try {
                     String receivedMessage;
                     while ((receivedMessage = in.readLine()) != null) {
-                        if (receivedMessage.equalsIgnoreCase("SERVER: EXIT")) {
+                        if (receivedMessage.equalsIgnoreCase("SERVER: salir")) {
                             cerrarConexion();
                             return;
                         }

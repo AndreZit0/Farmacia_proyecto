@@ -35,7 +35,7 @@ public class MovimientoDAO {
             pst.setInt(2, movimiento.getIdPedido());
             pst.setString(3, movimiento.getCategoria());
             pst.setTimestamp(4, movimiento.getFecha());
-            pst.setDouble(5, movimiento.getMonto());
+            pst.setInt(5, movimiento.getMonto());
             pst.setString(6, movimiento.getDescripcion());
 
             int resultado = pst.executeUpdate();
@@ -57,13 +57,23 @@ public class MovimientoDAO {
     public void actualizar(Movimiento movimiento){
         Connection con = ConexionBD.getConnection();
 
+        String query = "UPDATE movimientos_financieros SET tipo = ?, id_pedido = ?, categoria = ?, monto = ?, fecha = ?, descripcion = ? WHERE idmovimientos = ?";
         String consultaAnterior = "SELECT monto, categoria, tipo FROM movimientos_financieros WHERE idmovimientos= ?";
 
         try {
             PreparedStatement stmtConsultaAnterior = con.prepareStatement(consultaAnterior);
+            PreparedStatement stmt = con.prepareStatement(query);
             stmtConsultaAnterior.setInt(1, movimiento.getIdMovimientos());
             ResultSet rs = stmtConsultaAnterior.executeQuery();
 
+
+            stmt.setString(1, movimiento.getTipo());
+            stmt.setInt(2, movimiento.getIdPedido());
+            stmt.setString(3, movimiento.getCategoria());
+            stmt.setInt(4, movimiento.getMonto());
+            stmt.setTimestamp(5, movimiento.getFecha());
+            stmt.setString(6, movimiento.getDescripcion());
+            stmt.setInt(7, movimiento.getIdMovimientos());
             if (rs.next()) {
                 int montoAnterior = rs.getInt("monto");
                 String metodoPagoAnterior = rs.getString("tipo");
@@ -73,11 +83,16 @@ public class MovimientoDAO {
                 // Restar el monto del método de pago anterior
                 actualizarCaja(metodoPagoAnterior, -montoAnterior,tipoMovimientoAnterior);
             }
+            int filas = stmt.executeUpdate();
+
+            if (filas > 0) {
+                JOptionPane.showMessageDialog(null, "Movimiento actualizado con éxito.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo actualizar el Movimiento.");
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al recuperar datos del movimiento anterior");
-            return;
         }
     }
     public void actualizarCaja(String metodo_pago, int monto, String tipo_movimiento)

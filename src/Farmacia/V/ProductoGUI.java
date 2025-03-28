@@ -428,6 +428,7 @@ public class ProductoGUI {
         model.addColumn("Descripcion");
         model.addColumn("Stock");
         model.addColumn("Stock_minimo");
+        model.addColumn("Fecha de vencimiento");
 
         table1.setModel(model);
         String[] dato = new String[8];
