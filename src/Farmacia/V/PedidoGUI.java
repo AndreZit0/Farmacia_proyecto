@@ -169,9 +169,10 @@ public class PedidoGUI {
                                     );
 
                                     if (metodoPago != null) { // Si el usuario selecciona un método de pago
+                                        Double iva = 0.19;
                                         int idPedido = pedidoDAO.obtenerIdPedido(id);
                                         if (idPedido != -1) {
-                                            double totalPedido = pedidoDAO.obtenerTotalPedido(idPedido);
+                                            double totalPedido = pedidoDAO.obtenerTotalPedido(idPedido) * (1+iva);
                                             String query = "INSERT INTO movimientos_financieros (id_pedido, tipo, categoria, monto, fecha, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
 
                                             try (PreparedStatement stmt = con.prepareStatement(query)) {
