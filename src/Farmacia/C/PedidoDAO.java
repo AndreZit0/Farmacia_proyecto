@@ -34,7 +34,7 @@ public class PedidoDAO {
 
             pst.setInt(1, pedido.getIdclientes());
             pst.setTimestamp(2, pedido.getFecha());
-            pst.setString(3, pedido.getEstado());
+            pst.setString(3, "En Preparacion...");
             pst.setInt(4, pedido.getTotal());
 
             int resultado = pst.executeUpdate();
@@ -58,23 +58,46 @@ public class PedidoDAO {
      */
     public void actualizar(Pedido pedido) {
         Connection con = conexionBD.getConnection();
-        String query = "UPDATE pedidos SET idclientes = ?,fecha = ?,estado = ? WHERE idPedidos = ?";
+        String query = "UPDATE pedidos SET estado = ? WHERE idPedidos = ?";
+        String estado = "SELECT estado FROM pedidos WHERE idPedidos = ?";
 
         try {
-            PreparedStatement pst = con.prepareStatement(query);
+            PreparedStatement pstObtener = con.prepareStatement(estado);
+            pstObtener.setInt(1, pedido.getIdPedidos());
+            ResultSet rs = pstObtener.executeQuery();
 
-            pst.setInt(1, pedido.getIdclientes());
-            pst.setTimestamp(2, pedido.getFecha());
-            pst.setString(3, pedido.getEstado());
-            pst.setInt(4, pedido.getIdPedidos());
+            if (rs.next()) {
+                String estadoActual = rs.getString("estado");
+                String nuevoEstado = "";
 
-            int resultado = pst.executeUpdate();
-            if (resultado > 0) {
-                JOptionPane.showMessageDialog(null, "Pedido actualizado.");
+                if ("En Preparacion...".equals(estadoActual)) {
+                    nuevoEstado = "Enviado";
+                } else if ("Enviado".equals(estadoActual)) {
+                    nuevoEstado = "Entregado";
+                } else {
+                    JOptionPane.showMessageDialog(null, "El pedido ya ha sido entregado.");
+                    return;
+                }
+
+                // Ahora actualizamos el estado del pedido
+                PreparedStatement pstActualizar = con.prepareStatement(query);
+                pstActualizar.setString(1, nuevoEstado);
+                pstActualizar.setInt(2, pedido.getIdPedidos());
+
+                int resultado = pstActualizar.executeUpdate();
+                if (resultado > 0) {
+                    JOptionPane.showMessageDialog(null, "Pedido actualizado a: " + nuevoEstado);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo actualizar el pedido.");
+                }
+
+                pstActualizar.close();
             } else {
-                JOptionPane.showMessageDialog(null, "No se pudo actualizar el pedido.");
+                JOptionPane.showMessageDialog(null, "No se encontró el pedido.");
             }
 
+            rs.close();
+            pstObtener.close();
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al actualizar el pedido.");
