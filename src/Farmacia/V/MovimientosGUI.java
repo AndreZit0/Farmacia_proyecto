@@ -6,6 +6,7 @@ import Farmacia.C.MovimientoDAO;
 import Farmacia.M.Movimiento;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -41,6 +42,8 @@ public class MovimientosGUI {
     private JComboBox comboBox2;
     private JButton MOVIMIENTOSFINANCIEROSButton;
     private JPanel sidebar;
+    private JLabel titulo;
+    private JScrollPane scroll;
     private ConexionBD conexionBD = new ConexionBD();
     private MovimientoDAO movimientoDAO = new MovimientoDAO();
     private CajaDAO cajaDAO = new CajaDAO();
@@ -518,16 +521,50 @@ public class MovimientosGUI {
     }
 
     /**
+     * Personaliza los componentes de entrada de la interfaz gráfica.
+     * <p>
+     * Aplica un borde en la parte inferior de los JTextField y JComboBox con un color verde.
+     * Además, ajusta la fuente del título.
+     * </p>
+     */
+    public void componentesPersonalizado() {
+        Border bottom = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#008000"));
+        textField1.setBorder(bottom);
+        textField3.setBorder(bottom);
+        textField5.setBorder(bottom);
+        textField6.setBorder(bottom);
+        textField7.setBorder(bottom);
+        comboBox1.setBorder(bottom);
+        titulo.setFont(new Font("", Font.BOLD, 32));
+    }
+
+    /**
+     * Personaliza la apariencia de la tabla en la interfaz gráfica.
+     * <p>
+     * Modifica el color de fondo y el color del texto del encabezado de la tabla.
+     * Además, ajusta el fondo del área de visualización del JScrollPane.
+     * </p>
+     */
+    public void tablaPersonalizado() {
+        // Cambiar el color del encabezado de la tabla
+        table1.getTableHeader().setForeground(Color.decode("#ffffff")); // Color del texto
+        table1.getTableHeader().setBackground(Color.decode("#008000")); // Color de fondo
+        scroll.getViewport().setBackground(Color.decode("#e8e6e8"));
+    }
+
+    /**
      * Método para ejecutar y mostrar la interfaz gráfica del moviento financiero.
      */
     public void ejecutar() {
         JFrame frame = new JFrame("Movimientos financeros");
         frame.setContentPane(this.main);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(1200, 700);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setResizable(false);
         frame.setVisible(true);
+        tablaPersonalizado();
+        componentesPersonalizado();
 
     }
 }

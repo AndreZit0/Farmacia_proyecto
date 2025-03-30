@@ -10,6 +10,7 @@ import Farmacia.M.Detalles_pedido;
 import Farmacia.M.Pedido;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -61,6 +62,9 @@ public class PedidoGUI {
     private JButton generarFacturaButton;
     private JButton MOVIMIENTOSFINANCIEROSButton;
     private JPanel sidebar;
+    private JScrollPane scroll;
+    private JScrollPane scroll1;
+    private JLabel titulo;
 
     private PedidoDAO pedidoDAO;
     private ConexionBD conexionBD = new ConexionBD();
@@ -710,6 +714,41 @@ public class PedidoGUI {
         return total;
     }
 
+    /**
+     * Personaliza los componentes de entrada de la interfaz gráfica.
+     * <p>
+     * Aplica un borde en la parte inferior de los JTextField y JComboBox con un color verde.
+     * Además, ajusta la fuente del título.
+     * </p>
+     */
+    public void componentesPersonalizado() {
+        Border bottom = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#008000"));
+        textField1.setBorder(bottom);
+        textField2.setBorder(bottom);
+        textField4.setBorder(bottom);
+        textField7.setBorder(bottom);
+
+        comboBox1.setBorder(bottom);
+        titulo.setFont(new Font("", Font.BOLD, 32));
+    }
+
+    /**
+     * Personaliza la apariencia de la tabla en la interfaz gráfica.
+     * <p>
+     * Modifica el color de fondo y el color del texto del encabezado de la tabla.
+     * Además, ajusta el fondo del área de visualización del JScrollPane.
+     * </p>
+     */
+    public void tablaPersonalizado() {
+        // Cambiar el color del encabezado de la tabla
+        Table1.getTableHeader().setForeground(Color.decode("#ffffff")); // Color del texto
+        Table1.getTableHeader().setBackground(Color.decode("#008000"));
+        tablePr.getTableHeader().setForeground(Color.decode("#ffffff")); // Color del texto
+        tablePr.getTableHeader().setBackground(Color.decode("#008000")); // Color de fondo
+        scroll.getViewport().setBackground(Color.decode("#e8e6e8"));
+        scroll.getViewport().setBackground(Color.decode("#e8e6e8"));
+    }
+
 
     /**
      * ejecuta la interfaz de pedido
@@ -718,9 +757,9 @@ public class PedidoGUI {
     public void main() {
         JFrame frame = new JFrame("Pedidos");
         frame.setContentPane(this.main);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(1200, 700);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setResizable(false);
         frame.setVisible(true);
         obtener_productos();
@@ -728,7 +767,8 @@ public class PedidoGUI {
         obtener_ordenes();
         obtenerDatosDetPed();
         obtener_clientes();
-//        inhabilitarDetPed();
-        //inhabilitarDetPed();
+        componentesPersonalizado();
+        tablaPersonalizado();
+
     }
 }

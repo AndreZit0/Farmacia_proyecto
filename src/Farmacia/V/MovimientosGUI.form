@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Farmacia.V.MovimientosGUI">
-  <grid id="27dc6" binding="main" layout-manager="GridLayoutManager" row-count="15" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="0" left="0" bottom="0" right="0"/>
+  <grid id="27dc6" binding="main" layout-manager="GridLayoutManager" row-count="19" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="15" left="5" bottom="15" right="15"/>
     <constraints>
-      <xy x="20" y="20" width="792" height="490"/>
+      <xy x="20" y="20" width="820" height="666"/>
     </constraints>
     <properties>
       <background color="-65793"/>
     </properties>
     <border type="none"/>
     <children>
-      <grid id="13dd3" binding="sidebar" layout-manager="GridLayoutManager" row-count="8" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="13dd3" binding="sidebar" layout-manager="GridLayoutManager" row-count="7" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="0" column="0" row-span="15" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="0" row-span="16" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-16744448"/>
@@ -22,7 +22,7 @@
         <children>
           <component id="90699" class="javax.swing.JButton" binding="clientesButton">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <autoscrolls value="false"/>
@@ -33,13 +33,14 @@
               <foreground color="-1"/>
               <horizontalAlignment value="2"/>
               <icon value="imagenes/persona-sencilla (1).png"/>
+              <iconTextGap value="12"/>
               <requestFocusEnabled value="false"/>
               <text value="CLIENTES"/>
             </properties>
           </component>
           <component id="c56cb" class="javax.swing.JButton" binding="productosButton" default-binding="true">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-16744448"/>
@@ -49,73 +50,12 @@
               <foreground color="-1"/>
               <horizontalAlignment value="2"/>
               <icon value="imagenes/jeringuilla.png"/>
+              <iconTextGap value="12"/>
               <requestFocusEnabled value="false"/>
               <text value="PRODUCTOS"/>
             </properties>
           </component>
           <component id="ef8aa" class="javax.swing.JButton" binding="cajaButton" default-binding="true">
-            <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-16744448"/>
-              <borderPainted value="false"/>
-              <focusPainted value="false"/>
-              <font style="1"/>
-              <foreground color="-1"/>
-              <horizontalAlignment value="2"/>
-              <icon value="imagenes/caja-registradora.png"/>
-              <requestFocusEnabled value="false"/>
-              <text value="CAJA"/>
-            </properties>
-          </component>
-          <component id="7d677" class="javax.swing.JButton" binding="socketsButton" default-binding="true">
-            <constraints>
-              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-16744448"/>
-              <borderPainted value="false"/>
-              <enabled value="true"/>
-              <focusPainted value="false"/>
-              <font style="1"/>
-              <foreground color="-1"/>
-              <horizontalAlignment value="2"/>
-              <icon value="imagenes/comentar-alt-puntos.png"/>
-              <requestFocusEnabled value="false"/>
-              <text value="CHAT"/>
-            </properties>
-          </component>
-          <component id="337ad" class="javax.swing.JLabel">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-1"/>
-              <font name="Bauhaus 93" size="24"/>
-              <foreground color="-14780644"/>
-              <horizontalAlignment value="0"/>
-              <horizontalTextPosition value="0"/>
-              <icon value="imagenes/verde_logo_30x30.png"/>
-              <opaque value="true"/>
-              <requestFocusEnabled value="false"/>
-              <text value="FARMAC TECH"/>
-              <verticalAlignment value="1"/>
-              <verticalTextPosition value="1"/>
-            </properties>
-          </component>
-          <component id="2d5d3" class="javax.swing.JButton" binding="MOVIMIENTOSFINANCIEROSButton" default-binding="true">
-            <constraints>
-              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-13582286"/>
-              <foreground color="-65793"/>
-              <icon value="imagenes/estadisticas.png"/>
-              <text value="MOVIMIENTOS FINANCIEROS"/>
-            </properties>
-          </component>
-          <component id="cdda3" class="javax.swing.JButton" binding="pedidoButton" default-binding="true">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -126,14 +66,62 @@
               <font style="1"/>
               <foreground color="-1"/>
               <horizontalAlignment value="2"/>
+              <icon value="imagenes/caja-registradora.png"/>
+              <iconTextGap value="12"/>
+              <requestFocusEnabled value="false"/>
+              <text value="CAJA"/>
+            </properties>
+          </component>
+          <component id="7d677" class="javax.swing.JButton" binding="socketsButton" default-binding="true">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-16744448"/>
+              <borderPainted value="false"/>
+              <enabled value="true"/>
+              <focusPainted value="false"/>
+              <font style="1"/>
+              <foreground color="-1"/>
+              <horizontalAlignment value="2"/>
+              <icon value="imagenes/comentar-alt-puntos.png"/>
+              <iconTextGap value="12"/>
+              <requestFocusEnabled value="false"/>
+              <text value="CHAT"/>
+            </properties>
+          </component>
+          <component id="2d5d3" class="javax.swing.JButton" binding="MOVIMIENTOSFINANCIEROSButton" default-binding="true">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-13582286"/>
+              <foreground color="-65793"/>
+              <icon value="imagenes/estadisticas.png"/>
+              <iconTextGap value="12"/>
+              <text value="MOVIMIENTOS FINANCIEROS"/>
+            </properties>
+          </component>
+          <component id="cdda3" class="javax.swing.JButton" binding="pedidoButton" default-binding="true">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-16744448"/>
+              <borderPainted value="false"/>
+              <focusPainted value="false"/>
+              <font style="1"/>
+              <foreground color="-1"/>
+              <horizontalAlignment value="2"/>
               <icon value="imagenes/historial-de-pedidos.png"/>
+              <iconTextGap value="12"/>
               <requestFocusEnabled value="false"/>
               <text value="PEDIDOS"/>
             </properties>
           </component>
           <component id="3a050" class="javax.swing.JButton" binding="REPORTESButton" default-binding="true">
             <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-16744448"/>
@@ -144,28 +132,32 @@
               <hideActionText value="false"/>
               <horizontalAlignment value="2"/>
               <icon value="imagenes/ico-reporte.png"/>
+              <iconTextGap value="12"/>
               <requestFocusEnabled value="false"/>
               <text value="REPORTES"/>
             </properties>
           </component>
         </children>
       </grid>
-      <scrollpane id="3faed">
+      <scrollpane id="3faed" binding="scroll">
         <constraints>
-          <grid row="0" column="2" row-span="14" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="2" row-span="14" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
         <children>
           <component id="64732" class="javax.swing.JTable" binding="table1" default-binding="true">
             <constraints/>
-            <properties/>
+            <properties>
+              <selectionBackground color="-13582286"/>
+              <selectionForeground color="-1"/>
+            </properties>
           </component>
         </children>
       </scrollpane>
       <component id="b2e4d" class="javax.swing.JLabel">
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <foreground color="-14780644"/>
@@ -174,7 +166,7 @@
       </component>
       <component id="22a1c" class="javax.swing.JLabel">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <foreground color="-14780644"/>
@@ -183,7 +175,7 @@
       </component>
       <component id="f2cf6" class="javax.swing.JLabel">
         <constraints>
-          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <foreground color="-14780644"/>
@@ -192,7 +184,7 @@
       </component>
       <component id="2ffa4" class="javax.swing.JLabel">
         <constraints>
-          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <foreground color="-14780644"/>
@@ -201,7 +193,7 @@
       </component>
       <component id="9fb42" class="javax.swing.JLabel">
         <constraints>
-          <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <foreground color="-14780644"/>
@@ -210,7 +202,7 @@
       </component>
       <component id="4741d" class="javax.swing.JLabel">
         <constraints>
-          <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="13" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <foreground color="-14780644"/>
@@ -219,7 +211,7 @@
       </component>
       <component id="a2d86" class="javax.swing.JLabel">
         <constraints>
-          <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="15" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <foreground color="-14780644"/>
@@ -228,7 +220,7 @@
       </component>
       <component id="42027" class="javax.swing.JTextField" binding="textField1" default-binding="true">
         <constraints>
-          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -236,7 +228,7 @@
       </component>
       <component id="1cb16" class="javax.swing.JTextField" binding="textField3" default-binding="true">
         <constraints>
-          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -244,7 +236,7 @@
       </component>
       <component id="7b532" class="javax.swing.JTextField" binding="textField5" default-binding="true">
         <constraints>
-          <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -252,7 +244,7 @@
       </component>
       <component id="d492b" class="javax.swing.JTextField" binding="textField6" default-binding="true">
         <constraints>
-          <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="14" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -260,7 +252,7 @@
       </component>
       <component id="6058f" class="javax.swing.JTextField" binding="textField7" default-binding="true">
         <constraints>
-          <grid row="13" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="16" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -268,7 +260,7 @@
       </component>
       <component id="4bad9" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
         <constraints>
-          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <model>
@@ -280,7 +272,7 @@
       <grid id="7198" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="14" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="18" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-65793"/>
@@ -324,12 +316,69 @@
       </grid>
       <component id="9520c" class="javax.swing.JComboBox" binding="comboBox2" default-binding="true">
         <constraints>
-          <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <model>
             <item value="Efectivo"/>
           </model>
+        </properties>
+      </component>
+      <grid id="c58a3" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16744448"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="e094b" class="javax.swing.JLabel" binding="titulo">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <foreground color="-1"/>
+              <text value="Movimientos Financieros"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="2a0bd" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="17" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-1"/>
+          <text value="Label"/>
+        </properties>
+      </component>
+      <component id="337ad" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <font name="Bauhaus 93" size="24"/>
+          <foreground color="-14780644"/>
+          <horizontalAlignment value="0"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="imagenes/verde_logo_30x30.png"/>
+          <opaque value="true"/>
+          <requestFocusEnabled value="false"/>
+          <text value="FARMAC TECH"/>
+          <verticalAlignment value="1"/>
+          <verticalTextPosition value="1"/>
+        </properties>
+      </component>
+      <component id="5d041" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-1"/>
+          <text value="Label"/>
         </properties>
       </component>
     </children>

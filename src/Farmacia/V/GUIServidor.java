@@ -347,7 +347,7 @@ public class GUIServidor {
         frame.setContentPane(this.main);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cerrar solo esta ventana
         frame.pack();
-        frame.setSize(1200, 700);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null); // Centrar la ventana
         frame.setVisible(true);
 
