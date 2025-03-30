@@ -57,7 +57,7 @@ public class GUIClienteSocket {
                 try {
                     String receivedMessage;
                     while ((receivedMessage = in.readLine()) != null) {
-                        if (receivedMessage.equalsIgnoreCase("SERVER: salir")) {
+                        if (receivedMessage.equalsIgnoreCase("Farmacia: salir")) {
                             cerrarConexion();
                             return;
                         }
