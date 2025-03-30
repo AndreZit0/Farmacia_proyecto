@@ -139,7 +139,7 @@ public class MovimientosGUI {
                     }
                     if (movimientoDAO.actualizarMovimiento(movimiento)) {
                         actualizarCaja(monto, tipo);
-                        JOptionPane.showMessageDialog(null, "Movimiento actualizado exitosamente.");
+
                         obtenerDatosMovimientos();
                         clear();
                     }
@@ -184,22 +184,21 @@ public class MovimientosGUI {
 
                 if (seleccionarFlas >= 0) {
                     textField1.setText((String) table1.getValueAt(seleccionarFlas, 0));
-                    comboBox1.setSelectedItem(table1.getValueAt(seleccionarFlas, 1));
-                    textField3.setText((String) table1.getValueAt(seleccionarFlas, 2));
+                    textField3.setText((String) table1.getValueAt(seleccionarFlas, 1));
+                    comboBox1.setSelectedItem(table1.getValueAt(seleccionarFlas, 2));
+                    comboBox2.setSelectedItem(table1.getValueAt(seleccionarFlas, 3));
+                    textField5.setText((String) table1.getValueAt(seleccionarFlas, 4));
+                    textField6.setText((String) table1.getValueAt(seleccionarFlas, 5));
+                    textField7.setText((String) table1.getValueAt(seleccionarFlas, 6));
 
-                    if (seleccionarFlas >= 0) {
-                        textField1.setText((String) table1.getValueAt(seleccionarFlas, 0));
-                        textField3.setText((String) table1.getValueAt(seleccionarFlas, 2));
-                        comboBox1.setSelectedItem(table1.getValueAt(seleccionarFlas, 1));
 
-                        comboBox2.setSelectedItem(table1.getValueAt(seleccionarFlas, 3));
-                        textField5.setText((String) table1.getValueAt(seleccionarFlas, 4));
-                        textField6.setText((String) table1.getValueAt(seleccionarFlas, 5));
-                        textField7.setText((String) table1.getValueAt(seleccionarFlas, 6));
 
-                        filas = seleccionarFlas;
+
+
+
+                    filas = seleccionarFlas;
                     }
-                }
+
             }
         });
         clientesButton.addActionListener(new ActionListener() {

@@ -206,8 +206,10 @@ public class PedidoGUI {
         });
         //Botones para agregar el detalle de pedido
         agregarButtonP.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                Double iva = 0.19;
                 int idpedidos = Integer.parseInt(comboBox5.getSelectedItem().toString());
                 int idproductos = obtenerIdSeleccionado(comboBox4, productoMap);
                 int cantidad = Integer.parseInt(textField7.getText());
@@ -441,7 +443,7 @@ public class PedidoGUI {
         model.addColumn("Nombre de Cliente");
         model.addColumn("Fecha");
         model.addColumn("Estado");
-        model.addColumn("Total");
+        model.addColumn("Total + IVA ");
 
         Table1.setModel(model);
         String[] dato = new String[5];
@@ -485,7 +487,7 @@ public class PedidoGUI {
         model.addColumn("Producto");
         model.addColumn("Tipo");
         model.addColumn("Cantidad");
-        model.addColumn("Precio Total");
+        model.addColumn("Sub Total");
         tablePr.setModel(model);
         String[] dato = new String[6];
         Connection con;
@@ -545,7 +547,8 @@ public class PedidoGUI {
      * actualiza el total de ordenes.
      */
     public void actualizarTotalOrden(int id_pedido) {
-        int total = calcularTotalOrden(id_pedido); // Calcula el total de la orden
+        Double iva = 0.19;
+        int total = (int) (calcularTotalOrden(id_pedido) * (1 + iva)); // Calcula el total de la orden con IVA
         Connection con = conexionBD.getConnection();
         try {
             Statement stmt = con.createStatement();

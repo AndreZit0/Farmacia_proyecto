@@ -131,12 +131,36 @@ public class FacturaPDF {
                 }
             }
 
-            // Agregar fila con el total
-            PdfPCell totalCell = new PdfPCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
-            totalCell.setColspan(4);
-            totalCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            table.addCell(totalCell);
-            table.addCell("$" + total);
+
+// Calcular IVA
+            int iva = (int) (total * 0.19);
+
+// Agregar fila con el IVA
+            PdfPCell ivaCell = new PdfPCell(new Phrase("IVA (19%)", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            ivaCell.setColspan(4);
+            ivaCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(ivaCell);
+            table.addCell("$" + iva);
+
+// Calcular total con IVA
+            int totalConIVA = total + iva;
+
+// Agregar fila con el total final
+            PdfPCell totalConIvaCell = new PdfPCell(new Phrase("Total a Pagar", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            totalConIvaCell.setColspan(4);
+            totalConIvaCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(totalConIvaCell);
+            table.addCell("$" + totalConIVA);
+
+
+
+
+
+
+
+
+
+
 
             document.add(table);
             Font thanksFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
