@@ -3,6 +3,7 @@ package Farmacia.V;
 import Conexion.ConexionBD;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,13 +25,15 @@ public class ReportesGUI {
     private JButton mensualesButton;
 
     private JButton MOVIMIENTOSFINANCIEROSButton;
-    private JPanel sidebar;
     private JButton CHATButton;
-    private JButton reportesButton;
     private JButton CAJAButton;
     private JButton PEDIDOSButton;
     private JButton PRODUCTOSButton;
     private JButton CLIENTESButton;
+    private JLabel titulo;
+    private JScrollPane scroll;
+    private JButton reportesButton;
+    private JPanel sidebar;
 
 
     private ReportesDAO reportesDAO = new ReportesDAO();
@@ -331,13 +334,43 @@ public class ReportesGUI {
     }
 
     /**
+     * Ajusta el tamaño y fuente del titulo.
+     *
+     */
+    public void componentesPersonalizado() {
+
+        titulo.setFont(new Font("", Font.BOLD, 32));
+    }
+
+    /**
+     * Personaliza la apariencia de la tabla en la interfaz gráfica.
+     * <p>
+     * Modifica el color de fondo y el color del texto del encabezado de la tabla.
+     * Además, ajusta el fondo del área de visualización del JScrollPane.
+     * </p>
+     */
+    public void tablaPersonalizado() {
+        // Cambiar el color del encabezado de la tabla
+        table1.getTableHeader().setForeground(Color.decode("#ffffff")); // Color del texto
+        table1.getTableHeader().setBackground(Color.decode("#008000")); // Color de fondo
+        scroll.getViewport().setBackground(Color.decode("#e8e6e8"));
+    }
+
+
+    /**
      * Inicia y muestra la interfaz gráfica de reportes.
      */
     public void main() {
+        ReportesGUI reportes = new ReportesGUI();
         JFrame frame = new JFrame("Reportes");
         frame.setContentPane(this.main);
-        frame.setSize(1200, 700);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setResizable(false);
         frame.setVisible(true);
+        tablaPersonalizado();
+        componentesPersonalizado();
+
+
+
     }
 }

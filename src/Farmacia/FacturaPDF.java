@@ -5,6 +5,8 @@ import Farmacia.V.PedidoGUI;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.*;
 import java.awt.Desktop;
@@ -149,6 +151,11 @@ public class FacturaPDF {
             document.close();
 
             JOptionPane.showMessageDialog(null, "PDF creado con éxito: " + nom_pdf);
+
+            File file = new File(dest);
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

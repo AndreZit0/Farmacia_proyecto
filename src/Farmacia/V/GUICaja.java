@@ -29,6 +29,8 @@ public class GUICaja {
     private JButton REPORTESButton;
     private JButton MOVIMIENTOSFINANCIEROSButton;
     private JPanel sidebar;
+    private JLabel titulo;
+    private JScrollPane scroll;
 
     /**
      * Constructor de la clase GUICaja.
@@ -304,15 +306,31 @@ public class GUICaja {
     }
 
     /**
+     * Personaliza la apariencia de la tabla en la interfaz gráfica.
+     * <p>
+     * Modifica el color de fondo y el color del texto del encabezado de la tabla.
+     * Además, ajusta el fondo del área de visualización del JScrollPane.
+     * </p>
+     */
+    public void tablaPersonalizado() {
+        // Cambiar el color del encabezado de la tabla
+        table1.getTableHeader().setForeground(Color.decode("#ffffff")); // Color del texto
+        table1.getTableHeader().setBackground(Color.decode("#008000")); // Color de fondo
+        scroll.getViewport().setBackground(Color.decode("#e8e6e8"));
+    }
+
+    /**
      * Método principal para ejecutar y mostrar la interfaz de la caja.
      */
     public void ejecutar() {
         JFrame frame = new JFrame("caja");
         frame.setContentPane(this.main);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(1200, 700);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setResizable(false);
         frame.setVisible(true);
+        tablaPersonalizado();
+        titulo.setFont(new Font("", Font.BOLD, 32)); //da el tamaño y fuente al titulo
     }
 }

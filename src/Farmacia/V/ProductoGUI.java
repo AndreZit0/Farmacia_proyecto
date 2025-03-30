@@ -5,6 +5,8 @@ import Farmacia.C.ProductosDAO;
 import Farmacia.M.Productos;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -33,13 +35,16 @@ public class ProductoGUI {
     private JTable table1;
     private JComboBox comboBox1;
     private JButton clientesButton;
-    private JButton productosButton; // Parece ser un botón a la misma ventana, quizás innecesario
+    private JButton productosButton;
     private JButton pedidoButton;
     private JButton cajaButton;
     private JButton socketsButton;
     private JButton REPORTESButton;
     private JButton MOVIMIENTOSFINANCIEROSButton;
     private JPanel sidebar;
+    private JScrollPane scroll;
+    private JLabel titulo;
+
 
     // Esto nos ayuda a conectarnos a la base de datos
     private ConexionBD conexionBD = new ConexionBD();
@@ -455,14 +460,53 @@ public class ProductoGUI {
     }
 
     /**
+     * Personaliza los componentes de entrada de la interfaz gráfica.
+     * <p>
+     * Aplica un borde en la parte inferior de los JTextField y JComboBox con un color verde.
+     * Además, ajusta la fuente del título.
+     * </p>
+     */
+    public void componentesPersonalizado() {
+        Border bottom = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#008000"));
+        textField1.setBorder(bottom);
+        textField2.setBorder(bottom);
+        textField3.setBorder(bottom);
+        textField5.setBorder(bottom);
+        textField6.setBorder(bottom);
+        textField7.setBorder(bottom);
+        textField8.setBorder(bottom);
+        comboBox1.setBorder(bottom);
+        titulo.setFont(new Font("", Font.BOLD, 32));
+    }
+
+    /**
+     * Personaliza la apariencia de la tabla en la interfaz gráfica.
+     * <p>
+     * Modifica el color de fondo y el color del texto del encabezado de la tabla.
+     * Además, ajusta el fondo del área de visualización del JScrollPane.
+     * </p>
+     */
+    public void tablaPersonalizado() {
+        // Cambiar el color del encabezado de la tabla
+        table1.getTableHeader().setForeground(Color.decode("#ffffff")); // Color del texto
+        table1.getTableHeader().setBackground(Color.decode("#008000")); // Color de fondo
+        scroll.getViewport().setBackground(Color.decode("#e8e6e8"));
+    }
+
+
+
+    /**
      * ejecuta la interfaz de producto
      */
     public void main() {
         JFrame frame = new JFrame("Producto");
         frame.setContentPane(this.main);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(1200, 700);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setResizable(false);
         frame.setVisible(true);
+        componentesPersonalizado();
+        tablaPersonalizado();
     }
 }
