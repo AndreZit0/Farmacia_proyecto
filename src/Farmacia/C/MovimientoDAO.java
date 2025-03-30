@@ -86,7 +86,7 @@ public class MovimientoDAO {
             int filas = stmt.executeUpdate();
 
             if (filas > 0) {
-                JOptionPane.showMessageDialog(null, "Movimiento actualizado con éxito.");
+                //JOptionPane.showMessageDialog(null, "Movimiento actualizado con éxito.");
             } else {
                 JOptionPane.showMessageDialog(null, "No se pudo actualizar el Movimiento.");
             }

@@ -149,69 +149,82 @@ public class PedidoGUI {
                 pedidoDAO.actualizar(pedido);
                 pedidoDAO.descontarStock(id);
 
-                if (estado.equalsIgnoreCase("entregado")) {
-                    String[] opcionesPago = {"Efectivo"};
-                    String metodoPago = (String) JOptionPane.showInputDialog(
-                            null,
-                            "Seleccione el método de pago:",
-                            "Método de Pago",
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            opcionesPago,
-                            opcionesPago[0]
-                    );
+                try (Connection con = conexionBD.getConnection()) {
+                    String estadoActualQuery = "SELECT estado FROM pedidos WHERE idPedidos = ?";
+                    try (PreparedStatement pstObtener = con.prepareStatement(estadoActualQuery)) {
+                        pstObtener.setInt(1, pedido.getIdPedidos());
+                        try (ResultSet rs = pstObtener.executeQuery()) {
+                            if (rs.next()) {
+                                String estado2 = rs.getString("estado");
+                                if (estado2.equalsIgnoreCase("Entregado")) {
+                                    String[] opcionesPago = {"Efectivo"};
+                                    String metodoPago = (String) JOptionPane.showInputDialog(
+                                            null,
+                                            "Seleccione el método de pago:",
+                                            "Método de Pago",
+                                            JOptionPane.QUESTION_MESSAGE,
+                                            null,
+                                            opcionesPago,
+                                            opcionesPago[0]
+                                    );
 
-                    if (metodoPago != null) { // Si el usuario selecciona un método de pago
-                        int idPedido = pedidoDAO.obtenerIdPedido(id);
-                        if (idPedido != -1) {
-                            double totalPedido = pedidoDAO.obtenerTotalPedido(idPedido);
-                            String query = "INSERT INTO movimientos_financieros (id_pedido, tipo, categoria, monto, fecha, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
+                                    if (metodoPago != null) { // Si el usuario selecciona un método de pago
+                                        int idPedido = pedidoDAO.obtenerIdPedido(id);
+                                        if (idPedido != -1) {
+                                            double totalPedido = pedidoDAO.obtenerTotalPedido(idPedido);
+                                            String query = "INSERT INTO movimientos_financieros (id_pedido, tipo, categoria, monto, fecha, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
 
-                            try (Connection conn = conexionBD.getConnection();
-                                 PreparedStatement stmt = conn.prepareStatement(query)) {
+                                            try (PreparedStatement stmt = con.prepareStatement(query)) {
+                                                stmt.setInt(1, idPedido);
+                                                stmt.setString(2, "Ingreso");
+                                                stmt.setString(3, metodoPago.toLowerCase());
+                                                stmt.setDouble(4, totalPedido);
+                                                stmt.setTimestamp(5, fecha);
+                                                stmt.setString(6, "Venta realizada con " + metodoPago);
 
-                                stmt.setInt(1, idPedido);
-                                stmt.setString(2, "Ingreso");
-                                stmt.setString(3, metodoPago.toLowerCase());
-                                stmt.setDouble(4, totalPedido);
-                                stmt.setTimestamp(5, fecha);
-                                stmt.setString(6, "Venta realizada con " + metodoPago);
+                                                stmt.executeUpdate();
 
-                                stmt.executeUpdate();
-                                int valorActual = cajaDAO.obtenerValorCaja();
-                                int nuevoValor = (int) (valorActual + totalPedido);
-                                boolean actualizado = cajaDAO.actualizarValorCaja(nuevoValor);
+                                                int valorActual = cajaDAO.obtenerValorCaja();
+                                                int nuevoValor = (int) (valorActual + Math.round(totalPedido));
+                                                boolean actualizado = cajaDAO.actualizarValorCaja(nuevoValor);
 
-                                if (actualizado) {
-                                    JOptionPane.showMessageDialog(null, "El estado cambio a entregado");
-
-                                    JOptionPane.showMessageDialog(null, "Se actualizó correctamente la caja.");
+                                                if (actualizado) {
+                                                    JOptionPane.showMessageDialog(null, "El estado cambió a entregado.");
+                                                    JOptionPane.showMessageDialog(null, "Se actualizó correctamente la caja.");
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-
-                            } catch (SQLException ex) {
-                                ex.printStackTrace();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "No se encontró el pedido en la base de datos.");
                             }
                         }
                     }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
 
                 obtenerDatosPed();
             }
         });
 
+
         eliminarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int id = Integer.parseInt(textField1.getText());
                 pedidoDAO.eliminar(id);
-
+                limpiar();
                 pedidoDAO.obtenerDatosPed();
             }
         });
         //Botones para agregar el detalle de pedido
         agregarButtonP.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                Double iva = 0.19;
                 int idpedidos = Integer.parseInt(comboBox5.getSelectedItem().toString());
                 int idproductos = obtenerIdSeleccionado(comboBox4, productoMap);
                 int cantidad = Integer.parseInt(textField7.getText());
@@ -445,7 +458,7 @@ public class PedidoGUI {
         model.addColumn("Nombre de Cliente");
         model.addColumn("Fecha");
         model.addColumn("Estado");
-        model.addColumn("Total");
+        model.addColumn("Total + IVA ");
 
         Table1.setModel(model);
         String[] dato = new String[5];
@@ -456,6 +469,7 @@ public class PedidoGUI {
         try {
             con = conexionBD.getConnection();
             Statement stmt = con.createStatement();
+            Table1.removeAll();
             ResultSet rs = stmt.executeQuery("SELECT p.idPedidos, c.nombre, c.cedula, p.fecha, p.estado, p.total " +
                     "FROM pedidos AS p " +
                     "JOIN clientes AS c ON p.idclientes = c.idClientes " +
@@ -489,12 +503,13 @@ public class PedidoGUI {
         model.addColumn("Producto");
         model.addColumn("Tipo");
         model.addColumn("Cantidad");
-        model.addColumn("Precio Total");
+        model.addColumn("Sub Total");
         tablePr.setModel(model);
         String[] dato = new String[6];
         Connection con;
         try {
             con = conexionBD.getConnection();
+            tablePr.removeAll();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT iddetalle_pedido, idpedidos, p.nombre,p.precio, medida, cantidad, subtotal " +
                     "FROM detalle_pedido d JOIN productos p ON d.idproductos = p.idproductos WHERE idpedidos = " + valID);
@@ -549,7 +564,8 @@ public class PedidoGUI {
      * actualiza el total de ordenes.
      */
     public void actualizarTotalOrden(int id_pedido) {
-        int total = calcularTotalOrden(id_pedido); // Calcula el total de la orden
+        Double iva = 0.19;
+        int total = (int) (calcularTotalOrden(id_pedido) * (1 + iva)); // Calcula el total de la orden con IVA
         Connection con = conexionBD.getConnection();
         try {
             Statement stmt = con.createStatement();

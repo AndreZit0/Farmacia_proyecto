@@ -2,45 +2,33 @@ package Farmacia;
 
 import Conexion.ConexionBD;
 import Farmacia.V.PedidoGUI;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.*;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 
-/**
- * Clase encargada de generar un archivo PDF con la factura de un pedido en la farmacia.
- */
 public class FacturaPDF {
 
-    /**
-     * Este metodo genera las factura en formato PDF para los pedidos.
-     */
     public void factura() {
-
         ConexionBD conexionBD = new ConexionBD();
         int idpedido = PedidoGUI.obtenerIdpedido;
 
+        // Definir la ruta antes del try para que sea accesible en toda la función
+        String dest = "src/Facturas/factura_pedido" + idpedido + ".pdf";
+        String nom_pdf = "factura_pedido" + idpedido + ".pdf";
+
         try (Connection conn = conexionBD.getConnection()) {
-
-            String dest = "src/Facturas/factura_pedido" + idpedido + ".pdf";
-            String nom_pdf = "factura_pedido" + idpedido + ".pdf";
-
             Document document = new Document(PageSize.A4, 50, 50, 50, 50);
             PdfWriter.getInstance(document, new FileOutputStream(dest));
             document.open();
 
-            // Creación de la cabecera del documento
+            // Agregar cabecera
             PdfPTable headerTable = new PdfPTable(2);
             headerTable.setWidthPercentage(100);
             headerTable.setWidths(new float[]{3, 1});
@@ -63,7 +51,7 @@ public class FacturaPDF {
             document.add(headerTable);
             document.add(new Paragraph("\n"));
 
-            // Consulta para obtener los datos del cliente
+            // Obtener datos del cliente
             String clienteQuery = "SELECT c.cedula, c.nombre, c.telefono, c.email, c.direccion, p.fecha " +
                     "FROM clientes c " +
                     "JOIN pedidos p ON c.idclientes = p.idclientes " +
@@ -133,14 +121,28 @@ public class FacturaPDF {
                 }
             }
 
-            // Agregar fila con el total
-            PdfPCell totalCell = new PdfPCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
-            totalCell.setColspan(4);
-            totalCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            table.addCell(totalCell);
-            table.addCell("$" + total);
+            // Calcular IVA
+            int iva = (int) (total * 0.19);
+
+            // Agregar fila con el IVA
+            PdfPCell ivaCell = new PdfPCell(new Phrase("IVA (19%)", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            ivaCell.setColspan(4);
+            ivaCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(ivaCell);
+            table.addCell("$" + iva);
+
+            // Calcular total con IVA
+            int totalConIVA = total + iva;
+
+            // Agregar fila con el total final
+            PdfPCell totalConIvaCell = new PdfPCell(new Phrase("Total a Pagar", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            totalConIvaCell.setColspan(4);
+            totalConIvaCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(totalConIvaCell);
+            table.addCell("$" + totalConIVA);
 
             document.add(table);
+
             Font thanksFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
             Paragraph thanks = new Paragraph("Gracias por su compra", thanksFont);
             thanks.setAlignment(Element.ALIGN_CENTER);
@@ -156,6 +158,19 @@ public class FacturaPDF {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        // Intentar abrir el PDF automaticamente
+        try {
+            File pdfFile = new File(dest);
+            if (pdfFile.exists()) {
+                Desktop.getDesktop().open(pdfFile);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el archivo PDF.");
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "No se pudo abrir el archivo PDF.");
         }
     }
 }
