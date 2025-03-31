@@ -146,7 +146,6 @@ public class ReportesGUI {
 
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
-                SwingUtilities.getWindowAncestor(CHATButton).dispose();
 
 
 

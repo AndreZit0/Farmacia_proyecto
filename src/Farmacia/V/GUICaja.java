@@ -68,7 +68,7 @@ public class GUICaja {
 
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
-                SwingUtilities.getWindowAncestor(socketsButton).dispose();
+                //SwingUtilities.getWindowAncestor(socketsButton).dispose();
             }
         });
 

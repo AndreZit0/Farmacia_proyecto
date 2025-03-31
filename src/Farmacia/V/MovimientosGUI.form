@@ -224,7 +224,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <disabledTextColor color="-16777216"/>
+        </properties>
       </component>
       <component id="1cb16" class="javax.swing.JTextField" binding="textField3" default-binding="true">
         <constraints>
@@ -248,7 +250,11 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <caretColor color="-16777216"/>
+          <disabledTextColor color="-16777216"/>
+          <foreground color="-14780644"/>
+        </properties>
       </component>
       <component id="6058f" class="javax.swing.JTextField" binding="textField7" default-binding="true">
         <constraints>

@@ -325,7 +325,6 @@ public class PedidoGUI {
 
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
-                SwingUtilities.getWindowAncestor(socketsButton).dispose();
             }
         });
 

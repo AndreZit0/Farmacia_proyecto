@@ -187,8 +187,7 @@ public class ProductoGUI {
                 // Creamos e iniciamos el cliente de sockets
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
-                // Cerramos la ventana actual
-                SwingUtilities.getWindowAncestor(socketsButton).dispose();
+
             }
         });
 

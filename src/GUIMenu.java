@@ -56,8 +56,6 @@ public class GUIMenu {
                 // Creamos y mostramos la ventana del cliente de sockets
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
-                // Cerramos la ventana del menú
-                SwingUtilities.getWindowAncestor(socketsButton).dispose();
 
 
             }
