@@ -187,17 +187,12 @@ public class MovimientosGUI {
 
                 if (seleccionarFlas >= 0) {
                     textField1.setText((String) table1.getValueAt(seleccionarFlas, 0));
-                    textField3.setText((String) table1.getValueAt(seleccionarFlas, 1));
-                    comboBox1.setSelectedItem(table1.getValueAt(seleccionarFlas, 2));
+                    textField3.setText((String) table1.getValueAt(seleccionarFlas, 2));
+                    comboBox1.setSelectedItem(table1.getValueAt(seleccionarFlas, 1));
                     comboBox2.setSelectedItem(table1.getValueAt(seleccionarFlas, 3));
                     textField5.setText((String) table1.getValueAt(seleccionarFlas, 4));
                     textField6.setText((String) table1.getValueAt(seleccionarFlas, 5));
                     textField7.setText((String) table1.getValueAt(seleccionarFlas, 6));
-
-
-
-
-
 
                     filas = seleccionarFlas;
                     }
@@ -232,7 +227,6 @@ public class MovimientosGUI {
 
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
-                SwingUtilities.getWindowAncestor(socketsButton).dispose();
             }
         });
 

@@ -13,6 +13,7 @@ public class GUIClienteSocket {
     private JTextArea textArea1;
     private JButton enviarMensajeAServidorButton;
     private JPanel main;
+    private JButton SALIRButton;
     private PrintWriter out;
     private BufferedReader in;
     private Socket socket;
@@ -22,27 +23,40 @@ public class GUIClienteSocket {
      * Inicializa la conexión con el servidor y configura la interfaz gráfica.
      */
     public GUIClienteSocket() {
-        conectarServidor();
+        if (!conectarServidor()) {
+            JOptionPane.showMessageDialog(null, "No se pudo conectar al servidor.");
+
+        }
 
         enviarMensajeAServidorButton.addActionListener(e -> enviarMensaje());
 
-
         textField1.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyReleased(KeyEvent e) { // Cambié keyPressed a keyReleased
+            public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    enviarMensaje(); // Llama directamente al método sin simular un clic
+                    enviarMensaje();
                 }
             }
         });
 
+        SALIRButton.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(null, "¿Seguro que deseas salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                if (out != null) {
+                    out.println("CLIENTE: EXIT");
+                }
+                cerrarConexion();
+                SwingUtilities.getWindowAncestor(SALIRButton).dispose();
+
+            }
+        });
     }
 
     /**
      * Establece la conexión con el servidor mediante sockets.
-     * Si la conexión falla, muestra un mensaje de error y cierra la aplicación.
+     * Si la conexión falla, retorna false.
      */
-    public void conectarServidor() {
+    public boolean conectarServidor() {
         try {
             String serverAddress = JOptionPane.showInputDialog("Ingrese la IP del servidor (localhost si es local)");
             if (serverAddress == null || serverAddress.isEmpty()) serverAddress = "localhost";
@@ -58,6 +72,7 @@ public class GUIClienteSocket {
                     String receivedMessage;
                     while ((receivedMessage = in.readLine()) != null) {
                         if (receivedMessage.equalsIgnoreCase("Farmacia: salir")) {
+                            SwingUtilities.invokeLater(() -> textArea1.append("El Servidor ha salido del chat.\n"));
                             cerrarConexion();
                             return;
                         }
@@ -69,8 +84,10 @@ public class GUIClienteSocket {
                 }
             }).start();
 
+            return true;
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error al conectar con el servidor: " + e.getMessage());
+            return false;
         }
     }
 
@@ -93,6 +110,7 @@ public class GUIClienteSocket {
             if (sendMessage.equalsIgnoreCase("salir")) {
                 out.println("CLIENTE: EXIT");
                 cerrarConexion();
+                System.exit(0);
             }
             textField1.requestFocus();
         }
@@ -107,9 +125,8 @@ public class GUIClienteSocket {
             if (in != null) in.close();
             if (socket != null) socket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + e.getMessage());
         }
-
     }
 
     /**
@@ -122,5 +139,12 @@ public class GUIClienteSocket {
         frame.setSize(600, 400);
         frame.setResizable(false);
         frame.setVisible(true);
+    }
+
+    /**
+     * Método principal para ejecutar la aplicación cliente.
+     */
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new GUIClienteSocket().ejecutar());
     }
 }

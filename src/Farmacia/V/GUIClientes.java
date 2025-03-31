@@ -151,7 +151,6 @@ public class GUIClientes {
 
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
-                SwingUtilities.getWindowAncestor(socketsButton).dispose();
             }
         });
         productosButton.addActionListener(new ActionListener() {
