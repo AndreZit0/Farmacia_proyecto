@@ -57,7 +57,6 @@ public class GUIMenu {
                 GUIClienteSocket guiClienteSocket = new GUIClienteSocket();
                 guiClienteSocket.ejecutar();
 
-
             }
         });
 

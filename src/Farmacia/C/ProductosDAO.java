@@ -48,7 +48,7 @@ public class ProductosDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "un error al agregar el producto.");
+            JOptionPane.showMessageDialog(null, "El producto ya existe");
         }
     }
 

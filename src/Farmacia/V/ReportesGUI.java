@@ -1,9 +1,9 @@
 package Farmacia.V;
 
 import Conexion.ConexionBD;
+import Farmacia.Stock_minimoPDF;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -34,6 +34,7 @@ public class ReportesGUI {
     private JScrollPane scroll;
     private JButton reportesButton;
     private JPanel sidebar;
+    private JButton stockMinimoPDFButton;
 
 
     private ReportesDAO reportesDAO = new ReportesDAO();
@@ -62,6 +63,10 @@ public class ReportesGUI {
             this.fecha = fecha;
             this.medida = medida;
         }
+    }
+
+    class Stock_minimo{
+        String stock_minimo;
     }
 
 
@@ -126,6 +131,14 @@ public class ReportesGUI {
                 mostrarReportes("1 MONTH");
             }
         });
+        stockMinimoPDFButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Stock_minimoPDF stock_minimo = new Stock_minimoPDF();
+                stock_minimo.pdfStock();
+            }
+        });
+
         CLIENTESButton.addActionListener(new ActionListener() {
 
             @Override
@@ -303,6 +316,19 @@ public class ReportesGUI {
                 mensualesButton.setBackground(Color.decode("#008000"));
             }
         });
+        stockMinimoPDFButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                stockMinimoPDFButton.setBackground(new Color(48,192,50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                stockMinimoPDFButton.setBackground(Color.decode("#008000"));
+            }
+        });
     }
 
     /**
@@ -326,7 +352,6 @@ public class ReportesGUI {
                     reporte.cantidad + "   " + reporte.medida,
                     reporte.fecha,
             });
-
         }
 
         table1.setModel(model);

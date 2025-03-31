@@ -492,8 +492,6 @@ public class ProductoGUI {
         scroll.getViewport().setBackground(Color.decode("#e8e6e8"));
     }
 
-
-
     /**
      * ejecuta la interfaz de producto
      */
