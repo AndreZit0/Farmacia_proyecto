@@ -1,3 +1,5 @@
+package Farmacia;
+
 import Farmacia.V.*;
 
 import javax.swing.*;
@@ -238,11 +240,15 @@ public class GUIMenu {
      * Parece que se usa para mostrar la ventana del menú en otro contexto.
      */
     public void main() {
-        JFrame frame = new JFrame("Reportes");
-        frame.setContentPane(this.main);
-        frame.setSize(600, 500);
+        GUIMenu guiMenu = new GUIMenu();
+        JFrame frame = new JFrame("FARMAC TECH");
+        frame.setContentPane(new GUIMenu().main);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setResizable(false);
         frame.setVisible(true);
+        guiMenu.titulo.setFont(new Font("", Font.BOLD, 32));
 
     }
 }

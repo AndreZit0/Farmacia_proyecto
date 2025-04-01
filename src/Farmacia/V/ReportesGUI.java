@@ -1,6 +1,7 @@
 package Farmacia.V;
 
 import Conexion.ConexionBD;
+import Farmacia.GUIMenu;
 import Farmacia.Stock_minimoPDF;
 
 import javax.swing.*;
@@ -35,6 +36,7 @@ public class ReportesGUI {
     private JButton reportesButton;
     private JPanel sidebar;
     private JButton stockMinimoPDFButton;
+    private JButton farmacTechButton;
 
 
     private ReportesDAO reportesDAO = new ReportesDAO();
@@ -327,6 +329,14 @@ public class ReportesGUI {
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
                 stockMinimoPDFButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        farmacTechButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUIMenu guiMenu = new GUIMenu();
+                guiMenu.main();
+                SwingUtilities.getWindowAncestor(farmacTechButton).dispose();
             }
         });
     }

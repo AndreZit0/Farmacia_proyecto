@@ -53,11 +53,6 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="2" use-parent-layout="false"/>
         </constraints>
       </vspacer>
-      <hspacer id="9a7e5">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="5" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="5" use-parent-layout="false"/>
-        </constraints>
-      </hspacer>
       <scrollpane id="35ff1">
         <constraints>
           <grid row="1" column="1" row-span="2" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -87,6 +82,11 @@
           <text value="SALIR"/>
         </properties>
       </component>
+      <hspacer id="9a7e5">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="5" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
     </children>
   </grid>
 </form>

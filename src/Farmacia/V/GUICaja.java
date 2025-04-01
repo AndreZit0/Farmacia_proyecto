@@ -1,6 +1,7 @@
 package Farmacia.V;
 
 import Conexion.ConexionBD;
+import Farmacia.GUIMenu;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -31,6 +32,7 @@ public class GUICaja {
     private JPanel sidebar;
     private JLabel titulo;
     private JScrollPane scroll;
+    private JButton farmacTechButton;
 
     /**
      * Constructor de la clase GUICaja.
@@ -268,6 +270,14 @@ public class GUICaja {
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
                 MOVIMIENTOSFINANCIEROSButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        farmacTechButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUIMenu guiMenu = new GUIMenu();
+                guiMenu.main();
+                SwingUtilities.getWindowAncestor(farmacTechButton).dispose();
             }
         });
     }

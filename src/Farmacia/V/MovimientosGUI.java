@@ -3,6 +3,7 @@ package Farmacia.V;
 import Conexion.ConexionBD;
 import Farmacia.C.CajaDAO;
 import Farmacia.C.MovimientoDAO;
+import Farmacia.GUIMenu;
 import Farmacia.M.Movimiento;
 
 import javax.swing.*;
@@ -44,6 +45,7 @@ public class MovimientosGUI {
     private JPanel sidebar;
     private JLabel titulo;
     private JScrollPane scroll;
+    private JButton farmacTechButton;
     private ConexionBD conexionBD = new ConexionBD();
     private MovimientoDAO movimientoDAO = new MovimientoDAO();
     private CajaDAO cajaDAO = new CajaDAO();
@@ -423,6 +425,14 @@ public class MovimientosGUI {
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
                 socketsButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        farmacTechButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUIMenu guiMenu = new GUIMenu();
+                guiMenu.main();
+                SwingUtilities.getWindowAncestor(farmacTechButton).dispose();
             }
         });
     }

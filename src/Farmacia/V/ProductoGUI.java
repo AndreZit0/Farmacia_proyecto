@@ -2,6 +2,7 @@ package Farmacia.V;
 
 import Conexion.ConexionBD;
 import Farmacia.C.ProductosDAO;
+import Farmacia.GUIMenu;
 import Farmacia.M.Productos;
 
 import javax.swing.*;
@@ -44,6 +45,7 @@ public class ProductoGUI {
     private JPanel sidebar;
     private JScrollPane scroll;
     private JLabel titulo;
+    private JButton farmacTechButton;
 
 
     // Esto nos ayuda a conectarnos a la base de datos
@@ -397,6 +399,14 @@ public class ProductoGUI {
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
                 MOVIMIENTOSFINANCIEROSButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        farmacTechButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUIMenu guiMenu = new GUIMenu();
+                guiMenu.main();
+                SwingUtilities.getWindowAncestor(farmacTechButton).dispose();
             }
         });
     }

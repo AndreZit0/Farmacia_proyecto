@@ -2,6 +2,7 @@ package Farmacia.V;
 
 import Conexion.ConexionBD;
 import Farmacia.C.ClientesDAO;
+import Farmacia.GUIMenu;
 import Farmacia.M.Clientes;
 
 import javax.swing.*;
@@ -41,6 +42,7 @@ public class GUIClientes {
     private JPanel sidebar;
     private JScrollPane scroll;
     private JLabel titulo;
+    private JButton farmacTechButton;
     ClientesDAO clientesDAO = new ClientesDAO();
     int filas;
 
@@ -361,6 +363,14 @@ public class GUIClientes {
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
                 MOVIMIENTOSFINANCIEROSButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        farmacTechButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUIMenu guiMenu = new GUIMenu();
+                guiMenu.main();
+                SwingUtilities.getWindowAncestor(farmacTechButton).dispose();
             }
         });
     }

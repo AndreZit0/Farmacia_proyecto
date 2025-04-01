@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="GUIMenu">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Farmacia.GUIMenu">
   <grid id="27dc6" binding="main" layout-manager="GridBagLayout">
     <constraints>
       <xy x="41" y="37" width="1187" height="696"/>

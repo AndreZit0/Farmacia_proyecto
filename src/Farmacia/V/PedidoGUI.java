@@ -65,6 +65,7 @@ public class PedidoGUI {
     private JScrollPane scroll;
     private JScrollPane scroll1;
     private JLabel titulo;
+    private JButton farmacTechButton;
 
     private PedidoDAO pedidoDAO;
     private ConexionBD conexionBD = new ConexionBD();
@@ -437,6 +438,14 @@ public class PedidoGUI {
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
                 MOVIMIENTOSFINANCIEROSButton.setBackground(Color.decode("#008000"));
+            }
+        });
+        farmacTechButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUIMenu guiMenu = new GUIMenu();
+                guiMenu.main();
+                SwingUtilities.getWindowAncestor(farmacTechButton).dispose();
             }
         });
     }
