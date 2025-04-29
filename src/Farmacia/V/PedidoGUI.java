@@ -547,6 +547,8 @@ public class PedidoGUI {
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("hola marcelita");
+
         }
 
         // Ajustar el precio según la medida
